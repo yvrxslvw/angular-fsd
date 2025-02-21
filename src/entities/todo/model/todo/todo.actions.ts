@@ -1,23 +1,5 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { Todo } from '@entities/todo';
-
-interface IGetAllSuccess {
-	todos: Todo.Entity[];
-}
-
-interface IGetAllError {
-	error: HttpErrorResponse;
-}
-
-interface IToggleCompleted {
-	id: number;
-	completed: boolean;
-}
-
-interface IDelete {
-	id: number;
-}
+import { IDelete, IGetAllError, IGetAllSuccess, IToggleCompleted } from './todo.interfaces';
 
 export const todoApiActions = createActionGroup({
 	source: 'Todo API',
