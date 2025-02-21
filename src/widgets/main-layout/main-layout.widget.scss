@@ -1,0 +1,40 @@
+@use 'mixins' as *;
+@use 'colors' as *;
+
+:host {
+	width: 100%;
+	min-height: 100vh;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+
+	header {
+		padding: 25px 0;
+
+		.container {
+			@include container;
+
+			nav {
+				display: flex;
+				align-items: center;
+				gap: 25px;
+
+				a {
+					font-size: 24px;
+					font-weight: 700;
+					color: $color_black;
+					text-decoration: none;
+				}
+			}
+		}
+	}
+
+	main {
+		flex-grow: 1;
+	}
+
+	footer {
+		padding: 25px 0;
+		background: $color_black;
+	}
+}

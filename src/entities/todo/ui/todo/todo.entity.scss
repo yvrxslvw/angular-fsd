@@ -1,0 +1,29 @@
+@use 'colors' as *;
+
+:host {
+	display: flex;
+	justify-content: space-between;
+	padding: 12px;
+	border: 1px solid $color_black;
+	border-radius: 4px;
+
+	.content {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+
+		p {
+			color: $color_red;
+
+			&.completed {
+				color: $color_green;
+			}
+		}
+	}
+
+	.buttons {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+}

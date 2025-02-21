@@ -1,0 +1,35 @@
+{
+	"printWidth": 128,
+	"tabWidth": 2,
+	"useTabs": true,
+	"semi": true,
+	"singleQuote": true,
+	"quoteProps": "consistent",
+	"jsxSingleQuote": true,
+	"trailingComma": "all",
+	"bracketSpacing": true,
+	"bracketSameLine": false,
+	"arrowParens": "always",
+	"parser": "typescript",
+	"endOfLine": "lf",
+	"overrides": [
+		{
+			"files": ["*.html"],
+			"options": {
+				"parser": "angular"
+			}
+		},
+		{
+			"files": ["*.scss"],
+			"options": {
+				"parser": "scss"
+			}
+		},
+		{
+			"files": ["*.json", ".prettierrc"],
+			"options": {
+				"parser": "json"
+			}
+		}
+	]
+}

@@ -1,0 +1,8 @@
+<section class="content">
+	<h2>{{ todo$$().id }}. {{ todo$$().title }}</h2>
+	<p [class]="{ completed: todo$$().completed }">{{ todo$$().completed ? 'Выполнено' : 'Не выполнено' }}</p>
+</section>
+<section class="buttons">
+	<ng-content select="[slot=toggleCompleted]" />
+	<ng-content select="[slot=delete]" />
+</section>
