@@ -1,0 +1,1 @@
+export { generateSwagger } from './generateSwagger';

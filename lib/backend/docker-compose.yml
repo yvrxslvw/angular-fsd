@@ -1,0 +1,54 @@
+name: fsd
+services:
+  backend:
+    build: .
+    container_name: fsd-backend
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - database
+    networks:
+      - backend
+      - frontend-backend
+    volumes:
+      - static:/app/dist/static:rw
+
+  database:
+    build:
+      context: ./database
+      dockerfile: dockerfile
+    container_name: fsd-database
+    ports:
+      - "5432:5432"
+    restart: always
+    networks:
+      - backend
+    env_file:
+      - ./database/.env
+    volumes:
+      - pgdata:/var/lib/postgresql/data:rw
+
+networks:
+  backend:
+    name: fsd-backend
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.1.0/28
+          gateway: 192.168.1.1
+  frontend-backend:
+    name: fsd-frontend-backend
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.1.16/28
+          gateway: 192.168.1.17
+
+volumes:
+  static:
+    name: fsd-static
+  pgdata:
+    name: fsd-pgdata
