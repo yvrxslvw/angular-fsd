@@ -7,6 +7,7 @@ export class GetAllUsersQuery {
 		public limit?: number,
 		public order?: UserKey,
 		public direction?: SortDirection,
+		public search?: string,
 	) {
 	}
 }

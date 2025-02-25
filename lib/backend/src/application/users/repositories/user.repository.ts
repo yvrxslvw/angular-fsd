@@ -3,11 +3,16 @@ import { SortDirection } from '@shared/enums';
 import { UserKey } from '../../../domains/user';
 
 export class UserRepository extends PrismaClient {
-	public async getAll(offset?: number, limit?: number, order?: UserKey, direction?: SortDirection) {
+	public async getAll(offset?: number, limit?: number, order?: UserKey, direction?: SortDirection, search?: string) {
 		return this.user.findMany({
 			skip: offset || undefined,
 			take: limit || undefined,
 			orderBy: { [order || 'createdAt']: direction || 'asc' },
+			where: {
+				login: {
+					contains: search,
+				},
+			},
 			omit: { password: true },
 		});
 	}

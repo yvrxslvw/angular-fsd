@@ -31,12 +31,12 @@ export class UsersController {
 		name: 'offset',
 		description: 'Количество для пропуска данных',
 		type: 'number',
-		default: 0,
 		required: false,
 	})
-	@ApiQuery({ name: 'limit', description: 'Лимит данных', type: 'number', default: 10, required: false })
+	@ApiQuery({ name: 'limit', description: 'Лимит данных', type: 'number', required: false })
 	@ApiQuery({ name: 'order', description: 'Ключ для сортировки', enum: UserKey, required: false })
 	@ApiQuery({ name: 'direction', description: 'Направление для сортировки', enum: SortDirection, required: false })
+	@ApiQuery({ name: 'search', description: 'Поиск по логину', required: false })
 	@ApiResponse({ status: 200, description: 'Успешное получение', type: [UserEntity] })
 	@Get()
 	public async getAll(
@@ -44,8 +44,9 @@ export class UsersController {
 		@Query('limit') limit: string,
 		@Query('order') order: UserKey,
 		@Query('direction') direction: SortDirection,
+		@Query('search') search: string,
 	) {
-		return this.queryBus.execute(new GetAllUsersQuery(+offset, +limit, order, direction));
+		return this.queryBus.execute(new GetAllUsersQuery(+offset, +limit, order, direction, search));
 	}
 
 	@ApiOperation({ summary: 'Получение одного пользователя по ID' })
