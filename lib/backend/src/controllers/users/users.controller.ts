@@ -5,7 +5,7 @@ import {
 	UpdateUserCommand,
 	UserEntity,
 	UserKey,
-} from '@infrastructure/user';
+} from '../../domains/user';
 import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';

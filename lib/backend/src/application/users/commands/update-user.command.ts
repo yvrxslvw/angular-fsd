@@ -1,4 +1,4 @@
-import { UpdateUserCommand } from '@infrastructure/user';
+import { UpdateUserCommand } from '../../../domains/user';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import * as bcrypt from 'bcrypt';

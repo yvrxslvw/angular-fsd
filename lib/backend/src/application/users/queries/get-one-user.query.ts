@@ -1,5 +1,5 @@
 import { UserRepository } from '@application/users/repositories/user.repository';
-import { GetOneUserQuery } from '@infrastructure/user';
+import { GetOneUserQuery } from '../../../domains/user';
 import { NotFoundException } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 

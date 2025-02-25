@@ -21,8 +21,8 @@
       "@shared/*": [
         "./shared/*"
       ],
-      "@infrastructure/*": [
-        "./infrastructure/*"
+      "@domains/*": [
+        "./domains/*"
       ],
       "@controllers/*": [
         "./controllers/*"

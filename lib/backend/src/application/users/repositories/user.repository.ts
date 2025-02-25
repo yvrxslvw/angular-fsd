@@ -1,4 +1,4 @@
-import { UserKey } from '@infrastructure/user';
+import { UserKey } from '../../../domains/user';
 import { PrismaClient } from '@prisma/client';
 import { SortDirection } from '@shared/enums';
 
