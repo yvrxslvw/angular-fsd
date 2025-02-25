@@ -1,8 +1,8 @@
-import { UserRepository } from '@application/users/repositories/user.repository';
-import { CreateUserCommand } from '../../../domains/user';
+import { CreateUserCommand } from '@domains/user';
 import { BadRequestException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import * as bcrypt from 'bcrypt';
+import { UserRepository } from '../repositories';
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {

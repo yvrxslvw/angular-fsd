@@ -1,7 +1,7 @@
-import { CommandHandlers } from '@application/users/commands';
-import { QueryHandlers } from '@application/users/queries';
 import { Module } from '@nestjs/common';
-import { UserRepository } from './repositories/user.repository';
+import { CommandHandlers } from './commands';
+import { QueryHandlers } from './queries';
+import { UserRepository } from './repositories';
 
 @Module({
 	providers: [

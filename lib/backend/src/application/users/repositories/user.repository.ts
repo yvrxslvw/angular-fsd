@@ -1,6 +1,6 @@
+import { UserKey } from '@domains/user';
 import { PrismaClient } from '@prisma/client';
 import { SortDirection } from '@shared/enums';
-import { UserKey } from '../../../domains/user';
 
 export class UserRepository extends PrismaClient {
 	public async getAll(offset?: number, limit?: number, order?: UserKey, direction?: SortDirection, search?: string) {

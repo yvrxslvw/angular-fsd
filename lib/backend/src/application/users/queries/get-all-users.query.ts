@@ -1,5 +1,5 @@
+import { GetAllUsersQuery } from '@domains/user';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { GetAllUsersQuery } from '../../../domains/user';
 import { UserRepository } from '../repositories/user.repository';
 
 @QueryHandler(GetAllUsersQuery)
