@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "@fsd/frontend",
   "version": "1.0.0",
   "scripts": {
     "start": "ng serve",
