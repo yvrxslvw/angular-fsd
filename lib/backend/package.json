@@ -8,6 +8,7 @@
     "start:dev": "nest start --watch",
     "start:prod": "node dist/main",
     "migration:generate": "prisma migrate dev",
+    "migration:run": "prisma migrate deploy",
     "seed:all": "ts-node prisma/seed.ts",
     "seed:users": "ts-node prisma/seed/users.seed.ts"
   },
@@ -33,6 +34,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.0",
     "@types/node": "^22.13.5",
+    "dotenv": "^16.4.7",
     "prisma": "^6.4.1",
     "source-map-support": "^0.5.21",
     "ts-node": "^10.9.2",
