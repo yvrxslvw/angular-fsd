@@ -1,15 +1,16 @@
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { SortDirection } from '@shared/enums';
 import {
 	CreateUserCommand,
+	DeleteUserCommand,
 	GetAllUsersQuery,
 	GetOneUserQuery,
 	UpdateUserCommand,
 	UserEntity,
 	UserKey,
 } from '../../domains/user';
-import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
-import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
-import { SortDirection } from '@shared/enums';
 import { CreateUserDto, UpdateUserDto } from './dto';
 
 @Controller('users')
@@ -63,5 +64,14 @@ export class UsersController {
 	@Patch(':id')
 	public async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
 		return this.commandBus.execute(new UpdateUserCommand(+id, updateUserDto.login, updateUserDto.password));
+	}
+
+	@ApiOperation({ summary: 'Удаление пользователя' })
+	@ApiParam({ name: 'id', description: 'Идентификатор пользователя', example: 1 })
+	@ApiResponse({ status: 200, description: 'Успешное удаление', type: UserEntity })
+	@ApiResponse({ status: 404, description: 'Пользователь не найден' })
+	@Delete(':id')
+	public async delete(@Param('id') id: string) {
+		return this.commandBus.execute(new DeleteUserCommand(+id));
 	}
 }

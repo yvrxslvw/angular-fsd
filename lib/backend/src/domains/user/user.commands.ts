@@ -14,3 +14,10 @@ export class UpdateUserCommand {
 	) {
 	}
 }
+
+export class DeleteUserCommand {
+	constructor(
+		public id: number,
+	) {
+	}
+}

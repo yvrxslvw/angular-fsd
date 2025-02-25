@@ -1,4 +1,5 @@
-import { CreateUserHandler } from '@application/users/commands/create-user.command';
-import { UpdateUserHandler } from '@application/users/commands/update-user.command';
+import { CreateUserHandler } from './create-user.command';
+import { DeleteUserHandler } from './delete-user.command';
+import { UpdateUserHandler } from './update-user.command';
 
-export const CommandHandlers = [CreateUserHandler, UpdateUserHandler];
+export const CommandHandlers = [CreateUserHandler, UpdateUserHandler, DeleteUserHandler];

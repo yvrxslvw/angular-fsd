@@ -12,9 +12,6 @@ export class UserEntity {
 
 	@ApiProperty({ description: 'Когда обновлён', example: new Date() })
 	declare updatedAt: string;
-
-	@ApiProperty({ description: 'Когда удалён', example: null })
-	declare deletedAt: string;
 }
 
 export enum UserKey {
@@ -22,5 +19,4 @@ export enum UserKey {
 	login = 'login',
 	createdAt = 'createdAt',
 	updatedAt = 'updatedAt',
-	deletedAt = 'deletedAt',
 }
