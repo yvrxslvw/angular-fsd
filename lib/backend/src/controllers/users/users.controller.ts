@@ -11,7 +11,7 @@ import {
 	UserKey,
 } from '@domains/user';
 import { SortDirection } from '@shared/enums';
-import { CreateUserDto, UpdateUserDto } from './dto';
+import { CreateUserDto, GetAllUsersDto, UpdateUserDto } from './dto';
 
 @Controller('users')
 export class UsersController {
@@ -36,14 +36,9 @@ export class UsersController {
 	@ApiQuery({ name: 'search', description: 'Поиск по логину', required: false })
 	@ApiResponse({ status: 200, description: 'Успешное получение', type: [UserEntity] })
 	@Get()
-	public async getAll(
-		@Query('offset') offset: string,
-		@Query('limit') limit: string,
-		@Query('order') order: UserKey,
-		@Query('direction') direction: SortDirection,
-		@Query('search') search: string,
-	) {
-		return this.queryBus.execute(new GetAllUsersQuery(+offset, +limit, order, direction, search));
+	public async getAll(@Query() getAllUsersDto: GetAllUsersDto) {
+		const { offset, limit, order, direction, search } = getAllUsersDto;
+		return this.queryBus.execute(new GetAllUsersQuery(Number(offset), Number(limit), order, direction, search));
 	}
 
 	@ApiOperation({ summary: 'Получение одного пользователя по ID' })
