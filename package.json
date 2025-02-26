@@ -8,6 +8,7 @@
     "backend:start:dev": "npm run start:dev --workspace @fsd/backend",
     "backend:start:prod": "npm run start:prod --workspace @fsd/backend",
     "backend:format": "npm run format --workspace @fsd/backend",
+    "backend:lint": "npm run lint --workspace @fsd/backend",
     "backend:migration:generate": "npm run migration:generate --workspace @fsd/backend",
     "backend:migration:run": "npm run migration:run --workspace @fsd/backend",
     "backend:seed:all": "npm run seed:all --workspace @fsd/backend",

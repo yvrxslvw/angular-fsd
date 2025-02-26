@@ -1,3 +1,6 @@
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import {
 	CreateUserCommand,
 	DeleteUserCommand,
@@ -7,9 +10,6 @@ import {
 	UserEntity,
 	UserKey,
 } from '@domains/user';
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
-import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { SortDirection } from '@shared/enums';
 import { CreateUserDto, UpdateUserDto } from './dto';
 

@@ -1,7 +1,7 @@
-import { UpdateUserCommand } from '@domains/user';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import * as bcrypt from 'bcrypt';
+import { UpdateUserCommand } from '@domains/user';
 import { UserRepository } from '../repositories/user.repository';
 
 @CommandHandler(UpdateUserCommand)
@@ -9,7 +9,8 @@ export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {
 	constructor(private readonly userRepo: UserRepository) {}
 
 	public async execute(command: UpdateUserCommand) {
-		let { id, login, password } = command;
+		const { id, login } = command;
+		let password = command.password;
 		const user = await this.userRepo.getOneById(id);
 		if (!user) throw new NotFoundException(`Пользователь с ID: ${id} не найден`);
 		if (login) {

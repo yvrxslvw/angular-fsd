@@ -1,5 +1,5 @@
-import { UserKey } from '@domains/user';
 import { PrismaClient } from '@prisma/client';
+import { UserKey } from '@domains/user';
 import { SortDirection } from '@shared/enums';
 
 export class UserRepository extends PrismaClient {

@@ -1,6 +1,6 @@
-import { GetOneUserQuery } from '@domains/user';
 import { NotFoundException } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
+import { GetOneUserQuery } from '@domains/user';
 import { UserRepository } from '../repositories';
 
 @QueryHandler(GetOneUserQuery)
