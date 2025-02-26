@@ -15,7 +15,10 @@ import { CreateUserDto, UpdateUserDto } from './dto';
 
 @Controller('users')
 export class UsersController {
-	constructor(private readonly commandBus: CommandBus, private readonly queryBus: QueryBus) {
+	constructor(
+		private readonly commandBus: CommandBus,
+		private readonly queryBus: QueryBus,
+	) {
 	}
 
 	@ApiOperation({ summary: 'Создание пользователя' })
@@ -27,12 +30,7 @@ export class UsersController {
 	}
 
 	@ApiOperation({ summary: 'Получение всех пользователей' })
-	@ApiQuery({
-		name: 'offset',
-		description: 'Количество для пропуска данных',
-		type: 'number',
-		required: false,
-	})
+	@ApiQuery({ name: 'offset', description: 'Количество для пропуска данных', type: 'number', required: false })
 	@ApiQuery({ name: 'limit', description: 'Лимит данных', type: 'number', required: false })
 	@ApiQuery({ name: 'order', description: 'Ключ для сортировки', enum: UserKey, required: false })
 	@ApiQuery({ name: 'direction', description: 'Направление для сортировки', enum: SortDirection, required: false })
@@ -62,6 +60,7 @@ export class UsersController {
 	@ApiParam({ name: 'id', description: 'Идентификатор пользователя', example: 1 })
 	@ApiResponse({ status: 200, description: 'Успешное редактирование', type: UserEntity })
 	@ApiResponse({ status: 400, description: 'Некорректный логин или пароль или пользователь уже существует' })
+	@ApiResponse({ status: 404, description: 'Пользователь не найден' })
 	@Patch(':id')
 	public async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
 		return this.commandBus.execute(new UpdateUserCommand(+id, updateUserDto.login, updateUserDto.password));
