@@ -1,5 +1,5 @@
-import { GetAllUsersHandler } from '@application/users/queries/get-all-users.query';
-import { GetOneUserHandler } from '@application/users/queries/get-one-user.query';
+import { GetAllUsersHandler } from "./get-all-users.query";
+import { GetOneUserHandler } from "./get-one-user.query";
 
 export const QueryHandlers = [
 	GetAllUsersHandler,
