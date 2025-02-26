@@ -8,13 +8,9 @@ export class GetAllUsersQuery {
 		public order?: UserKey,
 		public direction?: SortDirection,
 		public search?: string,
-	) {
-	}
+	) {}
 }
 
 export class GetOneUserQuery {
-	constructor(
-		public id: number,
-	) {
-	}
+	constructor(public id: number) {}
 }

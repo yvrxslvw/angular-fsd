@@ -18,8 +18,7 @@ export class UsersController {
 	constructor(
 		private readonly commandBus: CommandBus,
 		private readonly queryBus: QueryBus,
-	) {
-	}
+	) {}
 
 	@ApiOperation({ summary: 'Создание пользователя' })
 	@ApiResponse({ status: 201, description: 'Успешное создание', type: UserEntity })

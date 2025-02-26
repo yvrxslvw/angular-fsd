@@ -6,8 +6,7 @@ import { UserRepository } from '../repositories';
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
-	constructor(private readonly userRepo: UserRepository) {
-	}
+	constructor(private readonly userRepo: UserRepository) {}
 
 	public async execute(command: CreateUserCommand) {
 		const { login, password } = command;

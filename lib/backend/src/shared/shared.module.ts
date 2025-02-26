@@ -3,8 +3,6 @@ import { CqrsModule } from '@nestjs/cqrs';
 
 @Global()
 @Module({
-	imports: [
-		CqrsModule.forRoot(),
-	],
+	imports: [CqrsModule.forRoot()],
 })
 export class SharedModule {}

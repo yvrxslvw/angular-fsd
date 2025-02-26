@@ -5,8 +5,7 @@ import { UserRepository } from '../repositories';
 
 @QueryHandler(GetOneUserQuery)
 export class GetOneUserHandler implements IQueryHandler<GetOneUserQuery> {
-	constructor(private readonly userRepo: UserRepository) {
-	}
+	constructor(private readonly userRepo: UserRepository) {}
 
 	public async execute(query: GetOneUserQuery) {
 		const { id } = query;

@@ -4,11 +4,6 @@ import { QueryHandlers } from './queries';
 import { UserRepository } from './repositories';
 
 @Module({
-	providers: [
-		UserRepository,
-		...QueryHandlers,
-		...CommandHandlers,
-	],
+	providers: [UserRepository, ...QueryHandlers, ...CommandHandlers],
 })
-export class UsersModule {
-}
+export class UsersModule {}

@@ -1,35 +1,27 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "ES2021",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "incremental": true,
-    "skipLibCheck": true,
-    "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false,
-    "baseUrl": "./src",
-    "paths": {
-      "@shared/*": [
-        "./shared/*"
-      ],
-      "@domains/*": [
-        "./domains/*"
-      ],
-      "@controllers/*": [
-        "./controllers/*"
-      ],
-      "@application/*": [
-        "./application/*"
-      ]
-    }
-  }
+	"compilerOptions": {
+		"module": "commonjs",
+		"declaration": true,
+		"removeComments": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"allowSyntheticDefaultImports": true,
+		"target": "ES2021",
+		"sourceMap": true,
+		"outDir": "./dist",
+		"incremental": true,
+		"skipLibCheck": true,
+		"strictNullChecks": true,
+		"forceConsistentCasingInFileNames": true,
+		"noImplicitAny": false,
+		"strictBindCallApply": false,
+		"noFallthroughCasesInSwitch": false,
+		"baseUrl": "./src",
+		"paths": {
+			"@shared/*": ["./shared/*"],
+			"@domains/*": ["./domains/*"],
+			"@controllers/*": ["./controllers/*"],
+			"@application/*": ["./application/*"]
+		}
+	}
 }

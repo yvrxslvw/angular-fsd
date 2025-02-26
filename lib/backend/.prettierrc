@@ -1,0 +1,29 @@
+{
+	"printWidth": 128,
+	"tabWidth": 2,
+	"useTabs": true,
+	"semi": true,
+	"singleQuote": true,
+	"quoteProps": "consistent",
+	"jsxSingleQuote": true,
+	"trailingComma": "all",
+	"bracketSpacing": true,
+	"bracketSameLine": false,
+	"arrowParens": "always",
+	"parser": "typescript",
+	"endOfLine": "lf",
+	"overrides": [
+		{
+			"files": ["*.json", ".prettierrc"],
+			"options": {
+				"parser": "json"
+			}
+		},
+		{
+			"files": ["*.yml", "*.yaml"],
+			"options": {
+				"parser": "yaml"
+			}
+		}
+	]
+}

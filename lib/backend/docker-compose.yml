@@ -4,7 +4,7 @@ services:
     build: .
     container_name: fsd-backend
     ports:
-      - "8080:8080"
+      - '8080:8080'
     restart: always
     depends_on:
       - database
@@ -20,7 +20,7 @@ services:
       dockerfile: dockerfile
     container_name: fsd-database
     ports:
-      - "5432:5432"
+      - '5432:5432'
     restart: always
     networks:
       - backend
