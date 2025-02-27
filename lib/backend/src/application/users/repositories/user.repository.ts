@@ -14,16 +14,64 @@ export class UserRepository extends PrismaClient implements ICrudRepository<User
 					contains: search,
 				},
 			},
-			omit: { password: true },
+			select: {
+				id: true,
+				login: true,
+				posts: {
+					select: {
+						id: true,
+						title: true,
+						content: true,
+						createdAt: true,
+						updatedAt: true,
+					},
+				},
+				createdAt: true,
+				updatedAt: true,
+			},
 		});
 	}
 
 	public async getOneById(id: number) {
-		return this.user.findUnique({ where: { id }, omit: { password: true } });
+		return this.user.findUnique({
+			where: { id },
+			select: {
+				id: true,
+				login: true,
+				posts: {
+					select: {
+						id: true,
+						title: true,
+						content: true,
+						createdAt: true,
+						updatedAt: true,
+					},
+				},
+				createdAt: true,
+				updatedAt: true,
+			},
+		});
 	}
 
 	public async getOneByLogin(login: string) {
-		return this.user.findUnique({ where: { login } });
+		return this.user.findUnique({
+			where: { login },
+			select: {
+				id: true,
+				login: true,
+				posts: {
+					select: {
+						id: true,
+						title: true,
+						content: true,
+						createdAt: true,
+						updatedAt: true,
+					},
+				},
+				createdAt: true,
+				updatedAt: true,
+			},
+		});
 	}
 
 	public async create(login: string, password: string) {
@@ -32,7 +80,21 @@ export class UserRepository extends PrismaClient implements ICrudRepository<User
 				login,
 				password,
 			},
-			omit: { password: true },
+			select: {
+				id: true,
+				login: true,
+				posts: {
+					select: {
+						id: true,
+						title: true,
+						content: true,
+						createdAt: true,
+						updatedAt: true,
+					},
+				},
+				createdAt: true,
+				updatedAt: true,
+			},
 		});
 	}
 
@@ -43,14 +105,42 @@ export class UserRepository extends PrismaClient implements ICrudRepository<User
 				login,
 				password,
 			},
-			omit: { password: true },
+			select: {
+				id: true,
+				login: true,
+				posts: {
+					select: {
+						id: true,
+						title: true,
+						content: true,
+						createdAt: true,
+						updatedAt: true,
+					},
+				},
+				createdAt: true,
+				updatedAt: true,
+			},
 		});
 	}
 
 	public async delete(id: number) {
 		return this.user.delete({
 			where: { id },
-			omit: { password: true },
+			select: {
+				id: true,
+				login: true,
+				posts: {
+					select: {
+						id: true,
+						title: true,
+						content: true,
+						createdAt: true,
+						updatedAt: true,
+					},
+				},
+				createdAt: true,
+				updatedAt: true,
+			},
 		});
 	}
 }
