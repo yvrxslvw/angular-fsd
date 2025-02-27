@@ -8,11 +8,11 @@ export class GetAllUsersDto implements IPagination<UserKey> {
 	declare search: string | undefined;
 
 	@IsOptional()
-	@IsNumberString({}, { message: 'Offset должно быть числом' })
+	@IsNumberString({ no_symbols: true }, { message: 'Offset должно быть положительным числом' })
 	declare offset: string | undefined;
 
 	@IsOptional()
-	@IsNumberString({}, { message: 'Limit должно быть числом' })
+	@IsNumberString({ no_symbols: true }, { message: 'Limit должно быть положительным числом' })
 	declare limit: string | undefined;
 
 	@IsOptional()
