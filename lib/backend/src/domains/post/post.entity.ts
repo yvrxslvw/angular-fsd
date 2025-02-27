@@ -22,7 +22,7 @@ export class PostEntity {
 			updatedAt: '2025-02-27T19:56:38.632Z',
 		},
 	})
-	declare author: {
+	declare user: {
 		id: number;
 		login: string;
 		createdAt: Date;
@@ -40,7 +40,7 @@ export enum PostKey {
 	id = 'id',
 	title = 'title',
 	content = 'content',
-	author = 'author',
+	user = 'user',
 	createdAt = 'createdAt',
 	updatedAt = 'updatedAt',
 }

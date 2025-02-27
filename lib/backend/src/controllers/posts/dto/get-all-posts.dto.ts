@@ -17,7 +17,7 @@ export class GetAllPostsDto implements IPagination<PostKey> {
 
 	@IsOptional()
 	@IsEnum(PostKey, {
-		message: "Order должно быть одним из значений: 'id', 'title', 'content', 'author', 'createdAt', 'updatedAt'",
+		message: "Order должно быть одним из значений: 'id', 'title', 'content', 'user', 'createdAt', 'updatedAt'",
 	})
 	declare order: PostKey | undefined;
 
