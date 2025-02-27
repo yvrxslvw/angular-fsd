@@ -1,4 +1,12 @@
-import { PostEntity, PostKey } from '@domains/post';
+import {
+	CreatePostCommand,
+	DeletePostCommand,
+	GetAllPostsQuery,
+	GetOnePostQuery,
+	PostEntity,
+	PostKey,
+	UpdatePostCommand,
+} from '@domains/post';
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
@@ -19,7 +27,8 @@ export class PostsController implements ICrudController<PostEntity, CreatePostDt
 	@ApiResponse({ status: 404, description: 'Автор поста не найден' })
 	@Post()
 	public async create(@Body() createDto: CreatePostDto): Promise<PostEntity> {
-		throw new Error('Method not implemented.');
+		const { title, content, authorId } = createDto;
+		return this.commandBus.execute(new CreatePostCommand(title, content, authorId));
 	}
 
 	@ApiOperation({ summary: 'Получение всех постов' })
@@ -31,7 +40,8 @@ export class PostsController implements ICrudController<PostEntity, CreatePostDt
 	@ApiResponse({ status: 200, description: 'Успешное получение', type: [PostEntity] })
 	@Get()
 	public async getAll(@Query() getAllDto: GetAllPostsDto): Promise<PostEntity[]> {
-		throw new Error('Method not implemented.');
+		const { search, offset, limit, order, direction } = getAllDto;
+		return this.queryBus.execute(new GetAllPostsQuery(Number(offset), Number(limit), order, direction, search));
 	}
 
 	@ApiOperation({ summary: 'Получение одного поста по ID' })
@@ -40,7 +50,7 @@ export class PostsController implements ICrudController<PostEntity, CreatePostDt
 	@ApiResponse({ status: 404, description: 'Пост не найден' })
 	@Get(':id')
 	public async getOne(@Param('id') id: string): Promise<PostEntity> {
-		throw new Error('Method not implemented.');
+		return this.queryBus.execute(new GetOnePostQuery(Number(id)));
 	}
 
 	@ApiOperation({ summary: 'Редактирование данных поста' })
@@ -50,7 +60,8 @@ export class PostsController implements ICrudController<PostEntity, CreatePostDt
 	@ApiResponse({ status: 404, description: 'Пост не найден' })
 	@Patch(':id')
 	public async update(@Param('id') id: string, @Body() updateDto: UpdatePostDto): Promise<PostEntity> {
-		throw new Error('Method not implemented.');
+		const { title, content } = updateDto;
+		return this.commandBus.execute(new UpdatePostCommand(Number(id), title, content));
 	}
 
 	@ApiOperation({ summary: 'Удаление поста' })
@@ -59,6 +70,6 @@ export class PostsController implements ICrudController<PostEntity, CreatePostDt
 	@ApiResponse({ status: 404, description: 'Пост не найден' })
 	@Delete(':id')
 	public async delete(@Param('id') id: string): Promise<PostEntity> {
-		throw new Error('Method not implemented.');
+		return this.commandBus.execute(new DeletePostCommand(Number(id)));
 	}
 }
