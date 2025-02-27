@@ -4,7 +4,23 @@ import { PrismaClient } from '@prisma/client';
 export const seedPosts = async (prisma: PrismaClient) => {
 	await prisma.$queryRaw`TRUNCATE TABLE "Post" RESTART IDENTITY CASCADE`;
 
-	for (let i = 1; i <= 200; i++) {
+	await prisma.post.create({
+		data: {
+			title: 'Hi',
+			content: 'Hi',
+			authorId: 1,
+		},
+	});
+	await prisma.post.create({
+		data: {
+			title: 'Hi',
+			content: 'Hi',
+			authorId: 1,
+		},
+	});
+
+	for (let i = 2; i <= 200; i++) {
+		if (i === 101) continue;
 		await prisma.post.create({
 			data: {
 				title: faker.lorem.sentence(),

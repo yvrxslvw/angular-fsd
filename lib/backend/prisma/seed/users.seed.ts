@@ -12,7 +12,7 @@ export const seedUsers = async (prisma: PrismaClient) => {
 		},
 	});
 
-	for (let i = 1; i <= 99; i++) {
+	for (let i = 2; i <= 100; i++) {
 		await prisma.user.create({
 			data: {
 				login: faker.internet.username(),
