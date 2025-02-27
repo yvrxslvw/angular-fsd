@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { UserEntity } from '@domains/user';
 
 export class PostEntity {
 	@ApiProperty({ description: 'Идентификатор поста', example: 1 })
@@ -23,7 +22,12 @@ export class PostEntity {
 			updatedAt: '2025-02-27T19:56:38.632Z',
 		},
 	})
-	declare author: UserEntity;
+	declare author: {
+		id: number;
+		login: string;
+		createdAt: Date;
+		updatedAt: Date;
+	};
 
 	@ApiProperty({ description: 'Когда создан', example: new Date() })
 	declare createdAt: Date;
