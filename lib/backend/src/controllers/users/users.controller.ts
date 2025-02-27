@@ -25,7 +25,7 @@ export class UsersController implements ICrudController<UserEntity, CreateUserDt
 	@ApiResponse({ status: 201, description: 'Успешное создание', type: UserEntity })
 	@ApiResponse({ status: 400, description: 'Некорректный логин или пароль или пользователь уже существует' })
 	@Post()
-	public async create(@Body() createDto: CreateUserDto) {
+	public async create(@Body() createDto: CreateUserDto): Promise<UserEntity> {
 		const { login, password } = createDto;
 		return this.commandBus.execute(new CreateUserCommand(login, password));
 	}
@@ -38,7 +38,7 @@ export class UsersController implements ICrudController<UserEntity, CreateUserDt
 	@ApiQuery({ name: 'search', description: 'Поиск по логину', required: false })
 	@ApiResponse({ status: 200, description: 'Успешное получение', type: [UserEntity] })
 	@Get()
-	public async getAll(@Query() getAllDto: GetAllUsersDto) {
+	public async getAll(@Query() getAllDto: GetAllUsersDto): Promise<UserEntity[]> {
 		const { offset, limit, order, direction, search } = getAllDto;
 		return this.queryBus.execute(new GetAllUsersQuery(Number(offset), Number(limit), order, direction, search));
 	}
@@ -48,7 +48,7 @@ export class UsersController implements ICrudController<UserEntity, CreateUserDt
 	@ApiResponse({ status: 200, description: 'Успешное получение', type: UserEntity })
 	@ApiResponse({ status: 404, description: 'Пользователь не найден' })
 	@Get(':id')
-	public async getOne(@Param('id') id: string) {
+	public async getOne(@Param('id') id: string): Promise<UserEntity> {
 		return this.queryBus.execute(new GetOneUserQuery(+id));
 	}
 
@@ -58,7 +58,7 @@ export class UsersController implements ICrudController<UserEntity, CreateUserDt
 	@ApiResponse({ status: 400, description: 'Некорректный логин или пароль или пользователь уже существует' })
 	@ApiResponse({ status: 404, description: 'Пользователь не найден' })
 	@Patch(':id')
-	public async update(@Param('id') id: string, @Body() updateDto: UpdateUserDto) {
+	public async update(@Param('id') id: string, @Body() updateDto: UpdateUserDto): Promise<UserEntity> {
 		const { login, password } = updateDto;
 		return this.commandBus.execute(new UpdateUserCommand(+id, login, password));
 	}
@@ -68,7 +68,7 @@ export class UsersController implements ICrudController<UserEntity, CreateUserDt
 	@ApiResponse({ status: 200, description: 'Успешное удаление', type: UserEntity })
 	@ApiResponse({ status: 404, description: 'Пользователь не найден' })
 	@Delete(':id')
-	public async delete(@Param('id') id: string) {
+	public async delete(@Param('id') id: string): Promise<UserEntity> {
 		return this.commandBus.execute(new DeleteUserCommand(+id));
 	}
 }
