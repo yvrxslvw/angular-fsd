@@ -1,6 +1,6 @@
+import { IsEnum, IsNumberString, IsOptional } from 'class-validator';
 import { UserKey } from '@domains/user';
 import { SortDirection } from '@shared/enums';
-import { IsEnum, IsNumberString, IsOptional } from 'class-validator';
 
 export class GetAllUsersDto {
 	@IsOptional()
