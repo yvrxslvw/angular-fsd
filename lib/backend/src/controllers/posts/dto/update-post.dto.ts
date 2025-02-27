@@ -1,4 +1,4 @@
 import { CreatePostDto } from '@controllers/posts/dto/create-post.dto';
-import { PartialType } from '@nestjs/swagger';
+import { PickType } from '@nestjs/swagger';
 
-export class UpdatePostDto extends PartialType(CreatePostDto) {}
+export class UpdatePostDto extends PickType(CreatePostDto, ['title', 'content']) {}

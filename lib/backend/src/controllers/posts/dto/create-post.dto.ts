@@ -12,7 +12,7 @@ export class CreatePostDto {
 		example: 'Sophismata vulariter damnatio id. Delicate tres cogito armarium artificiose vulgo.',
 	})
 	@IsString({ message: 'Контент должен быть строкой' })
-	@Length(0, 1024, { message: 'Длина контента должна быть до 1024 символов' })
+	@Length(3, 1024, { message: 'Длина контента должна быть от 3 до 1024 символов' })
 	declare content: string;
 
 	@ApiProperty({ description: 'Идентификатор автора поста', example: 1 })
