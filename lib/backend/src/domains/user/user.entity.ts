@@ -8,10 +8,10 @@ export class UserEntity {
 	declare login: string;
 
 	@ApiProperty({ description: 'Когда создан', example: new Date() })
-	declare createdAt: string;
+	declare createdAt: Date;
 
 	@ApiProperty({ description: 'Когда обновлён', example: new Date() })
-	declare updatedAt: string;
+	declare updatedAt: Date;
 }
 
 export enum UserKey {

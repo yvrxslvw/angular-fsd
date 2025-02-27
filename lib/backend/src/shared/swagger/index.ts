@@ -1,1 +1,1 @@
-export { generateSwagger } from './generateSwagger';
+export { generateSwagger } from './generate-swagger';

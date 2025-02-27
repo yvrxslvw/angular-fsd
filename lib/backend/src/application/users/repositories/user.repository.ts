@@ -1,8 +1,9 @@
 import { PrismaClient } from '@prisma/client';
-import { UserKey } from '@domains/user';
+import { UserEntity, UserKey } from '@domains/user';
 import { SortDirection } from '@shared/enums';
+import { ICrudRepository } from '@shared/interfaces';
 
-export class UserRepository extends PrismaClient {
+export class UserRepository extends PrismaClient implements ICrudRepository<UserEntity> {
 	public async getAll(offset?: number, limit?: number, order?: UserKey, direction?: SortDirection, search?: string) {
 		return this.user.findMany({
 			skip: offset || undefined,

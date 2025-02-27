@@ -11,10 +11,11 @@ import {
 	UserKey,
 } from '@domains/user';
 import { SortDirection } from '@shared/enums';
+import { ICrudController } from '@shared/interfaces';
 import { CreateUserDto, GetAllUsersDto, UpdateUserDto } from './dto';
 
 @Controller('users')
-export class UsersController {
+export class UsersController implements ICrudController<UserEntity, CreateUserDto, GetAllUsersDto, UpdateUserDto> {
 	constructor(
 		private readonly commandBus: CommandBus,
 		private readonly queryBus: QueryBus,
@@ -24,8 +25,9 @@ export class UsersController {
 	@ApiResponse({ status: 201, description: 'Успешное создание', type: UserEntity })
 	@ApiResponse({ status: 400, description: 'Некорректный логин или пароль или пользователь уже существует' })
 	@Post()
-	public async create(@Body() createUserDto: CreateUserDto) {
-		return this.commandBus.execute(new CreateUserCommand(createUserDto.login, createUserDto.password));
+	public async create(@Body() createDto: CreateUserDto) {
+		const { login, password } = createDto;
+		return this.commandBus.execute(new CreateUserCommand(login, password));
 	}
 
 	@ApiOperation({ summary: 'Получение всех пользователей' })
@@ -36,8 +38,8 @@ export class UsersController {
 	@ApiQuery({ name: 'search', description: 'Поиск по логину', required: false })
 	@ApiResponse({ status: 200, description: 'Успешное получение', type: [UserEntity] })
 	@Get()
-	public async getAll(@Query() getAllUsersDto: GetAllUsersDto) {
-		const { offset, limit, order, direction, search } = getAllUsersDto;
+	public async getAll(@Query() getAllDto: GetAllUsersDto) {
+		const { offset, limit, order, direction, search } = getAllDto;
 		return this.queryBus.execute(new GetAllUsersQuery(Number(offset), Number(limit), order, direction, search));
 	}
 
@@ -56,8 +58,9 @@ export class UsersController {
 	@ApiResponse({ status: 400, description: 'Некорректный логин или пароль или пользователь уже существует' })
 	@ApiResponse({ status: 404, description: 'Пользователь не найден' })
 	@Patch(':id')
-	public async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-		return this.commandBus.execute(new UpdateUserCommand(+id, updateUserDto.login, updateUserDto.password));
+	public async update(@Param('id') id: string, @Body() updateDto: UpdateUserDto) {
+		const { login, password } = updateDto;
+		return this.commandBus.execute(new UpdateUserCommand(+id, login, password));
 	}
 
 	@ApiOperation({ summary: 'Удаление пользователя' })
