@@ -11,8 +11,7 @@
 		"lint": "eslint --fix ./src",
 		"migration:generate": "prisma migrate dev",
 		"migration:run": "prisma migrate deploy",
-		"seed:all": "ts-node prisma/seed.ts",
-		"seed:users": "ts-node prisma/seed/users.seed.ts"
+		"seed": "ts-node prisma/seed.ts"
 	},
 	"dependencies": {
 		"@nestjs/common": "^11.0.1",

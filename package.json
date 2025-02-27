@@ -11,8 +11,7 @@
     "backend:lint": "npm run lint --workspace @fsd/backend",
     "backend:migration:generate": "npm run migration:generate --workspace @fsd/backend",
     "backend:migration:run": "npm run migration:run --workspace @fsd/backend",
-    "backend:seed:all": "npm run seed:all --workspace @fsd/backend",
-    "backend:seed:users": "npm run seed:users --workspace @fsd/backend",
+    "backend:seed": "npm run seed --workspace @fsd/backend",
 
     "frontend:start": "npm run start --workspace @fsd/frontend",
     "frontend:build": "npm run build --workspace @fsd/frontend",

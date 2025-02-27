@@ -8,10 +8,22 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  login    String @unique
-  password String
+  id        Int      @id @default(autoincrement())
+  login     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now())
+  posts Post[]
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  authorId  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  user User @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
