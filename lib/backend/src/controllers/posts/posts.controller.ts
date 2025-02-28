@@ -36,12 +36,15 @@ export class PostsController implements ICrudController<PostEntity, CreatePostDt
 	@ApiQuery({ name: 'limit', description: 'Лимит данных', type: 'number', required: false })
 	@ApiQuery({ name: 'order', description: 'Ключ для сортировки', enum: PostKey, required: false })
 	@ApiQuery({ name: 'direction', description: 'Направление для сортировки', enum: SortDirection, required: false })
-	@ApiQuery({ name: 'search', description: 'Поиск по заголовку или контенту', required: false })
+	@ApiQuery({ name: 'search', description: 'Поиск по заголовку или контенту', type: 'string', required: false })
+	@ApiQuery({ name: 'authorId', description: 'Поиск по идентификатору автора', type: 'number', required: false })
 	@ApiResponse({ status: 200, description: 'Успешное получение', type: [PostEntity] })
 	@Get()
 	public async getAll(@Query() getAllDto: GetAllPostsDto): Promise<PostEntity[]> {
-		const { search, offset, limit, order, direction } = getAllDto;
-		return this.queryBus.execute(new GetAllPostsQuery(Number(offset), Number(limit), order, direction, search));
+		const { search, offset, limit, order, direction, authorId } = getAllDto;
+		return this.queryBus.execute(
+			new GetAllPostsQuery(Number(offset), Number(limit), order, direction, search, Number(authorId)),
+		);
 	}
 
 	@ApiOperation({ summary: 'Получение одного поста по ID' })

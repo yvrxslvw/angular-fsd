@@ -35,7 +35,7 @@ export class UsersController implements ICrudController<UserEntity, CreateUserDt
 	@ApiQuery({ name: 'limit', description: 'Лимит данных', type: 'number', required: false })
 	@ApiQuery({ name: 'order', description: 'Ключ для сортировки', enum: UserKey, required: false })
 	@ApiQuery({ name: 'direction', description: 'Направление для сортировки', enum: SortDirection, required: false })
-	@ApiQuery({ name: 'search', description: 'Поиск по логину', required: false })
+	@ApiQuery({ name: 'search', description: 'Поиск по логину', type: 'string', required: false })
 	@ApiResponse({ status: 200, description: 'Успешное получение', type: [UserEntity] })
 	@Get()
 	public async getAll(@Query() getAllDto: GetAllUsersDto): Promise<UserEntity[]> {

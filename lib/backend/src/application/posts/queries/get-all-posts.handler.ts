@@ -7,7 +7,7 @@ export class GetAllPostsHandler implements ICommandHandler<GetAllPostsQuery> {
 	constructor(private readonly postRepo: PostRepository) {}
 
 	public async execute(query: GetAllPostsQuery): Promise<PostEntity[]> {
-		const { search, offset, limit, order, direction } = query;
-		return this.postRepo.getAll(offset, limit, order, direction, search);
+		const { search, offset, limit, order, direction, authorId } = query;
+		return this.postRepo.getAll(offset, limit, order, direction, search, authorId);
 	}
 }

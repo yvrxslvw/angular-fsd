@@ -35,6 +35,7 @@ export class PostRepository extends PrismaClient implements ICrudRepository<Post
 		order?: PostKey,
 		direction?: SortDirection,
 		search?: string,
+		authorId?: number,
 	): Promise<PostEntity[]> {
 		return this.post.findMany({
 			skip: offset || undefined,
@@ -48,18 +49,25 @@ export class PostRepository extends PrismaClient implements ICrudRepository<Post
 							[order || 'createdAt']: direction || 'asc',
 						},
 			where: {
-				OR: [
+				AND: [
 					{
-						title: {
-							contains: search || '',
-							mode: 'insensitive',
-						},
+						OR: [
+							{
+								title: {
+									contains: search || '',
+									mode: 'insensitive',
+								},
+							},
+							{
+								content: {
+									contains: search || '',
+									mode: 'insensitive',
+								},
+							},
+						],
 					},
 					{
-						content: {
-							contains: search || '',
-							mode: 'insensitive',
-						},
+						authorId: authorId || undefined,
 					},
 				],
 			},

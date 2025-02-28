@@ -24,4 +24,8 @@ export class GetAllPostsDto implements IPagination<PostKey> {
 	@IsOptional()
 	@IsEnum(SortDirection, { message: "Direction должно быть одним из значений: 'asc', 'desc'" })
 	declare direction: SortDirection | undefined;
+
+	@IsOptional()
+	@IsNumberString({ no_symbols: true }, { message: 'AuthorId должно быть положительным числом' })
+	declare authorId: string | undefined;
 }

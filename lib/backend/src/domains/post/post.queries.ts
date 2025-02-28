@@ -8,6 +8,7 @@ export class GetAllPostsQuery {
 		public order?: PostKey,
 		public direction?: SortDirection,
 		public search?: string,
+		public authorId?: number,
 	) {}
 }
 
