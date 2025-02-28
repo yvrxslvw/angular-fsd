@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
 	CreateUserCommand,
 	DeleteUserCommand,
@@ -14,6 +14,7 @@ import { SortDirection } from '@shared/enums';
 import { ICrudController } from '@shared/interfaces';
 import { CreateUserDto, GetAllUsersDto, UpdateUserDto } from './dto';
 
+@ApiTags('Пользователи')
 @Controller('users')
 export class UsersController implements ICrudController<UserEntity, CreateUserDto, GetAllUsersDto, UpdateUserDto> {
 	constructor(

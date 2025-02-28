@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
 	CreatePostCommand,
 	DeletePostCommand,
@@ -14,6 +14,7 @@ import { SortDirection } from '@shared/enums';
 import { ICrudController } from '@shared/interfaces';
 import { CreatePostDto, GetAllPostsDto, UpdatePostDto } from './dto';
 
+@ApiTags('Посты')
 @Controller('posts')
 export class PostsController implements ICrudController<PostEntity, CreatePostDto, GetAllPostsDto, UpdatePostDto> {
 	constructor(
