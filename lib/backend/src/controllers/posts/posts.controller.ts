@@ -1,3 +1,6 @@
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import {
 	CreatePostCommand,
 	DeletePostCommand,
@@ -7,9 +10,6 @@ import {
 	PostKey,
 	UpdatePostCommand,
 } from '@domains/post';
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
-import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { SortDirection } from '@shared/enums';
 import { ICrudController } from '@shared/interfaces';
 import { CreatePostDto, GetAllPostsDto, UpdatePostDto } from './dto';

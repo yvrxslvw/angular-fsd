@@ -1,6 +1,6 @@
+import { PrismaClient } from '@prisma/client';
 import { PostEntity } from '@domains/post';
 import { UserKey } from '@domains/user';
-import { PrismaClient } from '@prisma/client';
 import { SortDirection } from '@shared/enums';
 import { ICrudRepository } from '@shared/interfaces';
 

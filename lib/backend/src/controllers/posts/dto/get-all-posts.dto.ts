@@ -1,7 +1,7 @@
+import { IsEnum, IsNumberString, IsOptional } from 'class-validator';
 import { PostKey } from '@domains/post';
 import { SortDirection } from '@shared/enums';
 import { IPagination } from '@shared/interfaces';
-import { IsEnum, IsNumberString, IsOptional } from 'class-validator';
 
 export class GetAllPostsDto implements IPagination<PostKey> {
 	@IsOptional()
