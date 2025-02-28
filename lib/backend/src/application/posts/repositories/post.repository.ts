@@ -39,7 +39,14 @@ export class PostRepository extends PrismaClient implements ICrudRepository<Post
 		return this.post.findMany({
 			skip: offset || undefined,
 			take: limit || undefined,
-			orderBy: { [order || 'createdAt']: direction || 'asc' },
+			orderBy:
+				order === 'user'
+					? {
+							id: direction || 'asc',
+						}
+					: {
+							[order || 'createdAt']: direction || 'asc',
+						},
 			where: {
 				OR: [
 					{

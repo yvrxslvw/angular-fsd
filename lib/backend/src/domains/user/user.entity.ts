@@ -30,6 +30,7 @@ export class UserEntity {
 export enum UserKey {
 	id = 'id',
 	login = 'login',
+	posts = 'posts',
 	createdAt = 'createdAt',
 	updatedAt = 'updatedAt',
 }

@@ -16,7 +16,7 @@ export class GetAllUsersDto implements IPagination<UserKey> {
 	declare limit: string | undefined;
 
 	@IsOptional()
-	@IsEnum(UserKey, { message: "Order должно быть одним из значений: 'id', 'login', 'createdAt', 'updatedAt'" })
+	@IsEnum(UserKey, { message: "Order должно быть одним из значений: 'id', 'login', 'posts', 'createdAt', 'updatedAt'" })
 	declare order: UserKey | undefined;
 
 	@IsOptional()
