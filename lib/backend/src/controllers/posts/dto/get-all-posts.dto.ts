@@ -2,6 +2,7 @@ import { IsEnum, IsNumberString, IsOptional } from 'class-validator';
 import { PostKey } from '@domains/post';
 import { SortDirection } from '@shared/enums';
 import { IPagination } from '@shared/interfaces';
+import { getStringByEnum } from '@shared/utils';
 
 export class GetAllPostsDto implements IPagination<PostKey> {
 	@IsOptional()
@@ -16,9 +17,7 @@ export class GetAllPostsDto implements IPagination<PostKey> {
 	declare limit: string | undefined;
 
 	@IsOptional()
-	@IsEnum(PostKey, {
-		message: "Order должно быть одним из значений: 'id', 'title', 'content', 'user', 'createdAt', 'updatedAt'",
-	})
+	@IsEnum(PostKey, { message: `Order должно быть одним из значений: ${getStringByEnum(PostKey)}` })
 	declare order: PostKey | undefined;
 
 	@IsOptional()

@@ -2,6 +2,7 @@ import { IsEnum, IsNumberString, IsOptional } from 'class-validator';
 import { UserKey } from '@domains/user';
 import { SortDirection } from '@shared/enums';
 import { IPagination } from '@shared/interfaces';
+import { getStringByEnum } from '@shared/utils';
 
 export class GetAllUsersDto implements IPagination<UserKey> {
 	@IsOptional()
@@ -16,7 +17,7 @@ export class GetAllUsersDto implements IPagination<UserKey> {
 	declare limit: string | undefined;
 
 	@IsOptional()
-	@IsEnum(UserKey, { message: "Order должно быть одним из значений: 'id', 'login', 'posts', 'createdAt', 'updatedAt'" })
+	@IsEnum(UserKey, { message: `Order должно быть одним из значений: ${getStringByEnum(UserKey)}` })
 	declare order: UserKey | undefined;
 
 	@IsOptional()
