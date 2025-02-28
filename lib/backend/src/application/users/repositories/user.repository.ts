@@ -41,7 +41,8 @@ export class UserRepository extends PrismaClient implements ICrudRepository<User
 			orderBy: { [order || 'createdAt']: direction || 'asc' },
 			where: {
 				login: {
-					contains: search,
+					contains: search || '',
+					mode: 'insensitive',
 				},
 			},
 			select: {
