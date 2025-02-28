@@ -1,3 +1,3 @@
-import { GetAllPostsHandler } from './get-all-posts.query';
+import { GetAllPostsHandler } from './get-all-posts.handler';
 
 export const QueryHandlers = [GetAllPostsHandler];
