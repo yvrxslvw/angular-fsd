@@ -102,7 +102,7 @@ export class PostRepository extends PrismaClient implements ICrudRepository<Post
 		});
 	}
 
-	public async update(id: number, title: string, content: string): Promise<PostEntity> {
+	public async update(id: number, title?: string, content?: string): Promise<PostEntity> {
 		return this.post.update({
 			where: { id },
 			data: {
