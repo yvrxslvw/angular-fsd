@@ -23,14 +23,12 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 				endpoint: `${request.method} ${request.url}`,
 				status: exception.getStatus(),
 				messageUI: exception.message,
-				messageDebug: exception.message,
 			};
 		} else if (exception instanceof ValidationException) {
 			return {
 				endpoint: `${request.method} ${request.url}`,
 				status: HttpStatus.BAD_REQUEST,
 				messageUI: 'Ошибка валидации',
-				messageDebug: 'Validation error',
 				data: exception.errors,
 			};
 		} else if (exception instanceof BackendException) {
@@ -48,6 +46,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 				status: HttpStatus.INTERNAL_SERVER_ERROR,
 				messageUI: 'Произошла непредвиденная ошибка',
 				messageDebug: exception.message,
+				data: exception,
 			};
 		} else {
 			console.error(exception);
