@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { PostEntity } from '@domains/post';
-import { UserKey } from '@domains/user';
+import { PostEntity, PostKey } from '@domains/post';
 import { SortDirection } from '@shared/enums';
 import { ICrudRepository } from '@shared/interfaces';
 
@@ -33,7 +32,7 @@ export class PostRepository extends PrismaClient implements ICrudRepository<Post
 	public async getAll(
 		offset?: number,
 		limit?: number,
-		order?: UserKey,
+		order?: PostKey,
 		direction?: SortDirection,
 		search?: string,
 	): Promise<PostEntity[]> {
@@ -44,10 +43,16 @@ export class PostRepository extends PrismaClient implements ICrudRepository<Post
 			where: {
 				OR: [
 					{
-						title: search,
+						title: {
+							contains: search || '',
+							mode: 'insensitive',
+						},
 					},
 					{
-						content: search,
+						content: {
+							contains: search || '',
+							mode: 'insensitive',
+						},
 					},
 				],
 			},
