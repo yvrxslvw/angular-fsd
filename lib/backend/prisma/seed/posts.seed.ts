@@ -19,13 +19,12 @@ export const seedPosts = async (prisma: PrismaClient) => {
 		},
 	});
 
-	for (let i = 2; i <= 200; i++) {
-		if (i === 101) continue;
+	for (let i = 2; i <= 100.5; i += 0.5) {
 		await prisma.post.create({
 			data: {
 				title: faker.lorem.sentence(),
 				content: faker.lorem.text(),
-				authorId: i > 100 ? i - 100 : i,
+				authorId: Math.floor(i),
 			},
 		});
 	}
