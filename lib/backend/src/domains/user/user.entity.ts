@@ -1,23 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { SwaggerExample } from '@shared/swagger';
 
 export class UserEntity {
-	@ApiProperty({ description: 'Идентификатор пользователя', example: 1 })
+	@ApiProperty({ description: 'Идентификатор пользователя', example: SwaggerExample.MapperUser.id })
 	declare id: number;
 
-	@ApiProperty({ description: 'Логин пользователя', example: 'yvrxslvw' })
+	@ApiProperty({ description: 'Логин пользователя', example: SwaggerExample.MapperUser.login })
 	declare login: string;
 
 	@ApiProperty({
 		description: 'Посты пользователя',
-		example: [
-			{
-				id: 1,
-				title: 'Aggredior voluptas vicinus comprehendo.',
-				content: 'Sophismata vulariter damnatio id. Delicate tres cogito armarium artificiose vulgo.',
-				createdAt: '2025-02-27T20:22:16.777Z',
-				updatedAt: '2025-02-27T20:22:16.777Z',
-			},
-		],
+		example: SwaggerExample.MapperUser.posts,
 	})
 	declare posts: {
 		id: number;
@@ -27,10 +20,10 @@ export class UserEntity {
 		updatedAt: Date;
 	}[];
 
-	@ApiProperty({ description: 'Когда создан', example: new Date() })
+	@ApiProperty({ description: 'Когда создан', example: SwaggerExample.MapperUser.createdAt })
 	declare createdAt: Date;
 
-	@ApiProperty({ description: 'Когда обновлён', example: new Date() })
+	@ApiProperty({ description: 'Когда обновлён', example: SwaggerExample.MapperUser.updatedAt })
 	declare updatedAt: Date;
 }
 

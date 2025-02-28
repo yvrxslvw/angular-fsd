@@ -1,27 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { SwaggerExample } from '@shared/swagger';
 
 export class PostEntity {
-	@ApiProperty({ description: 'Идентификатор поста', example: 1 })
+	@ApiProperty({ description: 'Идентификатор поста', example: SwaggerExample.MappedPost.id })
 	declare id: number;
 
-	@ApiProperty({ description: 'Заголовок поста', example: 'Aggredior voluptas vicinus comprehendo.' })
+	@ApiProperty({ description: 'Заголовок поста', example: SwaggerExample.MappedPost.title })
 	declare title: string;
 
-	@ApiProperty({
-		description: 'Контент поста',
-		example: 'Sophismata vulariter damnatio id. Delicate tres cogito armarium artificiose vulgo.',
-	})
+	@ApiProperty({ description: 'Контент поста', example: SwaggerExample.MappedPost.content })
 	declare content: string;
 
-	@ApiProperty({
-		description: 'Автор поста',
-		example: {
-			id: 1,
-			login: 'yvrxslvw',
-			createdAt: '2025-02-27T19:56:38.632Z',
-			updatedAt: '2025-02-27T19:56:38.632Z',
-		},
-	})
+	@ApiProperty({ description: 'Автор поста', example: SwaggerExample.MappedPost.user })
 	declare user: {
 		id: number;
 		login: string;
@@ -29,10 +19,10 @@ export class PostEntity {
 		updatedAt: Date;
 	};
 
-	@ApiProperty({ description: 'Когда создан', example: new Date() })
+	@ApiProperty({ description: 'Когда создан', example: SwaggerExample.MappedPost.createdAt })
 	declare createdAt: Date;
 
-	@ApiProperty({ description: 'Когда обновлён', example: new Date() })
+	@ApiProperty({ description: 'Когда обновлён', example: SwaggerExample.MappedPost.updatedAt })
 	declare updatedAt: Date;
 }
 
