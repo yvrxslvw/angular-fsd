@@ -4,6 +4,6 @@ export interface IException {
 	endpoint: string;
 	status: HttpStatus;
 	messageUI: string;
-	messageDebug: string;
+	messageDebug?: string;
 	data?: unknown;
 }
