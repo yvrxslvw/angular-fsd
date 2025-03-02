@@ -16,14 +16,14 @@ export class RefreshHandler implements ICommandHandler<RefreshCommand> {
 
 	public async execute(command: RefreshCommand) {
 		const { refreshToken, response } = command;
-		if (!refreshToken) throw new BackendException(HttpStatus.FORBIDDEN, 'Недостаточно прав');
+		if (!refreshToken) throw new BackendException(HttpStatus.FORBIDDEN, 'Токен недействителен');
 		try {
 			const payload: IRefreshTokenPayload = await this.jwtService.verifyAsync(refreshToken);
 			const user: UserEntity = await this.queryBus.execute(new GetOneUserQuery(payload.id));
 			await setTokens(user, response, this.jwtService);
 			return response.status(HttpStatus.OK).json(user);
 		} catch {
-			throw new BackendException(HttpStatus.FORBIDDEN, 'Недостаточно прав');
+			throw new BackendException(HttpStatus.FORBIDDEN, 'Токен недействителен');
 		}
 	}
 }
