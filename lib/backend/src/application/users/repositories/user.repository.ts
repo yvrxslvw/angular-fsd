@@ -9,6 +9,11 @@ export class UserRepository extends PrismaClient implements ICrudRepository<User
 			data: {
 				login,
 				password,
+				roles: {
+					connect: {
+						id: 1,
+					},
+				},
 			},
 			select: {
 				id: true,

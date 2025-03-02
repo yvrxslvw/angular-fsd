@@ -1,8 +1,8 @@
-import { CreateUserCommand, UserEntity } from '@domains/user';
 import { HttpStatus } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { BackendException } from '@shared/exceptions';
 import * as bcrypt from 'bcrypt';
+import { CreateUserCommand, UserEntity } from '@domains/user';
+import { BackendException } from '@shared/exceptions';
 import { UserRepository } from '../repositories';
 
 @CommandHandler(CreateUserCommand)
