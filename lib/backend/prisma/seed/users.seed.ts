@@ -9,6 +9,16 @@ export const seedUsers = async (prisma: PrismaClient) => {
 		data: {
 			login: 'yvrxslvw',
 			password: await bcrypt.hash('1234', 10),
+			roles: {
+				connect: [
+					{
+						id: 1,
+					},
+					{
+						id: 2,
+					},
+				],
+			},
 		},
 	});
 
@@ -17,6 +27,13 @@ export const seedUsers = async (prisma: PrismaClient) => {
 			data: {
 				login: faker.internet.username(),
 				password: await bcrypt.hash(faker.internet.password(), 10),
+				roles: {
+					connect: [
+						{
+							id: 1,
+						},
+					],
+				},
 			},
 		});
 	}
