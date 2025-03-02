@@ -1,7 +1,7 @@
-import { PostRepository } from '@application/posts/repositories';
-import { GetOnePostQuery, PostEntity } from '@domains/post';
 import { HttpStatus } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
+import { PostRepository } from '@application/posts/repositories';
+import { GetOnePostQuery, PostEntity } from '@domains/post';
 import { BackendException } from '@shared/exceptions';
 
 @QueryHandler(GetOnePostQuery)
@@ -10,8 +10,8 @@ export class GetOnePostHandler implements IQueryHandler<GetOnePostQuery> {
 
 	public async execute(query: GetOnePostQuery): Promise<PostEntity> {
 		const { id } = query;
-		const user = await this.postRepo.getOneById(id);
-		if (!user) throw new BackendException(HttpStatus.NOT_FOUND, `Пост с ID ${id} не найден`);
-		return user;
+		const post = await this.postRepo.getOneById(id);
+		if (!post) throw new BackendException(HttpStatus.NOT_FOUND, `Пост с ID ${id} не найден`);
+		return post;
 	}
 }
