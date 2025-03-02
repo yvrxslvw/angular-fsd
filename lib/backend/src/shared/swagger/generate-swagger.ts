@@ -5,7 +5,7 @@ export const generateSwagger = (app: INestApplication) => {
 	const config = new DocumentBuilder()
 		.setTitle('Angular Feature-Sliced Design')
 		.setVersion('1.0.0')
-		//.addCookieAuth('access_token')
+		//.addCookieAuth('accessToken')
 		.build();
 	const documentFactory = () => SwaggerModule.createDocument(app, config);
 	SwaggerModule.setup('/api/doc', app, documentFactory);

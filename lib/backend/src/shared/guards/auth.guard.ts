@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { AppConfig } from '@shared/config';
 import { BackendException } from '@shared/exceptions';
+import { extractTokens } from '@shared/utils';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -10,17 +11,13 @@ export class AuthGuard implements CanActivate {
 
 	public async canActivate(context: ExecutionContext): Promise<boolean> {
 		const request = context.switchToHttp().getRequest<Request>();
-		const token = this.#extractTokenFromCookies(request);
-		if (!token) throw new BackendException(HttpStatus.UNAUTHORIZED, 'Недостаточно прав');
+		const { accessToken } = extractTokens(request);
+		if (!accessToken) throw new BackendException(HttpStatus.UNAUTHORIZED, 'Недостаточно прав');
 		try {
-			request['user'] = await this.jwtService.verifyAsync(token, { secret: AppConfig.jwtSecret });
+			request['user'] = await this.jwtService.verifyAsync(accessToken, { secret: AppConfig.jwtSecret });
 		} catch {
 			throw new BackendException(HttpStatus.UNAUTHORIZED, 'Недостаточно прав');
 		}
 		return true;
-	}
-
-	#extractTokenFromCookies(request: Request) {
-		return request.cookies['access_token'] as string | undefined;
 	}
 }
