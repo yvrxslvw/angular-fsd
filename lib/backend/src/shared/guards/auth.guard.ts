@@ -1,7 +1,6 @@
 import { CanActivate, ExecutionContext, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-import { AppConfig } from '@shared/config';
 import { BackendException } from '@shared/exceptions';
 import { extractTokens } from '@shared/utils';
 
@@ -14,7 +13,7 @@ export class AuthGuard implements CanActivate {
 		const { accessToken } = extractTokens(request);
 		if (!accessToken) throw new BackendException(HttpStatus.UNAUTHORIZED, 'Недостаточно прав');
 		try {
-			request['user'] = await this.jwtService.verifyAsync(accessToken, { secret: AppConfig.jwtSecret });
+			request['user'] = await this.jwtService.verifyAsync(accessToken);
 		} catch {
 			throw new BackendException(HttpStatus.UNAUTHORIZED, 'Недостаточно прав');
 		}
