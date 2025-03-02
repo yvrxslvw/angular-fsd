@@ -1,6 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
 	CreatePostCommand,
 	DeletePostCommand,
@@ -11,6 +11,7 @@ import {
 	UpdatePostCommand,
 } from '@domains/post';
 import { SortDirection } from '@shared/enums';
+import { AuthGuard } from '@shared/guards';
 import { ICrudController } from '@shared/interfaces';
 import { CreatePostDto, GetAllPostsDto, UpdatePostDto } from './dto';
 
@@ -25,7 +26,10 @@ export class PostsController implements ICrudController<PostEntity, CreatePostDt
 	@ApiOperation({ summary: 'Создание поста' })
 	@ApiResponse({ status: 201, description: 'Успешное создание', type: PostEntity })
 	@ApiResponse({ status: 400, description: 'Некорректный заголовок или контент поста' })
+	@ApiResponse({ status: 401, description: 'Недостаточно прав' })
 	@ApiResponse({ status: 404, description: 'Автор поста не найден' })
+	@ApiCookieAuth()
+	@UseGuards(AuthGuard)
 	@Post()
 	public async create(@Body() createDto: CreatePostDto): Promise<PostEntity> {
 		const { title, content, authorId } = createDto;

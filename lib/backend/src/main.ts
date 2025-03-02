@@ -1,5 +1,6 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import * as cookieParser from 'cookie-parser';
 import { AppConfig } from '@shared/config';
 import { ValidationException } from '@shared/exceptions';
 import { GlobalExceptionFilter } from '@shared/filters';
@@ -16,6 +17,7 @@ const bootstrap = async () => {
 		}),
 	);
 	app.useGlobalFilters(new GlobalExceptionFilter());
+	app.use(cookieParser());
 	generateSwagger(app);
 
 	await app.listen(AppConfig.appPort, AppConfig.appHost);
