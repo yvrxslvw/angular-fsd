@@ -1,6 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
 	CreateRoleCommand,
 	DeleteRoleCommand,
@@ -10,7 +10,9 @@ import {
 	RoleKey,
 	UpdateRoleCommand,
 } from '@domains/role';
+import { Roles } from '@shared/decorators';
 import { SortDirection } from '@shared/enums';
+import { RolesGuard } from '@shared/guards';
 import { ICrudController } from '@shared/interfaces';
 import { SwaggerExample } from '@shared/swagger';
 import { CreateRoleDto, GetAllRolesDto, UpdateRoleDto } from './dto';
@@ -26,6 +28,9 @@ export class RolesController implements ICrudController<RoleEntity, CreateRoleDt
 	@ApiOperation({ summary: 'Создание роли' })
 	@ApiResponse({ status: 201, description: 'Успешное создание', type: RoleEntity })
 	@ApiResponse({ status: 400, description: 'Некорректный тег или наименование или роль уже существует' })
+	@ApiCookieAuth()
+	@UseGuards(RolesGuard)
+	@Roles('ADMIN')
 	@Post()
 	public async create(@Body() createDto: CreateRoleDto): Promise<RoleEntity> {
 		const { tag, name } = createDto;
@@ -39,6 +44,9 @@ export class RolesController implements ICrudController<RoleEntity, CreateRoleDt
 	@ApiQuery({ name: 'direction', description: 'Направление для сортировки', enum: SortDirection, required: false })
 	@ApiQuery({ name: 'search', description: 'Поиск по логину', type: 'string', required: false })
 	@ApiResponse({ status: 200, description: 'Успешное получение', type: [RoleEntity] })
+	@ApiCookieAuth()
+	@UseGuards(RolesGuard)
+	@Roles('ADMIN')
 	@Get()
 	public async getAll(@Query() getAllDto: GetAllRolesDto): Promise<RoleEntity[]> {
 		const { search, offset, limit, order, direction } = getAllDto;
@@ -49,6 +57,9 @@ export class RolesController implements ICrudController<RoleEntity, CreateRoleDt
 	@ApiParam({ name: 'id', description: 'Идентификатор роли', example: SwaggerExample.Role.id })
 	@ApiResponse({ status: 200, description: 'Успешное получение', type: RoleEntity })
 	@ApiResponse({ status: 404, description: 'Роль не найдена' })
+	@ApiCookieAuth()
+	@UseGuards(RolesGuard)
+	@Roles('ADMIN')
 	@Get(':id')
 	public async getOne(@Param('id') id: string): Promise<RoleEntity> {
 		return this.queryBus.execute(new GetOneRoleQuery(+id));
@@ -59,6 +70,9 @@ export class RolesController implements ICrudController<RoleEntity, CreateRoleDt
 	@ApiResponse({ status: 200, description: 'Успешное редактирование', type: RoleEntity })
 	@ApiResponse({ status: 400, description: 'Некорректный тег или наименование или роль уже существует' })
 	@ApiResponse({ status: 404, description: 'Роль не найдена' })
+	@ApiCookieAuth()
+	@UseGuards(RolesGuard)
+	@Roles('ADMIN')
 	@Patch(':id')
 	public async update(@Param('id') id: string, @Body() updateDto: UpdateRoleDto): Promise<RoleEntity> {
 		const { tag, name } = updateDto;
@@ -69,6 +83,9 @@ export class RolesController implements ICrudController<RoleEntity, CreateRoleDt
 	@ApiParam({ name: 'id', description: 'Идентификатор роли', example: SwaggerExample.Role.id })
 	@ApiResponse({ status: 200, description: 'Успешное удаление', type: RoleEntity })
 	@ApiResponse({ status: 404, description: 'Роль не найдена' })
+	@ApiCookieAuth()
+	@UseGuards(RolesGuard)
+	@Roles('ADMIN')
 	@Delete(':id')
 	public async delete(@Param('id') id: string): Promise<RoleEntity> {
 		return this.commandBus.execute(new DeleteRoleCommand(+id));

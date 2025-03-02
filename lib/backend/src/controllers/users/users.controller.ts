@@ -10,8 +10,9 @@ import {
 	UserEntity,
 	UserKey,
 } from '@domains/user';
+import { Roles } from '@shared/decorators';
 import { SortDirection } from '@shared/enums';
-import { AuthGuard } from '@shared/guards';
+import { RolesGuard } from '@shared/guards';
 import { ICrudController } from '@shared/interfaces';
 import { SwaggerExample } from '@shared/swagger';
 import { CreateUserDto, GetAllUsersDto, UpdateUserDto } from './dto';
@@ -28,7 +29,8 @@ export class UsersController implements ICrudController<UserEntity, CreateUserDt
 	@ApiResponse({ status: 201, description: 'Успешное создание', type: UserEntity })
 	@ApiResponse({ status: 400, description: 'Некорректный логин или пароль или пользователь уже существует' })
 	@ApiCookieAuth()
-	@UseGuards(AuthGuard)
+	@UseGuards(RolesGuard)
+	@Roles('ADMIN')
 	@Post()
 	public async create(@Body() createDto: CreateUserDto): Promise<UserEntity> {
 		const { login, password } = createDto;
@@ -63,7 +65,8 @@ export class UsersController implements ICrudController<UserEntity, CreateUserDt
 	@ApiResponse({ status: 400, description: 'Некорректный логин или пароль или пользователь уже существует' })
 	@ApiResponse({ status: 404, description: 'Пользователь не найден' })
 	@ApiCookieAuth()
-	@UseGuards(AuthGuard)
+	@UseGuards(RolesGuard)
+	@Roles('ADMIN')
 	@Patch(':id')
 	public async update(@Param('id') id: string, @Body() updateDto: UpdateUserDto): Promise<UserEntity> {
 		const { login, password } = updateDto;
@@ -75,7 +78,8 @@ export class UsersController implements ICrudController<UserEntity, CreateUserDt
 	@ApiResponse({ status: 200, description: 'Успешное удаление', type: UserEntity })
 	@ApiResponse({ status: 404, description: 'Пользователь не найден' })
 	@ApiCookieAuth()
-	@UseGuards(AuthGuard)
+	@UseGuards(RolesGuard)
+	@Roles('ADMIN')
 	@Delete(':id')
 	public async delete(@Param('id') id: string): Promise<UserEntity> {
 		return this.commandBus.execute(new DeleteUserCommand(+id));
