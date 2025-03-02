@@ -14,5 +14,12 @@ export const clearTokens = (response: Response) => {
 			secure: true,
 			httpOnly: true,
 			domain: 'localhost',
+		})
+		.clearCookie('noRemember', {
+			sameSite: 'none',
+			path: '/api/auth/refresh',
+			secure: true,
+			httpOnly: true,
+			domain: 'localhost',
 		});
 };

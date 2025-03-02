@@ -38,7 +38,7 @@ export class AuthController {
 	@Post('refresh')
 	public async refresh(@Req() request: Request, @Res() response: Response) {
 		const { refreshToken } = extractTokens(request);
-		return this.commandBus.execute(new RefreshCommand(refreshToken, response));
+		return this.commandBus.execute(new RefreshCommand(!!request.cookies['noRemember'], refreshToken, response));
 	}
 
 	@ApiOperation({ summary: 'Выход из аккаунта' })

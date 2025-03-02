@@ -19,6 +19,7 @@ export class RegisterCommand {
 
 export class RefreshCommand {
 	constructor(
+		public noRemember: boolean,
 		public refreshToken: string | undefined,
 		public response: Response,
 	) {}

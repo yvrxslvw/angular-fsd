@@ -28,4 +28,21 @@ export const setTokens = async (user: UserEntity, response: Response, jwtService
 			httpOnly: true,
 			domain: 'localhost',
 		});
+	if (!remember) {
+		response.cookie('noRemember', 'true', {
+			sameSite: 'none',
+			path: '/api/auth/refresh',
+			secure: true,
+			httpOnly: true,
+			domain: 'localhost',
+		});
+	} else {
+		response.clearCookie('noRemember', {
+			sameSite: 'none',
+			path: '/api/auth/refresh',
+			secure: true,
+			httpOnly: true,
+			domain: 'localhost',
+		});
+	}
 };
