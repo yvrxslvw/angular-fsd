@@ -22,6 +22,15 @@ export class UserRepository extends PrismaClient implements ICrudRepository<User
 						updatedAt: true,
 					},
 				},
+				roles: {
+					select: {
+						id: true,
+						tag: true,
+						name: true,
+						createdAt: true,
+						updatedAt: true,
+					},
+				},
 				createdAt: true,
 				updatedAt: true,
 			},
@@ -38,14 +47,9 @@ export class UserRepository extends PrismaClient implements ICrudRepository<User
 		return this.user.findMany({
 			skip: offset || undefined,
 			take: limit || undefined,
-			orderBy:
-				order === 'posts'
-					? {
-							id: direction || 'asc',
-						}
-					: {
-							[order || 'createdAt']: direction || 'asc',
-						},
+			orderBy: {
+				[order || 'createdAt']: direction || 'asc',
+			},
 			where: {
 				login: {
 					contains: search || '',
@@ -60,6 +64,15 @@ export class UserRepository extends PrismaClient implements ICrudRepository<User
 						id: true,
 						title: true,
 						content: true,
+						createdAt: true,
+						updatedAt: true,
+					},
+				},
+				roles: {
+					select: {
+						id: true,
+						tag: true,
+						name: true,
 						createdAt: true,
 						updatedAt: true,
 					},
@@ -85,6 +98,15 @@ export class UserRepository extends PrismaClient implements ICrudRepository<User
 						updatedAt: true,
 					},
 				},
+				roles: {
+					select: {
+						id: true,
+						tag: true,
+						name: true,
+						createdAt: true,
+						updatedAt: true,
+					},
+				},
 				createdAt: true,
 				updatedAt: true,
 			},
@@ -103,6 +125,15 @@ export class UserRepository extends PrismaClient implements ICrudRepository<User
 						id: true,
 						title: true,
 						content: true,
+						createdAt: true,
+						updatedAt: true,
+					},
+				},
+				roles: {
+					select: {
+						id: true,
+						tag: true,
+						name: true,
 						createdAt: true,
 						updatedAt: true,
 					},
@@ -132,6 +163,15 @@ export class UserRepository extends PrismaClient implements ICrudRepository<User
 						updatedAt: true,
 					},
 				},
+				roles: {
+					select: {
+						id: true,
+						tag: true,
+						name: true,
+						createdAt: true,
+						updatedAt: true,
+					},
+				},
 				createdAt: true,
 				updatedAt: true,
 			},
@@ -149,6 +189,15 @@ export class UserRepository extends PrismaClient implements ICrudRepository<User
 						id: true,
 						title: true,
 						content: true,
+						createdAt: true,
+						updatedAt: true,
+					},
+				},
+				roles: {
+					select: {
+						id: true,
+						tag: true,
+						name: true,
 						createdAt: true,
 						updatedAt: true,
 					},

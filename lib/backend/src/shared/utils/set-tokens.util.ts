@@ -6,6 +6,7 @@ import { IAccessTokenPayload, IRefreshTokenPayload } from '@shared/interfaces';
 export const setTokens = async (user: UserEntity, response: Response, jwtService: JwtService, remember = true) => {
 	const accessTokenPayload: IAccessTokenPayload = {
 		id: user.id,
+		roles: user.roles.map((role) => role.tag),
 	};
 	const refreshTokenPayload: IRefreshTokenPayload = {
 		id: user.id,

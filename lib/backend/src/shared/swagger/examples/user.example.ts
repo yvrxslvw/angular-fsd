@@ -19,6 +19,15 @@ export const User = {
 			updatedAt: new Date(),
 		},
 	],
+	roles: [
+		{
+			id: 1,
+			tag: 'USER',
+			name: 'Пользователь',
+			createdAt: new Date(),
+			updatedAt: new Date(),
+		},
+	],
 	createdAt: new Date(),
 	updatedAt: new Date(),
 };
@@ -39,6 +48,15 @@ export const MapperUser = {
 			id: 2,
 			title: 'Cilicium spiculum necessitatibus.',
 			content: 'Pel solus verto minus aliquam sui ascit.',
+			createdAt: new Date(),
+			updatedAt: new Date(),
+		},
+	],
+	roles: [
+		{
+			id: 1,
+			tag: 'USER',
+			name: 'Пользователь',
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		},

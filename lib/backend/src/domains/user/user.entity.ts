@@ -20,6 +20,18 @@ export class UserEntity {
 		updatedAt: Date;
 	}[];
 
+	@ApiProperty({
+		description: 'Роли пользователя',
+		example: SwaggerExample.MapperUser.roles,
+	})
+	declare roles: {
+		id: number;
+		tag: string;
+		name: string;
+		createdAt: Date;
+		updatedAt: Date;
+	}[];
+
 	@ApiProperty({ description: 'Когда создан', example: SwaggerExample.MapperUser.createdAt })
 	declare createdAt: Date;
 
@@ -30,7 +42,6 @@ export class UserEntity {
 export enum UserKey {
 	id = 'id',
 	login = 'login',
-	posts = 'posts',
 	createdAt = 'createdAt',
 	updatedAt = 'updatedAt',
 }

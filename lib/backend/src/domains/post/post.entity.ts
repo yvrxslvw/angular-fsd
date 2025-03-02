@@ -30,7 +30,6 @@ export enum PostKey {
 	id = 'id',
 	title = 'title',
 	content = 'content',
-	user = 'user',
 	createdAt = 'createdAt',
 	updatedAt = 'updatedAt',
 }
