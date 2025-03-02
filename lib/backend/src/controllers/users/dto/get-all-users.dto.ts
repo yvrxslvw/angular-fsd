@@ -9,18 +9,18 @@ export class GetAllUsersDto implements IPagination<UserKey> {
 	declare search: string | undefined;
 
 	@IsOptional()
-	@IsNumberString({ no_symbols: true }, { message: 'Offset должно быть положительным числом' })
+	@IsNumberString({ no_symbols: true }, { message: 'Поле offset должно быть положительным числом' })
 	declare offset: string | undefined;
 
 	@IsOptional()
-	@IsNumberString({ no_symbols: true }, { message: 'Limit должно быть положительным числом' })
+	@IsNumberString({ no_symbols: true }, { message: 'Поле limit должно быть положительным числом' })
 	declare limit: string | undefined;
 
 	@IsOptional()
-	@IsEnum(UserKey, { message: `Order должно быть одним из значений: ${getStringByEnum(UserKey)}` })
+	@IsEnum(UserKey, { message: `Поле order должно быть одним из значений: ${getStringByEnum(UserKey)}` })
 	declare order: UserKey | undefined;
 
 	@IsOptional()
-	@IsEnum(SortDirection, { message: "Direction должно быть одним из значений: 'asc', 'desc'" })
+	@IsEnum(SortDirection, { message: "Поле direction должно быть одним из значений: 'asc', 'desc'" })
 	declare direction: SortDirection | undefined;
 }
