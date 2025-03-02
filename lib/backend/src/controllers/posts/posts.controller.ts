@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiCookieAuth, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
 import {
 	CreatePostCommand,
 	DeletePostCommand,
@@ -12,7 +13,7 @@ import {
 } from '@domains/post';
 import { SortDirection } from '@shared/enums';
 import { AuthGuard } from '@shared/guards';
-import { ICrudController } from '@shared/interfaces';
+import { IAccessTokenPayload, ICrudController } from '@shared/interfaces';
 import { CreatePostDto, GetAllPostsDto, UpdatePostDto } from './dto';
 
 @ApiTags('Посты')
@@ -31,9 +32,9 @@ export class PostsController implements ICrudController<PostEntity, CreatePostDt
 	@ApiCookieAuth()
 	@UseGuards(AuthGuard)
 	@Post()
-	public async create(@Body() createDto: CreatePostDto): Promise<PostEntity> {
-		const { title, content, authorId } = createDto;
-		return this.commandBus.execute(new CreatePostCommand(title, content, authorId));
+	public async create(@Body() createDto: CreatePostDto, @Req() request: Request): Promise<PostEntity> {
+		const { title, content } = createDto;
+		return this.commandBus.execute(new CreatePostCommand(title, content, (request['user'] as IAccessTokenPayload).id));
 	}
 
 	@ApiOperation({ summary: 'Получение всех постов' })
@@ -65,19 +66,27 @@ export class PostsController implements ICrudController<PostEntity, CreatePostDt
 	@ApiParam({ name: 'id', description: 'Идентификатор поста', example: 1 })
 	@ApiResponse({ status: 200, description: 'Успешное редактирование', type: PostEntity })
 	@ApiResponse({ status: 400, description: 'Некорректный заголовок или контент поста' })
+	@ApiResponse({ status: 403, description: 'Недостаточно прав' })
 	@ApiResponse({ status: 404, description: 'Пост не найден' })
+	@ApiCookieAuth()
+	@UseGuards(AuthGuard)
 	@Patch(':id')
-	public async update(@Param('id') id: string, @Body() updateDto: UpdatePostDto): Promise<PostEntity> {
+	public async update(@Param('id') id: string, @Body() updateDto: UpdatePostDto, @Req() request: Request): Promise<PostEntity> {
 		const { title, content } = updateDto;
-		return this.commandBus.execute(new UpdatePostCommand(Number(id), title, content));
+		return this.commandBus.execute(
+			new UpdatePostCommand(Number(id), (request['user'] as IAccessTokenPayload).id, title, content),
+		);
 	}
 
 	@ApiOperation({ summary: 'Удаление поста' })
 	@ApiParam({ name: 'id', description: 'Идентификатор поста', example: 1 })
 	@ApiResponse({ status: 200, description: 'Успешное удаление', type: PostEntity })
+	@ApiResponse({ status: 403, description: 'Недостаточно прав' })
 	@ApiResponse({ status: 404, description: 'Пост не найден' })
+	@ApiCookieAuth()
+	@UseGuards(AuthGuard)
 	@Delete(':id')
-	public async delete(@Param('id') id: string): Promise<PostEntity> {
-		return this.commandBus.execute(new DeletePostCommand(Number(id)));
+	public async delete(@Param('id') id: string, @Req() request: Request): Promise<PostEntity> {
+		return this.commandBus.execute(new DeletePostCommand(Number(id), (request['user'] as IAccessTokenPayload).id));
 	}
 }

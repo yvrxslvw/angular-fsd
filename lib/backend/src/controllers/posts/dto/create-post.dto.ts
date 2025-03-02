@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString, Length } from 'class-validator';
+import { IsString, Length } from 'class-validator';
 import { SwaggerExample } from '@shared/swagger';
 
 export class CreatePostDto {
@@ -12,8 +12,4 @@ export class CreatePostDto {
 	@IsString({ message: 'Поле content должно быть строкой' })
 	@Length(3, 1024, { message: 'Поле content должно быть от 3 до 1024 символов' })
 	declare content: string;
-
-	@ApiProperty({ description: 'Идентификатор автора поста', example: SwaggerExample.Post.authorId })
-	@IsNumber({}, { message: 'Поле authorId должно быть числом' })
-	declare authorId: number;
 }

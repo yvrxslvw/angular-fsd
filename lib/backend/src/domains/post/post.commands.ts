@@ -9,11 +9,15 @@ export class CreatePostCommand {
 export class UpdatePostCommand {
 	constructor(
 		public id: number,
+		public userId: number,
 		public title?: string,
 		public content?: string,
 	) {}
 }
 
 export class DeletePostCommand {
-	constructor(public id: number) {}
+	constructor(
+		public id: number,
+		public userId: number,
+	) {}
 }
