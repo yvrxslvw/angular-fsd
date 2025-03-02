@@ -14,6 +14,7 @@ import {
 import { SortDirection } from '@shared/enums';
 import { AuthGuard } from '@shared/guards';
 import { IAccessTokenPayload, ICrudController } from '@shared/interfaces';
+import { SwaggerExample } from '@shared/swagger';
 import { CreatePostDto, GetAllPostsDto, UpdatePostDto } from './dto';
 
 @ApiTags('Посты')
@@ -54,7 +55,7 @@ export class PostsController implements ICrudController<PostEntity, CreatePostDt
 	}
 
 	@ApiOperation({ summary: 'Получение одного поста по ID' })
-	@ApiParam({ name: 'id', description: 'Идентификатор поста', example: 1 })
+	@ApiParam({ name: 'id', description: 'Идентификатор поста', example: SwaggerExample.Post.id })
 	@ApiResponse({ status: 200, description: 'Успешное получение', type: PostEntity })
 	@ApiResponse({ status: 404, description: 'Пост не найден' })
 	@Get(':id')
@@ -63,7 +64,7 @@ export class PostsController implements ICrudController<PostEntity, CreatePostDt
 	}
 
 	@ApiOperation({ summary: 'Редактирование данных поста' })
-	@ApiParam({ name: 'id', description: 'Идентификатор поста', example: 1 })
+	@ApiParam({ name: 'id', description: 'Идентификатор поста', example: SwaggerExample.Post.id })
 	@ApiResponse({ status: 200, description: 'Успешное редактирование', type: PostEntity })
 	@ApiResponse({ status: 400, description: 'Некорректный заголовок или контент поста' })
 	@ApiResponse({ status: 403, description: 'Недостаточно прав' })
@@ -79,7 +80,7 @@ export class PostsController implements ICrudController<PostEntity, CreatePostDt
 	}
 
 	@ApiOperation({ summary: 'Удаление поста' })
-	@ApiParam({ name: 'id', description: 'Идентификатор поста', example: 1 })
+	@ApiParam({ name: 'id', description: 'Идентификатор поста', example: SwaggerExample.Post.id })
 	@ApiResponse({ status: 200, description: 'Успешное удаление', type: PostEntity })
 	@ApiResponse({ status: 403, description: 'Недостаточно прав' })
 	@ApiResponse({ status: 404, description: 'Пост не найден' })

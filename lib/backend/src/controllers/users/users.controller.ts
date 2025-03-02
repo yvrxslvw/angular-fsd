@@ -13,6 +13,7 @@ import {
 import { SortDirection } from '@shared/enums';
 import { AuthGuard } from '@shared/guards';
 import { ICrudController } from '@shared/interfaces';
+import { SwaggerExample } from '@shared/swagger';
 import { CreateUserDto, GetAllUsersDto, UpdateUserDto } from './dto';
 
 @ApiTags('Пользователи')
@@ -48,7 +49,7 @@ export class UsersController implements ICrudController<UserEntity, CreateUserDt
 	}
 
 	@ApiOperation({ summary: 'Получение одного пользователя по ID' })
-	@ApiParam({ name: 'id', description: 'Идентификатор пользователя', example: 1 })
+	@ApiParam({ name: 'id', description: 'Идентификатор пользователя', example: SwaggerExample.User.id })
 	@ApiResponse({ status: 200, description: 'Успешное получение', type: UserEntity })
 	@ApiResponse({ status: 404, description: 'Пользователь не найден' })
 	@Get(':id')
@@ -57,7 +58,7 @@ export class UsersController implements ICrudController<UserEntity, CreateUserDt
 	}
 
 	@ApiOperation({ summary: 'Редактирование данных пользователя' })
-	@ApiParam({ name: 'id', description: 'Идентификатор пользователя', example: 1 })
+	@ApiParam({ name: 'id', description: 'Идентификатор пользователя', example: SwaggerExample.User.id })
 	@ApiResponse({ status: 200, description: 'Успешное редактирование', type: UserEntity })
 	@ApiResponse({ status: 400, description: 'Некорректный логин или пароль или пользователь уже существует' })
 	@ApiResponse({ status: 404, description: 'Пользователь не найден' })
@@ -70,7 +71,7 @@ export class UsersController implements ICrudController<UserEntity, CreateUserDt
 	}
 
 	@ApiOperation({ summary: 'Удаление пользователя' })
-	@ApiParam({ name: 'id', description: 'Идентификатор пользователя', example: 1 })
+	@ApiParam({ name: 'id', description: 'Идентификатор пользователя', example: SwaggerExample.User.id })
 	@ApiResponse({ status: 200, description: 'Успешное удаление', type: UserEntity })
 	@ApiResponse({ status: 404, description: 'Пользователь не найден' })
 	@ApiCookieAuth()

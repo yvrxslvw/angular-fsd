@@ -1,5 +1,5 @@
-import { RoleKey } from '@domains/role/role.entity';
 import { SortDirection } from '@shared/enums';
+import { RoleKey } from './role.entity';
 
 export class GetAllRolesQuery {
 	constructor(
