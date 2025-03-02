@@ -9,10 +9,11 @@ export class DeletePostHandler implements ICommandHandler<DeletePostCommand> {
 	constructor(private readonly postRepo: PostRepository) {}
 
 	public async execute(command: DeletePostCommand): Promise<PostEntity> {
-		const { id, userId } = command;
+		const { id, user } = command;
 		const candidate = await this.postRepo.getOneById(id);
 		if (!candidate) throw new BackendException(HttpStatus.NOT_FOUND, `Пост с ID ${id} не найден`);
-		if (candidate.user.id !== userId) throw new BackendException(HttpStatus.FORBIDDEN, 'Недостаточно прав');
+		if (candidate.user.id !== user.id && !user.roles.includes('ADMIN'))
+			throw new BackendException(HttpStatus.FORBIDDEN, 'Недостаточно прав');
 		return this.postRepo.delete(id);
 	}
 }

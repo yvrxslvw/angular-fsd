@@ -34,8 +34,8 @@ export class PostsController implements ICrudController<PostEntity, CreatePostDt
 	@UseGuards(AuthGuard)
 	@Post()
 	public async create(@Body() createDto: CreatePostDto, @Req() request: Request): Promise<PostEntity> {
-		const { title, content } = createDto;
-		return this.commandBus.execute(new CreatePostCommand(title, content, (request['user'] as IAccessTokenPayload).id));
+		const { title, content, authorId } = createDto;
+		return this.commandBus.execute(new CreatePostCommand(title, content, request['user'] as IAccessTokenPayload, authorId));
 	}
 
 	@ApiOperation({ summary: 'Получение всех постов' })
@@ -74,9 +74,7 @@ export class PostsController implements ICrudController<PostEntity, CreatePostDt
 	@Patch(':id')
 	public async update(@Param('id') id: string, @Body() updateDto: UpdatePostDto, @Req() request: Request): Promise<PostEntity> {
 		const { title, content } = updateDto;
-		return this.commandBus.execute(
-			new UpdatePostCommand(Number(id), (request['user'] as IAccessTokenPayload).id, title, content),
-		);
+		return this.commandBus.execute(new UpdatePostCommand(Number(id), request['user'] as IAccessTokenPayload, title, content));
 	}
 
 	@ApiOperation({ summary: 'Удаление поста' })
@@ -88,6 +86,6 @@ export class PostsController implements ICrudController<PostEntity, CreatePostDt
 	@UseGuards(AuthGuard)
 	@Delete(':id')
 	public async delete(@Param('id') id: string, @Req() request: Request): Promise<PostEntity> {
-		return this.commandBus.execute(new DeletePostCommand(Number(id), (request['user'] as IAccessTokenPayload).id));
+		return this.commandBus.execute(new DeletePostCommand(Number(id), request['user'] as IAccessTokenPayload));
 	}
 }

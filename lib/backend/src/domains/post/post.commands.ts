@@ -1,15 +1,18 @@
+import { IAccessTokenPayload } from '@shared/interfaces';
+
 export class CreatePostCommand {
 	constructor(
 		public title: string,
 		public content: string,
-		public authorId: number,
+		public user: IAccessTokenPayload,
+		public authorId?: number,
 	) {}
 }
 
 export class UpdatePostCommand {
 	constructor(
 		public id: number,
-		public userId: number,
+		public user: IAccessTokenPayload,
 		public title?: string,
 		public content?: string,
 	) {}
@@ -18,6 +21,6 @@ export class UpdatePostCommand {
 export class DeletePostCommand {
 	constructor(
 		public id: number,
-		public userId: number,
+		public user: IAccessTokenPayload,
 	) {}
 }
