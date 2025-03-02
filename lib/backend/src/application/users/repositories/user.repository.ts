@@ -91,12 +91,13 @@ export class UserRepository extends PrismaClient implements ICrudRepository<User
 		});
 	}
 
-	public async getOneByLogin(login: string): Promise<UserEntity | null> {
+	public async getOneByLogin(login: string) {
 		return this.user.findUnique({
 			where: { login },
 			select: {
 				id: true,
 				login: true,
+				password: true,
 				posts: {
 					select: {
 						id: true,
