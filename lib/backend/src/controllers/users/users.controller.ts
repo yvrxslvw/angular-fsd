@@ -1,11 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiCookieAuth, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { RoleEntity } from '@domains/role';
 import {
+	AddUserRoleCommand,
 	CreateUserCommand,
 	DeleteUserCommand,
 	GetAllUsersQuery,
 	GetOneUserQuery,
+	RemoveUserRoleCommand,
 	UpdateUserCommand,
 	UserEntity,
 	UserKey,
@@ -28,6 +31,7 @@ export class UsersController implements ICrudController<UserEntity, CreateUserDt
 	@ApiOperation({ summary: 'Создание пользователя' })
 	@ApiResponse({ status: 201, description: 'Успешное создание', type: UserEntity })
 	@ApiResponse({ status: 400, description: 'Некорректный логин или пароль или пользователь уже существует' })
+	@ApiResponse({ status: 403, description: 'Недостаточно прав' })
 	@ApiCookieAuth()
 	@UseGuards(RolesGuard)
 	@Roles('ADMIN')
@@ -63,6 +67,7 @@ export class UsersController implements ICrudController<UserEntity, CreateUserDt
 	@ApiParam({ name: 'id', description: 'Идентификатор пользователя', example: SwaggerExample.User.id })
 	@ApiResponse({ status: 200, description: 'Успешное редактирование', type: UserEntity })
 	@ApiResponse({ status: 400, description: 'Некорректный логин или пароль или пользователь уже существует' })
+	@ApiResponse({ status: 403, description: 'Недостаточно прав' })
 	@ApiResponse({ status: 404, description: 'Пользователь не найден' })
 	@ApiCookieAuth()
 	@UseGuards(RolesGuard)
@@ -76,6 +81,7 @@ export class UsersController implements ICrudController<UserEntity, CreateUserDt
 	@ApiOperation({ summary: 'Удаление пользователя' })
 	@ApiParam({ name: 'id', description: 'Идентификатор пользователя', example: SwaggerExample.User.id })
 	@ApiResponse({ status: 200, description: 'Успешное удаление', type: UserEntity })
+	@ApiResponse({ status: 403, description: 'Недостаточно прав' })
 	@ApiResponse({ status: 404, description: 'Пользователь не найден' })
 	@ApiCookieAuth()
 	@UseGuards(RolesGuard)
@@ -83,5 +89,33 @@ export class UsersController implements ICrudController<UserEntity, CreateUserDt
 	@Delete(':id')
 	public async delete(@Param('id') id: string): Promise<UserEntity> {
 		return this.commandBus.execute(new DeleteUserCommand(+id));
+	}
+
+	@ApiOperation({ summary: 'Добавление роли пользователю' })
+	@ApiParam({ name: 'id', description: 'Идентификатор пользователя', example: SwaggerExample.User.id })
+	@ApiParam({ name: 'roleId', description: 'Идентификатор роли', example: SwaggerExample.Role.id })
+	@ApiResponse({ status: 200, description: 'Успешное добавление', type: UserEntity })
+	@ApiResponse({ status: 403, description: 'Недостаточно прав' })
+	@ApiResponse({ status: 404, description: 'Пользователь или роль не найдена' })
+	@ApiCookieAuth()
+	@UseGuards(RolesGuard)
+	@Roles('ADMIN')
+	@Put(':id/roles/:roleId')
+	public async addRole(@Param('id') id: string, @Param('roleId') roleId: string): Promise<RoleEntity> {
+		return this.commandBus.execute(new AddUserRoleCommand(+id, +roleId));
+	}
+
+	@ApiOperation({ summary: 'Удаление роли пользователя' })
+	@ApiParam({ name: 'id', description: 'Идентификатор пользователя', example: SwaggerExample.User.id })
+	@ApiParam({ name: 'roleId', description: 'Идентификатор роли', example: SwaggerExample.Role.id })
+	@ApiResponse({ status: 200, description: 'Успешное удаление', type: UserEntity })
+	@ApiResponse({ status: 403, description: 'Недостаточно прав' })
+	@ApiResponse({ status: 404, description: 'Пользователь или роль не найдена' })
+	@ApiCookieAuth()
+	@UseGuards(RolesGuard)
+	@Roles('ADMIN')
+	@Delete(':id/roles/:roleId')
+	public async removeRole(@Param('id') id: string, @Param('roleId') roleId: string): Promise<RoleEntity> {
+		return this.commandBus.execute(new RemoveUserRoleCommand(+id, +roleId));
 	}
 }

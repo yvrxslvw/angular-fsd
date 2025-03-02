@@ -16,3 +16,17 @@ export class UpdateUserCommand {
 export class DeleteUserCommand {
 	constructor(public id: number) {}
 }
+
+export class AddUserRoleCommand {
+	constructor(
+		public id: number,
+		public roleId: number,
+	) {}
+}
+
+export class RemoveUserRoleCommand {
+	constructor(
+		public id: number,
+		public roleId: number,
+	) {}
+}
