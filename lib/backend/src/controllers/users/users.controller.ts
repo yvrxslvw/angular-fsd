@@ -1,6 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
 	CreateUserCommand,
 	DeleteUserCommand,
@@ -11,6 +11,7 @@ import {
 	UserKey,
 } from '@domains/user';
 import { SortDirection } from '@shared/enums';
+import { AuthGuard } from '@shared/guards';
 import { ICrudController } from '@shared/interfaces';
 import { CreateUserDto, GetAllUsersDto, UpdateUserDto } from './dto';
 
@@ -25,6 +26,8 @@ export class UsersController implements ICrudController<UserEntity, CreateUserDt
 	@ApiOperation({ summary: 'Создание пользователя' })
 	@ApiResponse({ status: 201, description: 'Успешное создание', type: UserEntity })
 	@ApiResponse({ status: 400, description: 'Некорректный логин или пароль или пользователь уже существует' })
+	@ApiCookieAuth()
+	@UseGuards(AuthGuard)
 	@Post()
 	public async create(@Body() createDto: CreateUserDto): Promise<UserEntity> {
 		const { login, password } = createDto;
@@ -58,6 +61,8 @@ export class UsersController implements ICrudController<UserEntity, CreateUserDt
 	@ApiResponse({ status: 200, description: 'Успешное редактирование', type: UserEntity })
 	@ApiResponse({ status: 400, description: 'Некорректный логин или пароль или пользователь уже существует' })
 	@ApiResponse({ status: 404, description: 'Пользователь не найден' })
+	@ApiCookieAuth()
+	@UseGuards(AuthGuard)
 	@Patch(':id')
 	public async update(@Param('id') id: string, @Body() updateDto: UpdateUserDto): Promise<UserEntity> {
 		const { login, password } = updateDto;
@@ -68,6 +73,8 @@ export class UsersController implements ICrudController<UserEntity, CreateUserDt
 	@ApiParam({ name: 'id', description: 'Идентификатор пользователя', example: 1 })
 	@ApiResponse({ status: 200, description: 'Успешное удаление', type: UserEntity })
 	@ApiResponse({ status: 404, description: 'Пользователь не найден' })
+	@ApiCookieAuth()
+	@UseGuards(AuthGuard)
 	@Delete(':id')
 	public async delete(@Param('id') id: string): Promise<UserEntity> {
 		return this.commandBus.execute(new DeleteUserCommand(+id));
