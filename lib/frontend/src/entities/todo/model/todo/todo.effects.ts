@@ -1,7 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, map, of } from 'rxjs';
-import { todoActions, todoApiActions, TodoApiService } from '@entities/todo';
+import { todoActions, todoApiActions } from './todo.actions';
+import { TodoApiService } from '../../api';
 
 @Injectable()
 export class TodoEffects {

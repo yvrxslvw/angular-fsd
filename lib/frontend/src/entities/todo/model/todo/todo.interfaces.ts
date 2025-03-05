@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Todo } from '@entities/todo';
+import { Todo } from './todo.model';
 
 export interface IGetAllSuccess {
 	todos: Todo.Entity[];

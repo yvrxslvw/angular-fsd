@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { Todo, todoActions, todoApiActions } from '@entities/todo';
+import { todoActions, todoApiActions } from './todo.actions';
+import { Todo } from './todo.model';
 
 const initialState: Todo.State = {
 	error: null,

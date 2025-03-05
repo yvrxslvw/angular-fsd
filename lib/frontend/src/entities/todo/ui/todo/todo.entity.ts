@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { Todo } from '@entities/todo';
+import { Todo } from '../../model';
 
 @Component({
 	selector: 'fsd-todo-entity',
