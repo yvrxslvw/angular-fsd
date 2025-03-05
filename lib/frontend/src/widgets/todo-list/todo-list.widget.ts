@@ -3,6 +3,7 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs';
+import { cartApiActions } from '@entities/cart';
 import { selectTodos, Todo, todoApiActions, TodoEntity } from '@entities/todo';
 import { TodoDeleteFeature, TodoToggleCompletedFeature } from '@features/todo';
 
@@ -28,6 +29,7 @@ export class TodoListWidget {
 		});
 
 		this.#store.dispatch(todoApiActions.getAll());
+		this.#store.dispatch(cartApiActions.get({ ogo: 'hi' }));
 
 		this.#store
 			.select(selectTodos)

@@ -6,6 +6,7 @@ const initialState: Account.State = {
 	error: null,
 	account: null,
 	selectedCompanyId: null,
+	//selectedCompanyId: '12345',
 };
 
 export const accountReducer = createReducer(initialState);
