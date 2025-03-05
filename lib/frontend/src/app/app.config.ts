@@ -3,6 +3,8 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
+import { cartReducer } from '@entities/cart';
+import { CartEffects } from '@entities/cart/model/cart.effects';
 import { TodoEffects, todoReducer } from '@entities/todo';
 import { environment } from '@shared/environments';
 import { AppStore } from '@shared/interfaces';
@@ -16,8 +18,9 @@ export const appConfig: ApplicationConfig = {
 		provideRouter(routes),
 		provideStore<AppStore>({
 			todo: todoReducer,
+			cart: cartReducer,
 		}),
-		provideEffects([TodoEffects]),
+		provideEffects([TodoEffects, CartEffects]),
 
 		{
 			provide: API_URL,
