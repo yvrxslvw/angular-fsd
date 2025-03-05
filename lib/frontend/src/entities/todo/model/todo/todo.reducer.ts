@@ -16,7 +16,7 @@ export const todoReducer = createReducer(
 		todoApiActions.getAllError,
 		(state, { error }): Todo.State => ({
 			...state,
-			error: error.message,
+			error,
 			isLoading: false,
 		}),
 	),

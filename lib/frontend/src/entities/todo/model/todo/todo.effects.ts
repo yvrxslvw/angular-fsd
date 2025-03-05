@@ -29,7 +29,7 @@ export class TodoEffects {
 		return exhaustMap(() =>
 			this.#todoApiService.getAll().pipe(
 				map((todos) => todoApiActions.getAllSuccess({ todos })),
-				catchError((error) => of(todoApiActions.getAllError({ error }))),
+				catchError((error) => of(todoApiActions.getAllError({ error: error.message }))),
 			),
 		);
 	}

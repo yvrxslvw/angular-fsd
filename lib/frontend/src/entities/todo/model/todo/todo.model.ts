@@ -55,4 +55,23 @@ export namespace Todo {
 			export type Response = Entity;
 		}
 	}
+
+	export namespace Actions {
+		export interface GetAllSuccess {
+			todos: Entity[];
+		}
+
+		export interface GetAllError {
+			error: string;
+		}
+
+		export interface ToggleCompleted {
+			id: number;
+			completed: boolean;
+		}
+
+		export interface Delete {
+			id: number;
+		}
+	}
 }
