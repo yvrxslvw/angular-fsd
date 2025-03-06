@@ -3,10 +3,10 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
-import { TodoEffects, todoReducer } from '@entities/todo';
+import { TodosEffects } from '@entities/todo';
 import { environment } from '@shared/environments';
-import { AppStore } from '@shared/interfaces';
 import { API_URL } from '@shared/tokens';
+import { AppStore } from './app-store';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -14,10 +14,8 @@ export const appConfig: ApplicationConfig = {
 		provideZoneChangeDetection({ eventCoalescing: true }),
 		provideHttpClient(withInterceptorsFromDi()),
 		provideRouter(routes),
-		provideStore<AppStore>({
-			todo: todoReducer,
-		}),
-		provideEffects([TodoEffects]),
+		provideStore<AppStore>({}),
+		provideEffects([TodosEffects]),
 
 		{
 			provide: API_URL,

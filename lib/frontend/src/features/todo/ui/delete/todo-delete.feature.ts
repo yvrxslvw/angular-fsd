@@ -1,6 +1,6 @@
 import { Component, inject, input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Todo, todoActions } from '@entities/todo';
+import { Todo, todosActions } from '@entities/todo';
 
 @Component({
 	selector: 'fsd-todo-delete-feature',
@@ -13,6 +13,6 @@ export class TodoDeleteFeature {
 	public todo$$ = input.required<Todo.Entity>({ alias: 'todo' });
 
 	protected handleClick() {
-		this.#store.dispatch(todoActions.delete({ id: this.todo$$().id }));
+		this.#store.dispatch(todosActions.delete({ id: this.todo$$().id }));
 	}
 }

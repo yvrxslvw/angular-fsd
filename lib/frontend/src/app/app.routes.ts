@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { provideState } from '@ngrx/store';
+import { todosSlice } from '@entities/todo';
 import { MainLayoutWidget } from '@widgets/main-layout';
 
 export const routes: Routes = [
@@ -20,6 +22,7 @@ export const routes: Routes = [
 				title: 'Список дел',
 				path: 'todos',
 				loadComponent: () => import('../pages/todos').then((c) => c.TodosPage),
+				providers: [provideState(todosSlice)],
 			},
 
 			{

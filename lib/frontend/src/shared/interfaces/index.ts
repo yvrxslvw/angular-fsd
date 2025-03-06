@@ -1,1 +1,1 @@
-export type { AppStore } from './app-store';
+export {};

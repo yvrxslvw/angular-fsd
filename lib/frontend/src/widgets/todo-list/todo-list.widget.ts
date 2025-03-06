@@ -3,7 +3,7 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs';
-import { selectTodos, Todo, todoApiActions, TodoEntity } from '@entities/todo';
+import { Todo, todosApiActions, TodoEntity, todosSlice } from '@entities/todo';
 import { TodoDeleteFeature, TodoToggleCompletedFeature } from '@features/todo';
 
 @Component({
@@ -27,10 +27,10 @@ export class TodoListWidget {
 			this.error$.complete();
 		});
 
-		this.#store.dispatch(todoApiActions.getAll());
+		this.#store.dispatch(todosApiActions.getAll.request());
 
 		this.#store
-			.select(selectTodos)
+			.select(todosSlice.selectTodosState)
 			.pipe(takeUntilDestroyed(this.#destroyRef))
 			.subscribe((state) => {
 				this.todos$.next(state.todos);

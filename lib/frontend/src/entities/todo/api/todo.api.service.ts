@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { API_URL } from '@shared/tokens';
-import { Todo } from '../../model';
+import { Todo } from '../model';
 
 @Injectable({
 	providedIn: 'root',

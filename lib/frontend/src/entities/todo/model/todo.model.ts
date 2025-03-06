@@ -56,12 +56,12 @@ export namespace Todo {
 		}
 	}
 
-	export namespace Actions {
-		export interface GetAllSuccess {
+	export namespace Action {
+		export interface GetAllFulfilled {
 			todos: Entity[];
 		}
 
-		export interface GetAllError {
+		export interface GetAllRejected {
 			error: string;
 		}
 
