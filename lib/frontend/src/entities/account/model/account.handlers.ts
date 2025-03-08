@@ -37,3 +37,40 @@ export const loginHandlers = {
 		account: null,
 	})) as AccountActionHandler<Account.Action.Login.Reject>,
 };
+
+export const registerHandlers = {
+	request: ((state) => ({
+		...state,
+		isLoading: true,
+	})) as AccountActionHandler<Account.Action.Register.Request>,
+	fulfill: ((_, { account }) => ({
+		isLogged: true,
+		isLoading: false,
+		error: null,
+		account,
+	})) as AccountActionHandler<Account.Action.Register.Fulfill>,
+	reject: ((_, { error }) => ({
+		isLogged: false,
+		isLoading: false,
+		error,
+		account: null,
+	})) as AccountActionHandler<Account.Action.Register.Reject>,
+};
+
+export const logoutHandlers = {
+	request: ((state) => ({
+		...state,
+		isLoading: true,
+	})) as AccountActionHandler,
+	fulfill: ((_) => ({
+		isLogged: false,
+		isLoading: false,
+		error: null,
+		account: null,
+	})) as AccountActionHandler,
+	reject: ((state, { error }) => ({
+		...state,
+		isLoading: false,
+		error,
+	})) as AccountActionHandler<Account.Action.Logout.Reject>,
+};

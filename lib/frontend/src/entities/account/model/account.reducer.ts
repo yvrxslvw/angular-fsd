@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { accountApiActions } from './account.actions';
-import { getHandlers, loginHandlers } from './account.handlers';
+import { getHandlers, loginHandlers, logoutHandlers, registerHandlers } from './account.handlers';
 import { Account } from './account.model';
 
 const initialState: Account.State = {
@@ -20,5 +20,13 @@ export const accountReducer = createReducer(
 	on(accountApiActions.login.fulfill, loginHandlers.fulfill),
 	on(accountApiActions.login.reject, loginHandlers.reject),
 
+	on(accountApiActions.register.request, registerHandlers.request),
+	on(accountApiActions.register.fulfill, registerHandlers.fulfill),
+	on(accountApiActions.register.reject, registerHandlers.reject),
+
 	on(accountApiActions.refresh.request, getHandlers.request),
+
+	on(accountApiActions.logout.request, logoutHandlers.request),
+	on(accountApiActions.logout.fulfill, logoutHandlers.fulfill),
+	on(accountApiActions.logout.reject, logoutHandlers.reject),
 );

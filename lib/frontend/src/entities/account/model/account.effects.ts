@@ -37,6 +37,32 @@ export class AccountEffects {
 		),
 	);
 
+	public registerEffect$ = createEffect(() =>
+		this._actions$.pipe(
+			ofType(accountApiActions.register.request),
+			exhaustMap(({ login, password }) =>
+				this._authApiService.register({ login, password }).pipe(
+					map((account) => accountApiActions.register.fulfill({ account })),
+					catchError(({ error: { messageUI } }: BackendException) =>
+						of(accountApiActions.register.reject({ error: messageUI })),
+					),
+				),
+			),
+		),
+	);
+
+	public logoutEffect$ = createEffect(() =>
+		this._actions$.pipe(
+			ofType(accountApiActions.logout.request),
+			exhaustMap(() =>
+				this._authApiService.logout().pipe(
+					map(() => accountApiActions.logout.fulfill()),
+					catchError(({ error: { messageUI } }: BackendException) => of(accountApiActions.logout.reject({ error: messageUI }))),
+				),
+			),
+		),
+	);
+
 	public refreshEffect$ = createEffect(() =>
 		this._actions$.pipe(
 			ofType(accountApiActions.refresh.request),

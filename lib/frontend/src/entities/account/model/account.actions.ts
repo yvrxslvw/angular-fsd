@@ -18,10 +18,26 @@ export const accountApiActions = {
 			reject: props<Account.Action.Login.Reject>(),
 		},
 	}),
+	register: createActionGroup({
+		source: 'Account/Register',
+		events: {
+			request: props<Account.Action.Register.Request>(),
+			fulfill: props<Account.Action.Register.Fulfill>(),
+			reject: props<Account.Action.Register.Reject>(),
+		},
+	}),
 	refresh: createActionGroup({
 		source: 'Account/Refresh',
 		events: {
 			request: emptyProps(),
+		},
+	}),
+	logout: createActionGroup({
+		source: 'Account/Logout',
+		events: {
+			request: emptyProps(),
+			fulfill: emptyProps(),
+			reject: props<Account.Action.Logout.Reject>(),
 		},
 	}),
 };

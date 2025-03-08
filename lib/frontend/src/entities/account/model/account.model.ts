@@ -84,5 +84,26 @@ export namespace Account {
 				error: string;
 			}
 		}
+
+		export namespace Register {
+			export interface Request {
+				login: string;
+				password: string;
+			}
+
+			export interface Fulfill {
+				account: Entity;
+			}
+
+			export interface Reject {
+				error: string;
+			}
+		}
+
+		export namespace Logout {
+			export interface Reject {
+				error: string;
+			}
+		}
 	}
 }
