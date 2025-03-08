@@ -7,6 +7,12 @@ export const routes: Routes = [
 		component: MainLayoutWidget,
 		children: [
 			{
+				title: 'Angular FSD',
+				path: '',
+				loadComponent: () => import('../pages/main').then((c) => c.MainPage),
+			},
+
+			{
 				path: '**',
 				redirectTo: '/',
 			},
