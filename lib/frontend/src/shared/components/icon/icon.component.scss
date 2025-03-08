@@ -1,0 +1,21 @@
+:host {
+  position: relative;
+  display: block;
+  width: 1em;
+  height: 1em;
+  flex: 0 0 auto;
+  font-size: inherit;
+
+  &::before {
+    content: '';
+    color: inherit;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    mask: var(--icon) no-repeat center/contain;
+    mask-composite: intersect;
+    background: currentColor;
+  }
+}

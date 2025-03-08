@@ -1,11 +1,13 @@
 import { Component, inject, input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Todo, todosActions } from '@entities/todo';
+import { IconComponent } from '@shared/components';
 
 @Component({
 	selector: 'fsd-todo-toggle-completed-feature',
 	templateUrl: './todo-toggle-completed.feature.html',
 	styleUrl: './todo-toggle-completed.feature.scss',
+	imports: [IconComponent],
 })
 export class TodoToggleCompletedFeature {
 	readonly #store = inject(Store);

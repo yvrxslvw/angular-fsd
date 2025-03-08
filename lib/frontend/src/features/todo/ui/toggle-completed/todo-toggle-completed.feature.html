@@ -1,1 +1,3 @@
-<button (click)="handleClick()">Пометить как {{ todo$$().completed ? 'не выполненное' : 'выполненное' }}</button>
+<button (click)="handleClick()">
+	<fsd-icon [icon]="todo$$().completed ? 'x' : 'check'" />
+</button>
