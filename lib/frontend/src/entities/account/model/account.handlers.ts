@@ -3,37 +3,37 @@ import { Account } from './account.model';
 
 type AccountActionHandler<P = {}> = ActionHandler<Account.State, P>;
 
-export const getRequestHandler: AccountActionHandler = (state) => ({ ...state, isLoading: true });
+export const getHandlers = {
+	request: ((state) => ({ ...state, isLoading: true })) as AccountActionHandler,
+	fulfill: ((_, { account }) => ({
+		isLogged: true,
+		isLoading: false,
+		error: null,
+		account,
+	})) as AccountActionHandler<Account.Action.Get.Fulfill>,
+	reject: ((state) => ({
+		...state,
+		isLogged: false,
+		isLoading: false,
+		account: null,
+	})) as AccountActionHandler,
+};
 
-export const getFulfillHandler: AccountActionHandler<Account.Action.Get.Fulfill> = (_, { account }) => ({
-	isLogged: true,
-	isLoading: false,
-	error: null,
-	account,
-});
-
-export const getRejectHandler: AccountActionHandler = (state) => ({
-	...state,
-	isLogged: false,
-	isLoading: false,
-	account: null,
-});
-
-export const loginRequestHandler: AccountActionHandler<Account.Action.Login.Request> = (state) => ({
-	...state,
-	isLoading: true,
-});
-
-export const loginFulfillHandler: AccountActionHandler<Account.Action.Login.Fulfill> = (_, { account }) => ({
-	isLogged: true,
-	isLoading: false,
-	error: null,
-	account,
-});
-
-export const loginRejectHandler: AccountActionHandler<Account.Action.Login.Reject> = (_, { error }) => ({
-	isLogged: false,
-	isLoading: false,
-	error,
-	account: null,
-});
+export const loginHandlers = {
+	request: ((state) => ({
+		...state,
+		isLoading: true,
+	})) as AccountActionHandler<Account.Action.Login.Request>,
+	fulfill: ((_, { account }) => ({
+		isLogged: true,
+		isLoading: false,
+		error: null,
+		account,
+	})) as AccountActionHandler<Account.Action.Login.Fulfill>,
+	reject: ((_, { error }) => ({
+		isLogged: false,
+		isLoading: false,
+		error,
+		account: null,
+	})) as AccountActionHandler<Account.Action.Login.Reject>,
+};

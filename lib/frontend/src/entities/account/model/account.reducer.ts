@@ -1,13 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { accountApiActions } from './account.actions';
-import {
-	getFulfillHandler,
-	getRejectHandler,
-	getRequestHandler,
-	loginFulfillHandler,
-	loginRejectHandler,
-	loginRequestHandler,
-} from './account.handlers';
+import { getHandlers, loginHandlers } from './account.handlers';
 import { Account } from './account.model';
 
 const initialState: Account.State = {
@@ -19,13 +12,13 @@ const initialState: Account.State = {
 
 export const accountReducer = createReducer(
 	initialState,
-	on(accountApiActions.get.request, getRequestHandler),
-	on(accountApiActions.get.fulfill, getFulfillHandler),
-	on(accountApiActions.get.reject, getRejectHandler),
+	on(accountApiActions.get.request, getHandlers.request),
+	on(accountApiActions.get.fulfill, getHandlers.fulfill),
+	on(accountApiActions.get.reject, getHandlers.reject),
 
-	on(accountApiActions.login.request, loginRequestHandler),
-	on(accountApiActions.login.fulfill, loginFulfillHandler),
-	on(accountApiActions.login.reject, loginRejectHandler),
+	on(accountApiActions.login.request, loginHandlers.request),
+	on(accountApiActions.login.fulfill, loginHandlers.fulfill),
+	on(accountApiActions.login.reject, loginHandlers.reject),
 
-	on(accountApiActions.refresh.request, getRequestHandler),
+	on(accountApiActions.refresh.request, getHandlers.request),
 );
