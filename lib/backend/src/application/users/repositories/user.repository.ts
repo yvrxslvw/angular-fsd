@@ -212,4 +212,78 @@ export class UserRepository extends PrismaClient implements ICrudRepository<User
 			},
 		});
 	}
+
+	public async addRole(userId: number, roleId: number): Promise<UserEntity> {
+		return this.user.update({
+			where: { id: userId },
+			data: {
+				roles: {
+					connect: {
+						id: roleId,
+					},
+				},
+			},
+			select: {
+				id: true,
+				login: true,
+				posts: {
+					select: {
+						id: true,
+						title: true,
+						content: true,
+						createdAt: true,
+						updatedAt: true,
+					},
+				},
+				roles: {
+					select: {
+						id: true,
+						tag: true,
+						name: true,
+						createdAt: true,
+						updatedAt: true,
+					},
+				},
+				createdAt: true,
+				updatedAt: true,
+			},
+		});
+	}
+
+	public async removeRole(userId: number, roleId: number): Promise<UserEntity> {
+		return this.user.update({
+			where: { id: userId },
+			data: {
+				roles: {
+					disconnect: {
+						id: roleId,
+					},
+				},
+			},
+			select: {
+				id: true,
+				login: true,
+				posts: {
+					select: {
+						id: true,
+						title: true,
+						content: true,
+						createdAt: true,
+						updatedAt: true,
+					},
+				},
+				roles: {
+					select: {
+						id: true,
+						tag: true,
+						name: true,
+						createdAt: true,
+						updatedAt: true,
+					},
+				},
+				createdAt: true,
+				updatedAt: true,
+			},
+		});
+	}
 }
