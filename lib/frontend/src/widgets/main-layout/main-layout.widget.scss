@@ -2,39 +2,43 @@
 @use 'colors' as *;
 
 :host {
-	width: 100%;
-	min-height: 100vh;
-	overflow: hidden;
-	display: flex;
-	flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 
-	header {
-		padding: 25px 0;
+  header {
+    padding: 25px 0;
 
-		.container {
-			@include container;
+    .container {
+      @include container;
 
-			nav {
-				display: flex;
-				align-items: center;
-				gap: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-				a {
-					font-size: 24px;
-					font-weight: 700;
-					color: $color_black;
-					text-decoration: none;
-				}
-			}
-		}
-	}
+      nav {
+        display: flex;
+        align-items: center;
+        gap: 25px;
 
-	main {
-		flex-grow: 1;
-	}
+        a {
+          font-size: 24px;
+          font-weight: 700;
+          color: $color_black;
+          text-decoration: none;
+        }
+      }
+    }
+  }
 
-	footer {
-		padding: 25px 0;
-		background: $color_black;
-	}
+  main {
+    flex-grow: 1;
+  }
+
+  footer {
+    padding: 25px 0;
+    background: $color_black;
+  }
 }
