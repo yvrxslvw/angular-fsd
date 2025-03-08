@@ -1,3 +1,5 @@
+import { Request } from 'express';
+
 export class GetProfileQuery {
-	constructor() {}
+	constructor(public request: Request) {}
 }

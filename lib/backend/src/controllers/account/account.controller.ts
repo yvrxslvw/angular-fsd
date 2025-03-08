@@ -1,9 +1,10 @@
 import { GetProfileQuery } from '@domains/account';
 import { UserEntity } from '@domains/user';
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiCookieAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@shared/guards';
+import { Request } from 'express';
 
 @ApiTags('Аккаунт')
 @Controller('account')
@@ -19,7 +20,7 @@ export class AccountController {
 	@ApiCookieAuth()
 	@UseGuards(AuthGuard)
 	@Get()
-	public async getProfile() {
-		return this.queryBus.execute(new GetProfileQuery());
+	public async getProfile(@Req() request: Request) {
+		return this.queryBus.execute(new GetProfileQuery(request));
 	}
 }
