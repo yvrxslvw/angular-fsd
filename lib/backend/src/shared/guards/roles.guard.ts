@@ -22,9 +22,11 @@ export class RolesGuard implements CanActivate {
 		try {
 			const payload = await this.jwtService.verifyAsync<IAccessTokenPayload>(accessToken);
 			request['user'] = payload;
-			return payload.roles.some((role) => requiredRoles.includes(role));
+			if (!payload.roles.some((role) => requiredRoles.includes(role)))
+				throw new BackendException(HttpStatus.FORBIDDEN, 'Недостаточно прав');
 		} catch {
 			throw new BackendException(HttpStatus.FORBIDDEN, 'Недостаточно прав');
 		}
+		return true;
 	}
 }
