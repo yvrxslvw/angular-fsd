@@ -42,7 +42,7 @@ export class RolesController implements ICrudController<RoleEntity, CreateRoleDt
 	@ApiQuery({ name: 'limit', description: 'Лимит данных', type: 'number', required: false })
 	@ApiQuery({ name: 'order', description: 'Ключ для сортировки', enum: RoleKey, required: false })
 	@ApiQuery({ name: 'direction', description: 'Направление для сортировки', enum: SortDirection, required: false })
-	@ApiQuery({ name: 'search', description: 'Поиск по логину', type: 'string', required: false })
+	@ApiQuery({ name: 'search', description: 'Поиск по тегу или названию', type: 'string', required: false })
 	@ApiResponse({ status: 200, description: 'Успешное получение', type: [RoleEntity] })
 	@ApiCookieAuth()
 	@UseGuards(RolesGuard)
