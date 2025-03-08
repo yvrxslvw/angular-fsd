@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, map, of } from 'rxjs';
+import { BackendException } from '@shared/interfaces';
 import { AccountApiService, AuthApiService } from '../api';
 import { accountApiActions } from './account.actions';
 
@@ -19,6 +20,18 @@ export class AccountEffects {
 				this._accountApiService.get().pipe(
 					map((account) => accountApiActions.get.fulfill({ account })),
 					catchError(() => of(accountApiActions.get.reject())),
+				),
+			),
+		),
+	);
+
+	public loginEffect$ = createEffect(() =>
+		this._actions$.pipe(
+			ofType(accountApiActions.login.request),
+			exhaustMap(({ login, password, rememberMe }) =>
+				this._authApiService.login({ login, password, rememberMe }).pipe(
+					map((account) => accountApiActions.login.fulfill({ account })),
+					catchError(({ error: { messageUI } }: BackendException) => of(accountApiActions.login.reject({ error: messageUI }))),
 				),
 			),
 		),

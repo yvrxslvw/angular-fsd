@@ -25,6 +25,7 @@ export namespace Account {
 	export interface State {
 		isLogged: boolean;
 		isLoading: boolean;
+		error: string | null;
 		account: Entity | null;
 	}
 
@@ -65,6 +66,22 @@ export namespace Account {
 		export namespace Get {
 			export interface Fulfill {
 				account: Entity;
+			}
+		}
+
+		export namespace Login {
+			export interface Request {
+				login: string;
+				password: string;
+				rememberMe: boolean;
+			}
+
+			export interface Fulfill {
+				account: Entity;
+			}
+
+			export interface Reject {
+				error: string;
 			}
 		}
 	}

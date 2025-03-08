@@ -10,6 +10,14 @@ export const accountApiActions = {
 			reject: emptyProps(),
 		},
 	}),
+	login: createActionGroup({
+		source: 'Account/Login',
+		events: {
+			request: props<Account.Action.Login.Request>(),
+			fulfill: props<Account.Action.Login.Fulfill>(),
+			reject: props<Account.Action.Login.Reject>(),
+		},
+	}),
 	refresh: createActionGroup({
 		source: 'Account/Refresh',
 		events: {

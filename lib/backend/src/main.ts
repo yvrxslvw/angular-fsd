@@ -8,7 +8,7 @@ import { generateSwagger } from '@shared/swagger';
 import { AppModule } from './app.module';
 
 const bootstrap = async () => {
-	const app = await NestFactory.create(AppModule, { cors: { origin: AppConfig.frontendUrl } });
+	const app = await NestFactory.create(AppModule, { cors: { origin: AppConfig.frontendUrl, credentials: true } });
 
 	app.setGlobalPrefix('/api');
 	app.useGlobalPipes(

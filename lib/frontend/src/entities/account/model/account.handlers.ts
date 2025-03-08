@@ -8,7 +8,32 @@ export const getRequestHandler: AccountActionHandler = (state) => ({ ...state, i
 export const getFulfillHandler: AccountActionHandler<Account.Action.Get.Fulfill> = (_, { account }) => ({
 	isLogged: true,
 	isLoading: false,
+	error: null,
 	account,
 });
 
-export const getRejectHandler: AccountActionHandler = () => ({ isLogged: false, isLoading: false, account: null });
+export const getRejectHandler: AccountActionHandler = (state) => ({
+	...state,
+	isLogged: false,
+	isLoading: false,
+	account: null,
+});
+
+export const loginRequestHandler: AccountActionHandler<Account.Action.Login.Request> = (state) => ({
+	...state,
+	isLoading: true,
+});
+
+export const loginFulfillHandler: AccountActionHandler<Account.Action.Login.Fulfill> = (_, { account }) => ({
+	isLogged: true,
+	isLoading: false,
+	error: null,
+	account,
+});
+
+export const loginRejectHandler: AccountActionHandler<Account.Action.Login.Reject> = (_, { error }) => ({
+	isLogged: false,
+	isLoading: false,
+	error,
+	account: null,
+});
