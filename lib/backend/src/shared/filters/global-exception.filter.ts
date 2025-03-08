@@ -20,12 +20,14 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 	): IException {
 		if (exception instanceof HttpException) {
 			return {
+				dateTime: new Date(),
 				endpoint: `${request.method} ${request.url}`,
 				status: exception.getStatus(),
 				messageUI: exception.message,
 			};
 		} else if (exception instanceof ValidationException) {
 			return {
+				dateTime: new Date(),
 				endpoint: `${request.method} ${request.url}`,
 				status: HttpStatus.BAD_REQUEST,
 				messageUI: 'Ошибка валидации',
@@ -33,6 +35,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 			};
 		} else if (exception instanceof BackendException) {
 			return {
+				dateTime: new Date(),
 				endpoint: `${request.method} ${request.url}`,
 				status: exception.status,
 				messageUI: exception.messageUI,
@@ -42,6 +45,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 		} else if (exception instanceof Error) {
 			console.error(exception);
 			return {
+				dateTime: new Date(),
 				endpoint: `${request.method} ${request.url}`,
 				status: HttpStatus.INTERNAL_SERVER_ERROR,
 				messageUI: 'Произошла непредвиденная ошибка',
@@ -51,6 +55,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 		} else {
 			console.error(exception);
 			return {
+				dateTime: new Date(),
 				endpoint: `${request.method} ${request.url}`,
 				status: HttpStatus.INTERNAL_SERVER_ERROR,
 				messageUI: 'Произошла непредвиденная ошибка',
