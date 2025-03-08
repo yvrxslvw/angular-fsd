@@ -1,7 +1,7 @@
-import { RoleRepository } from '@application/roles/repositories';
-import { DeleteRoleCommand, RoleEntity } from '@domains/role';
 import { HttpStatus } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { RoleRepository } from '@application/roles/repositories';
+import { DeleteRoleCommand, RoleEntity } from '@domains/role';
 import { BackendException } from '@shared/exceptions';
 
 @CommandHandler(DeleteRoleCommand)

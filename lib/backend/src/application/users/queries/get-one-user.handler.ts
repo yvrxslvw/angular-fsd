@@ -1,6 +1,6 @@
-import { GetOneUserQuery, UserEntity } from '@domains/user';
 import { HttpStatus } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
+import { GetOneUserQuery, UserEntity } from '@domains/user';
 import { BackendException } from '@shared/exceptions';
 import { UserRepository } from '../repositories';
 

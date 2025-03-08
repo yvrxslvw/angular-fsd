@@ -1,6 +1,6 @@
-import { CreateRoleCommand, RoleEntity } from '@domains/role';
 import { HttpStatus } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CreateRoleCommand, RoleEntity } from '@domains/role';
 import { BackendException } from '@shared/exceptions';
 import { RoleRepository } from '../repositories';
 

@@ -1,5 +1,5 @@
-import { RoleEntity, RoleKey } from '@domains/role';
 import { PrismaClient } from '@prisma/client';
+import { RoleEntity, RoleKey } from '@domains/role';
 import { SortDirection } from '@shared/enums';
 import { ICrudRepository } from '@shared/interfaces';
 

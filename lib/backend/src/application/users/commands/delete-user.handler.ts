@@ -1,6 +1,6 @@
-import { DeleteUserCommand, UserEntity } from '@domains/user';
 import { HttpStatus } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { DeleteUserCommand, UserEntity } from '@domains/user';
 import { BackendException } from '@shared/exceptions';
 import { UserRepository } from '../repositories';
 

@@ -1,7 +1,7 @@
-import { GetOneRoleQuery } from '@domains/role';
-import { AddUserRoleCommand, GetOneUserQuery, UserEntity } from '@domains/user';
 import { HttpStatus } from '@nestjs/common';
 import { CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
+import { GetOneRoleQuery } from '@domains/role';
+import { AddUserRoleCommand, GetOneUserQuery, UserEntity } from '@domains/user';
 import { BackendException } from '@shared/exceptions';
 import { UserRepository } from '../repositories';
 

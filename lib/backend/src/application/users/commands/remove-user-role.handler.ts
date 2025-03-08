@@ -1,6 +1,6 @@
-import { GetOneUserQuery, RemoveUserRoleCommand, UserEntity } from '@domains/user';
 import { HttpStatus } from '@nestjs/common';
 import { CommandHandler, ICommandHandler, QueryBus } from '@nestjs/cqrs';
+import { GetOneUserQuery, RemoveUserRoleCommand, UserEntity } from '@domains/user';
 import { BackendException } from '@shared/exceptions';
 import { UserRepository } from '../repositories';
 

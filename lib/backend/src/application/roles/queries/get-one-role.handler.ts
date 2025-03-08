@@ -1,7 +1,7 @@
-import { RoleRepository } from '@application/roles/repositories';
-import { GetOneRoleQuery, RoleEntity } from '@domains/role';
 import { HttpStatus } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
+import { RoleRepository } from '@application/roles/repositories';
+import { GetOneRoleQuery, RoleEntity } from '@domains/role';
 import { BackendException } from '@shared/exceptions';
 
 @QueryHandler(GetOneRoleQuery)
