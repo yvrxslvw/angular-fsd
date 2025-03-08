@@ -94,6 +94,27 @@ export class RoleRepository extends PrismaClient implements ICrudRepository<Role
 		});
 	}
 
+	public async getOneByTag(tag: string): Promise<RoleEntity | null> {
+		return this.role.findUnique({
+			where: { tag },
+			select: {
+				id: true,
+				tag: true,
+				name: true,
+				users: {
+					select: {
+						id: true,
+						login: true,
+						createdAt: true,
+						updatedAt: true,
+					},
+				},
+				createdAt: true,
+				updatedAt: true,
+			},
+		});
+	}
+
 	public async update(id: number, tag?: string, name?: string): Promise<RoleEntity> {
 		return this.role.update({
 			where: { id },
