@@ -32,6 +32,33 @@ export namespace Account {
 		export namespace Get {
 			export type Response = Entity;
 		}
+
+		export namespace Login {
+			export interface Body {
+				login: string;
+				password: string;
+				rememberMe: boolean;
+			}
+
+			export type Response = Entity;
+		}
+
+		export namespace Register {
+			export interface Body {
+				login: string;
+				password: string;
+			}
+
+			export type Response = Entity;
+		}
+
+		export namespace Refresh {
+			export type Response = Entity;
+		}
+
+		export namespace Logout {
+			export type Response = Entity;
+		}
 	}
 
 	export namespace Action {

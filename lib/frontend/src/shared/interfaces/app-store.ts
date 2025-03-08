@@ -1,4 +1,4 @@
-import { Account } from '@entities/account/model';
+import { Account } from '@entities/account';
 
 export interface AppStore {
 	account: Account.State;

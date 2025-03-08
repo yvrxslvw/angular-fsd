@@ -10,3 +10,5 @@ export const getFulfillHandler: AccountActionHandler<Account.Action.Get.Fulfill>
 	isLoading: false,
 	account,
 });
+
+export const getRejectHandler: AccountActionHandler = () => ({ isLogged: false, isLoading: false, account: null });
