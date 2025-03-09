@@ -2,10 +2,10 @@ import { AsyncPipe } from '@angular/common';
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { Account, selectAccount } from '@entities/account';
 import { Store } from '@ngrx/store';
-import { isAdminUtil } from '@shared/utils';
 import { BehaviorSubject } from 'rxjs';
+import { Account, selectAccount } from '@entities/account';
+import { isAdminUtil } from '@shared/utils';
 
 @Component({
 	selector: 'fsd-main-layout',
