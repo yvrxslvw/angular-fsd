@@ -1,1 +1,2 @@
-export { isAdminUtil } from './is-admin.util';
+export { isAdmin } from './is-admin.util';
+export { injectContext } from './inject-context.util';

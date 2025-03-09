@@ -5,7 +5,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs';
 import { Account, selectAccount } from '@entities/account';
-import { isAdminUtil } from '@shared/utils';
+import { isAdmin } from '@shared/utils';
 
 @Component({
 	selector: 'fsd-main-layout',
@@ -31,7 +31,7 @@ export class MainLayoutWidget {
 			.pipe(takeUntilDestroyed(this._destroyRef))
 			.subscribe((account) => {
 				this.account$.next(account);
-				if (account) this.isAdmin$.next(isAdminUtil(account));
+				if (account) this.isAdmin$.next(isAdmin(account));
 			});
 	}
 }

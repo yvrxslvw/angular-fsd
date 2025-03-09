@@ -1,0 +1,75 @@
+:host {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: rgba(37, 37, 37, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  animation: dialog-enter .4s ease-in-out;
+
+  .window {
+    min-width: 512px;
+    max-width: 50vw;
+    min-height: 256px;
+    background: #ffffff;
+    padding: 12px 16px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+
+      h2 {
+        font-weight: 700;
+        font-size: 24px;
+      }
+
+      button {
+        border: none;
+        background: none;
+        outline: none;
+        cursor: pointer;
+        padding: 0;
+        font-size: 24px;
+      }
+    }
+
+    main {
+      flex-grow: 1;
+    }
+  }
+
+  &.closing {
+    animation: dialog-exit .4s ease-in-out;
+  }
+}
+
+@keyframes dialog-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dialog-exit {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
