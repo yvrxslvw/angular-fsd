@@ -1,4 +1,7 @@
 import { Routes } from '@angular/router';
+import { provideEffects } from '@ngrx/effects';
+import { provideState } from '@ngrx/store';
+import { UsersApiService, UsersEffects, usersSlice } from '@entities/user';
 import { adminGuard } from '@shared/guards';
 import { MainLayoutWidget } from '@widgets/main-layout';
 
@@ -16,6 +19,7 @@ export const routes: Routes = [
 				title: 'Пользователи',
 				path: 'users',
 				loadComponent: () => import('../pages/users').then((c) => c.UsersPage),
+				providers: [UsersApiService, provideState(usersSlice), provideEffects([UsersEffects])],
 			},
 			{
 				title: 'Посты',
