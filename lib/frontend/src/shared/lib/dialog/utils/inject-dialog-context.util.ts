@@ -6,4 +6,4 @@ interface Context<R, D> {
 	close: (data: R) => void;
 }
 
-export const injectContext = <R = void, D = {}>() => inject<Context<R, D>>(DIALOG_CONTEXT);
+export const injectDialogContext = <R = void, D = {}>() => inject<Context<R, D>>(DIALOG_CONTEXT);

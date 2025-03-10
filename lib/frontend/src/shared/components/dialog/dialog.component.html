@@ -1,9 +1,0 @@
-<div (click)="$event.stopPropagation()" class="window">
-	<header>
-		<h2>{{ dialog$$().title }}</h2>
-		<button (click)="handleClose()">
-			<fsd-icon icon="x" />
-		</button>
-	</header>
-	<ng-container *ngComponentOutlet="dialog$$().component; injector: dialogInjector"></ng-container>
-</div>

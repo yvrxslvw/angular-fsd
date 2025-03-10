@@ -1,0 +1,14 @@
+@let isClosing = isClosing$ | async;
+
+<div (click)="handleClickClose()" [ngClass]="{ closing: isClosing }" class="background"></div>
+<div [ngClass]="{ closing: isClosing }" class="window">
+	<header>
+		<h2>{{ dialog$$().title }}</h2>
+		<button (click)="handleClickClose()">
+			<fsd-icon icon="x" />
+		</button>
+	</header>
+	<main>
+		<ng-container #container />
+	</main>
+</div>

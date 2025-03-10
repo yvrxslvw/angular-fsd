@@ -8,6 +8,6 @@ export interface Dialog {
 	title: string;
 	component: Type<{}>;
 	closeDialog$: Subject<any>;
-	data: any;
+	data?: any;
 	injector?: Injector;
 }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { DialogPortal } from '@shared/portals';
+import { DialogPortal } from '@shared/lib';
 
 @Component({
 	selector: 'fsd-root',
