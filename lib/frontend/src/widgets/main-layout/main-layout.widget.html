@@ -13,9 +13,9 @@
 		</nav>
 		<section class="account">
 			@if (account) {
-				<button>{{ account.login }}</button>
+				<button (click)="handleClickLogout()">{{ account.login }}</button>
 			} @else {
-				<button>Войти</button>
+				<button (click)="handleClickLogin()">Войти</button>
 			}
 		</section>
 	</div>

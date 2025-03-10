@@ -1,0 +1,15 @@
+<form (ngSubmit)="handleSubmit()">
+	<label>
+		Логин
+		<input [formControl]="form.controls.login" type="text" />
+	</label>
+	<label>
+		Пароль
+		<input [formControl]="form.controls.password" type="password" />
+	</label>
+	<label class="checkbox">
+		Запомнить меня
+		<input [formControl]="form.controls.rememberMe" type="checkbox" />
+	</label>
+	<button>Войти</button>
+</form>
