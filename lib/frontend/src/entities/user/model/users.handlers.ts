@@ -27,3 +27,5 @@ export const rejectHandler: UsersActionHandler<User.Action.Reject> = (state, { e
 	isLoading: false,
 	error,
 });
+
+export const loadingHandler: UsersActionHandler = (state) => ({ ...state, isLoading: true, error: null });
