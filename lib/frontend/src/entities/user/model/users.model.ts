@@ -27,7 +27,7 @@ export namespace User {
 	export interface State {
 		isLoading: boolean;
 		error: string | null;
-		users: Entity[] | null;
+		users: Record<number, Entity>;
 	}
 
 	export namespace Api {

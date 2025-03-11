@@ -6,7 +6,7 @@ import { User } from './users.model';
 const initialState: User.State = {
 	isLoading: false,
 	error: null,
-	users: null,
+	users: {},
 };
 
 export const usersSlice = createFeature({
