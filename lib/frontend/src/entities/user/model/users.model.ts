@@ -26,6 +26,7 @@ export namespace User {
 
 	export interface State {
 		isLoading: boolean;
+		isEndOfData: boolean;
 		error: string | null;
 		users: Record<number, Entity>;
 	}
