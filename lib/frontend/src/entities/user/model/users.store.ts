@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { catchError, EMPTY, Observable, of, pipe, switchMap, tap } from 'rxjs';
+import { catchError, delay, EMPTY, Observable, of, pipe, switchMap, tap } from 'rxjs';
 import { BackendException } from '@shared/interfaces';
 import { UsersApiService } from '../api';
 import { User } from './users.model';
@@ -24,6 +24,7 @@ export class UsersStore extends ComponentStore<User.State> {
 	public readonly getAll = this.effect((request$: Observable<User.Action.GetAll>) =>
 		request$.pipe(
 			tap(() => this._setLoading()),
+			delay(1000),
 			switchMap(({ search, offset, limit, order, direction }) =>
 				this._usersApiService.getAll({ search, offset, limit, order, direction }).pipe(this._fulfillManyPipe()),
 			),

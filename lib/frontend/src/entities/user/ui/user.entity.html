@@ -1,0 +1,10 @@
+<section class="info">
+	<h4>{{ user$$().id }}. {{ user$$().login }}</h4>
+	@for (role of user$$().roles; track role.id) {
+		<span class="role">{{ role.tag }}</span>
+	}
+</section>
+<section class="features">
+	<ng-content select="[slot=edit]" />
+	<ng-content select="[slot=delete]" />
+</section>

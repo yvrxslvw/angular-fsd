@@ -1,0 +1,9 @@
+<div class="container">
+	@for (user of users$ | async; track user.id) {
+		<fsd-user-entity [user]="user">
+		</fsd-user-entity>
+	}
+	@if (isLoading$ | async) {
+		<p>Загрузка...</p>
+	}
+</div>
