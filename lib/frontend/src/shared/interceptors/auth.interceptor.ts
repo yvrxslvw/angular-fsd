@@ -9,7 +9,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
 	return next(req.clone({ withCredentials: true })).pipe(
 		catchError((error: HttpErrorResponse) => {
-			if (error.status === 401) store.dispatch(accountApiActions.refresh.request());
+			if (error.status === 401) store.dispatch(accountApiActions.refresh());
 			return throwError(() => error);
 		}),
 	);

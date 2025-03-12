@@ -3,7 +3,7 @@ import { ApplicationConfig, inject, provideAppInitializer, provideZoneChangeDete
 import { provideRouter } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore, Store } from '@ngrx/store';
-import { accountApiActions, AccountEffects, accountReducer } from '@entities/account';
+import { accountApiActions, AccountEffects, accountSlice } from '@entities/account';
 import { authInterceptor, undefinedParamsInterceptor } from '@shared/interceptors';
 import { AppStore } from '@shared/interfaces';
 import { provideApiUrl } from '@shared/providers';
@@ -16,12 +16,12 @@ export const appConfig: ApplicationConfig = {
 		provideApiUrl(),
 		provideRouter(routes),
 		provideStore<AppStore>({
-			account: accountReducer,
+			account: accountSlice.reducer,
 		}),
 		provideEffects([AccountEffects]),
 		provideAppInitializer(() => {
 			const store = inject(Store);
-			store.dispatch(accountApiActions.get.request());
+			store.dispatch(accountApiActions.get());
 		}),
 	],
 };

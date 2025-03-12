@@ -11,6 +11,6 @@ export class AccountApiService {
 	private readonly _apiUrl = inject(API_URL) + '/account';
 
 	public get() {
-		return this._httpClient.get<Account.Api.Get.Response>(`${this._apiUrl}`);
+		return this._httpClient.get<Account.Api.Response>(`${this._apiUrl}`);
 	}
 }

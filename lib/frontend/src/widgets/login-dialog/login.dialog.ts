@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { accountApiActions, selectAccountIsLogged } from '@entities/account';
+import { accountApiActions, accountSlice } from '@entities/account';
 import { injectDialogContext } from '@shared/lib';
 
 interface Form {
@@ -30,7 +30,7 @@ export class LoginDialog {
 
 	constructor() {
 		this._store
-			.select(selectAccountIsLogged)
+			.select(accountSlice.selectIsLogged)
 			.pipe(takeUntilDestroyed(this._destroyRef))
 			.subscribe((isLogged) => {
 				if (isLogged) this._dialogContext.close();
@@ -45,7 +45,7 @@ export class LoginDialog {
 		}
 
 		this._store.dispatch(
-			accountApiActions.login.request({
+			accountApiActions.login({
 				login: this.form.controls.login.value,
 				password: this.form.controls.password.value,
 				rememberMe: this.form.controls.rememberMe.value,

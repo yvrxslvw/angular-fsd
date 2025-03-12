@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs';
-import { Account, accountApiActions, selectAccount } from '@entities/account';
+import { Account, accountApiActions, accountSlice } from '@entities/account';
 import { DialogService } from '@shared/lib';
 import { isAdmin } from '@shared/utils';
 import { LoginDialog } from '@widgets/login-dialog';
@@ -31,7 +31,7 @@ export class MainLayoutWidget {
 		});
 
 		this._store
-			.select(selectAccount)
+			.select(accountSlice.selectAccount)
 			.pipe(takeUntilDestroyed(this._destroyRef))
 			.subscribe((account) => {
 				this.account$.next(account);
@@ -44,6 +44,6 @@ export class MainLayoutWidget {
 	}
 
 	protected handleClickLogout() {
-		this._store.dispatch(accountApiActions.logout.request());
+		this._store.dispatch(accountApiActions.logout());
 	}
 }

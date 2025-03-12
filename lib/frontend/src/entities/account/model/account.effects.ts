@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, map, of } from 'rxjs';
+import { catchError, EMPTY, exhaustMap, map, of } from 'rxjs';
 import { BackendException } from '@shared/interfaces';
 import { AccountApiService, AuthApiService } from '../api';
 import { accountApiActions } from './account.actions';
@@ -15,11 +15,11 @@ export class AccountEffects {
 
 	public getProfileEffect$ = createEffect(() =>
 		this._actions$.pipe(
-			ofType(accountApiActions.get.request),
+			ofType(accountApiActions.get),
 			exhaustMap(() =>
 				this._accountApiService.get().pipe(
-					map((account) => accountApiActions.get.fulfill({ account })),
-					catchError(() => of(accountApiActions.get.reject())),
+					map((account) => accountApiActions.fulfill({ account })),
+					catchError(() => EMPTY),
 				),
 			),
 		),
@@ -27,11 +27,11 @@ export class AccountEffects {
 
 	public loginEffect$ = createEffect(() =>
 		this._actions$.pipe(
-			ofType(accountApiActions.login.request),
+			ofType(accountApiActions.login),
 			exhaustMap(({ login, password, rememberMe }) =>
 				this._authApiService.login({ login, password, rememberMe }).pipe(
-					map((account) => accountApiActions.login.fulfill({ account })),
-					catchError(({ error: { messageUI } }: BackendException) => of(accountApiActions.login.reject({ error: messageUI }))),
+					map((account) => accountApiActions.fulfill({ account })),
+					catchError(({ error: { messageUI } }: BackendException) => of(accountApiActions.reject({ error: messageUI }))),
 				),
 			),
 		),
@@ -39,13 +39,11 @@ export class AccountEffects {
 
 	public registerEffect$ = createEffect(() =>
 		this._actions$.pipe(
-			ofType(accountApiActions.register.request),
+			ofType(accountApiActions.register),
 			exhaustMap(({ login, password }) =>
 				this._authApiService.register({ login, password }).pipe(
-					map((account) => accountApiActions.register.fulfill({ account })),
-					catchError(({ error: { messageUI } }: BackendException) =>
-						of(accountApiActions.register.reject({ error: messageUI })),
-					),
+					map((account) => accountApiActions.fulfill({ account })),
+					catchError(({ error: { messageUI } }: BackendException) => of(accountApiActions.reject({ error: messageUI }))),
 				),
 			),
 		),
@@ -53,11 +51,11 @@ export class AccountEffects {
 
 	public logoutEffect$ = createEffect(() =>
 		this._actions$.pipe(
-			ofType(accountApiActions.logout.request),
+			ofType(accountApiActions.logout),
 			exhaustMap(() =>
 				this._authApiService.logout().pipe(
-					map(() => accountApiActions.logout.fulfill()),
-					catchError(({ error: { messageUI } }: BackendException) => of(accountApiActions.logout.reject({ error: messageUI }))),
+					map(() => accountApiActions.fulfillLogout()),
+					catchError(({ error: { messageUI } }: BackendException) => of(accountApiActions.reject({ error: messageUI }))),
 				),
 			),
 		),
@@ -65,11 +63,11 @@ export class AccountEffects {
 
 	public refreshEffect$ = createEffect(() =>
 		this._actions$.pipe(
-			ofType(accountApiActions.refresh.request),
+			ofType(accountApiActions.refresh),
 			exhaustMap(() =>
 				this._authApiService.refresh().pipe(
-					map((account) => accountApiActions.get.fulfill({ account })),
-					catchError(() => of(accountApiActions.get.reject())),
+					map((account) => accountApiActions.fulfill({ account })),
+					catchError(() => EMPTY),
 				),
 			),
 		),

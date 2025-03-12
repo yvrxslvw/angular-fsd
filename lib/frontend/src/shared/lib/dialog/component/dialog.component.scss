@@ -1,95 +1,95 @@
 :host {
-  display: block;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
+	display: block;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	position: relative;
 
-  .background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: rgba(37, 37, 37, 0.5);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
+	.background {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		background: rgba(37, 37, 37, 0.5);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
 
-  .window {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    min-width: 512px;
-    max-width: 50vw;
-    background: #ffffff;
-    padding: 12px 16px;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+	.window {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		min-width: 512px;
+		max-width: 50vw;
+		background: #ffffff;
+		padding: 12px 16px;
+		border-radius: 12px;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      user-select: none;
+		header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			user-select: none;
 
-      h2 {
-        font-weight: 700;
-        font-size: 24px;
-      }
+			h2 {
+				font-weight: 700;
+				font-size: 24px;
+			}
 
-      button {
-        border: none;
-        background: none;
-        outline: none;
-        cursor: pointer;
-        padding: 0;
-        font-size: 24px;
-      }
-    }
+			button {
+				border: none;
+				background: none;
+				outline: none;
+				cursor: pointer;
+				padding: 0;
+				font-size: 24px;
+			}
+		}
 
-    main {
-      flex-grow: 1;
-      display: flex;
-    }
-  }
+		main {
+			flex-grow: 1;
+			display: flex;
+		}
+	}
 
-  .background,
-  .window {
-    animation: dialog-enter 0.4s ease-in-out forwards;
+	.background,
+	.window {
+		animation: dialog-enter 0.4s ease-in-out forwards;
 
-    &.closing {
-      animation: dialog-exit 0.4s ease-in-out forwards;
-    }
-  }
+		&.closing {
+			animation: dialog-exit 0.4s ease-in-out forwards;
+		}
+	}
 }
 
 @keyframes dialog-enter {
-  from {
-    display: none;
-    opacity: 0;
-  }
+	from {
+		display: none;
+		opacity: 0;
+	}
 
-  to {
-    display: flex;
-    opacity: 1;
-  }
+	to {
+		display: flex;
+		opacity: 1;
+	}
 }
 
 @keyframes dialog-exit {
-  from {
-    display: flex;
-    opacity: 1;
-  }
+	from {
+		display: flex;
+		opacity: 1;
+	}
 
-  to {
-    display: none;
-    opacity: 0;
-  }
+	to {
+		display: none;
+		opacity: 0;
+	}
 }
