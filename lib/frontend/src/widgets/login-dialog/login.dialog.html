@@ -1,11 +1,11 @@
 <form (ngSubmit)="handleSubmit()">
 	<label>
 		Логин
-		<input [formControl]="form.controls.login" type="text" />
+		<input [formControl]="form.controls.login" placeholder="Введите Ваш логин" type="text" />
 	</label>
 	<label>
 		Пароль
-		<input [formControl]="form.controls.password" type="password" />
+		<input [formControl]="form.controls.password" placeholder="Введите Ваш пароль" type="password" />
 	</label>
 	<label class="checkbox">
 		Запомнить меня

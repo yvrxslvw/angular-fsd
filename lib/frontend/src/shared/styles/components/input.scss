@@ -1,0 +1,14 @@
+@use 'colors' as *;
+
+input {
+  border: 1px solid $color_dark-grey;
+  outline: none;
+  background: none;
+  border-radius: .5em;
+  padding: 5px 10px;
+  color: $color_black;
+
+  &::placeholder {
+    color: $color_dark-grey;
+  }
+}

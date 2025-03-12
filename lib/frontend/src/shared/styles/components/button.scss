@@ -1,0 +1,13 @@
+@use 'colors' as *;
+
+button {
+  border: none;
+  outline: none;
+  background: $color_black;
+  cursor: pointer;
+  padding: 5px 10px;
+  color: $color_white;
+  border-radius: .5em;
+  font-size: 18px;
+  font-weight: 700;
+}
