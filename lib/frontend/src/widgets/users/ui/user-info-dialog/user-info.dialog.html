@@ -1,5 +1,7 @@
 <fsd-user-info-entity [user]="user" />
 @if (isAdmin$$ | async) {
 	<section class="buttons">
+		<fsd-edit-user-feature [user]="user" [dialog]="EditUserDialog" />
+		<fsd-delete-user-feature [user]="user" [dialog]="DeleteUserDialog" (delete)="handleDelete()" />
 	</section>
 }

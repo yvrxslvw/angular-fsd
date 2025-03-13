@@ -50,7 +50,18 @@ export class UsersStore extends ComponentStore<User.State> {
 	public readonly delete = this.effect((request$: Observable<User.Action.Delete>) =>
 		request$.pipe(
 			tap(() => this._setLoading()),
-			switchMap(({ id }) => this._usersApiService.delete({ id }).pipe(this._fulfillOnePipe())),
+			switchMap(({ id }) =>
+				this._usersApiService.delete({ id }).pipe(
+					tap((user) => {
+						return this.patchState((state) => {
+							const users = { ...state.users };
+							delete users[user.id];
+							return { ...state, isLoading: false, users };
+						});
+					}),
+					catchError(({ error: { messageUI } }: BackendException) => of(this._reject({ error: messageUI }))),
+				),
+			),
 		),
 	);
 

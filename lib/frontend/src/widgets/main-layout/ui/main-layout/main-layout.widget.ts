@@ -15,6 +15,9 @@ import { RegisterDialog } from '../register-dialog';
 	imports: [RouterOutlet, RouterLink, AsyncPipe],
 	templateUrl: './main-layout.widget.html',
 	styleUrl: './main-layout.widget.scss',
+	host: {
+		id: 'scrollWidget',
+	},
 })
 export class MainLayoutWidget {
 	private readonly _destroyRef = inject(DestroyRef);

@@ -1,6 +1,22 @@
+@let isAdmin = isAdmin$ | async;
+
 <div class="container">
 	@for (user of users$ | async; track user.id) {
 		<fsd-user-entity [user]="user" (clickLogin)="handleClickUser(user)">
+			<fsd-edit-user-feature
+				*ngIf="isAdmin"
+				slot="edit"
+				[user]="user"
+				[dialog]="EditUserDialog"
+				[isIcon]="true"
+			/>
+			<fsd-delete-user-feature
+				*ngIf="isAdmin"
+				slot="delete"
+				[user]="user"
+				[dialog]="DeleteUserDialog"
+				[isIcon]="true"
+			/>
 		</fsd-user-entity>
 	}
 	@if (isLoading$ | async) {
