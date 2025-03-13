@@ -3,6 +3,7 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, combineLatestWith, fromEvent, map, tap } from 'rxjs';
 import { UserEntity, UsersApiService, UsersStore } from '@entities/user';
+import { SortDirection } from '@shared/enums';
 
 const USERS_LIMIT = 20;
 
@@ -23,7 +24,7 @@ export class UsersListWidget {
 	//private readonly _error$ = this._usersStore.error$; // TODO: alert error
 
 	protected readonly isLoading$ = new BehaviorSubject(false);
-	protected readonly users$ = this._usersStore.users$.pipe(map((users) => Object.values(users)));
+	protected readonly users$ = this._usersStore.users$.pipe(map((users) => Object.values(users).reverse()));
 
 	constructor() {
 		this._destroyRef.onDestroy(() => {
@@ -36,7 +37,7 @@ export class UsersListWidget {
 		this._offset$
 			.pipe(
 				takeUntilDestroyed(this._destroyRef),
-				tap((offset) => this._usersStore.getAll({ offset, limit: USERS_LIMIT })),
+				tap((offset) => this._usersStore.getAll({ offset, limit: USERS_LIMIT, direction: SortDirection.DESC })),
 			)
 			.subscribe();
 
