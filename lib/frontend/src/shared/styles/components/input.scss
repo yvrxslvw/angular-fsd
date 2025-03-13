@@ -1,14 +1,38 @@
 @use 'colors' as *;
 
-input {
-  border: 1px solid $color_dark-grey;
-  outline: none;
-  background: none;
-  border-radius: .5em;
-  padding: 5px 10px;
-  color: $color_black;
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
 
-  &::placeholder {
-    color: $color_dark-grey;
+  span.required::after {
+    content: '*';
+    color: $color_red;
+  }
+
+  input {
+    border: 1px solid $color_dark-grey;
+    outline: none;
+    background: none;
+    border-radius: .5em;
+    padding: 5px 10px;
+    color: $color_black;
+
+    &::placeholder {
+      color: $color_dark-grey;
+    }
+  }
+
+  div.fake-input {
+    border: 1px solid $color_dark-grey;
+    border-radius: .5em;
+    padding: 5px 10px;
+    color: $color_black;
+  }
+
+  &.checkbox {
+    flex-direction: row-reverse;
+    align-items: center;
+    width: fit-content;
   }
 }

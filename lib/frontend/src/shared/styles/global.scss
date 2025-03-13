@@ -1,6 +1,0 @@
-@use 'colors' as *;
-
-span.required::after {
-  content: '*';
-  color: $color_red;
-}
