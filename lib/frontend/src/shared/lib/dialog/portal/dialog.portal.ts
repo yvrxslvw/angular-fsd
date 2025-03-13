@@ -25,6 +25,8 @@ export class DialogPortal {
 
 		this.dialogs$$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((dialogs) => {
 			this._isNoDialogs = !dialogs.length;
+			if (dialogs.length) document.body.style.overflow = 'hidden';
+			else document.body.style.removeProperty('overflow');
 		});
 	}
 }
