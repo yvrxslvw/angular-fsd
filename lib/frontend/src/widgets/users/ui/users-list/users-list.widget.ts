@@ -9,7 +9,6 @@ import { DeleteUserFeature, EditUserFeature } from '@features/user';
 import { SortDirection } from '@shared/enums';
 import { DialogService } from '@shared/lib';
 import { ScrollService } from '@shared/services';
-import { isAdmin } from '@shared/utils';
 import { CreateUserDialog } from '../create-user-dialog';
 import { DeleteUserDialog } from '../delete-user-dialog';
 import { EditUserDialog } from '../edit-user-dialog';
@@ -54,10 +53,10 @@ export class UsersListWidget {
 
 		// Getting user admin role
 		this._store
-			.select(accountSlice.selectAccount)
+			.select(accountSlice.selectIsAdmin)
 			.pipe(takeUntilDestroyed(this._destroyRef))
-			.subscribe((account) => {
-				this.isAdmin$.next(isAdmin(account));
+			.subscribe((isAdmin) => {
+				this.isAdmin$.next(isAdmin);
 			});
 
 		// Getting data by changing offset

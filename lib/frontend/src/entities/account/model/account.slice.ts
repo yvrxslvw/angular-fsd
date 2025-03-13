@@ -1,4 +1,5 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
+import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
+import { isAdmin } from '@shared/utils';
 import { accountApiActions } from './account.actions';
 import { fulfillHandler, fulfillLogoutHandler, loadingHandler, rejectHandler } from './account.handlers';
 import { Account } from './account.model';
@@ -24,4 +25,7 @@ export const accountSlice = createFeature({
 		on(accountApiActions.logout, loadingHandler),
 		on(accountApiActions.fulfillLogout, fulfillLogoutHandler),
 	),
+	extraSelectors: ({ selectAccount }) => ({
+		selectIsAdmin: createSelector(selectAccount, (account) => isAdmin(account)),
+	}),
 });

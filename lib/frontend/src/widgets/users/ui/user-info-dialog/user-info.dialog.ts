@@ -7,7 +7,6 @@ import { accountSlice } from '@entities/account';
 import { User, UserInfoEntity } from '@entities/user';
 import { DeleteUserFeature, EditUserFeature } from '@features/user';
 import { injectDialogContext } from '@shared/lib';
-import { isAdmin } from '@shared/utils';
 import { DeleteUserDialog } from '../delete-user-dialog';
 import { EditUserDialog } from '../edit-user-dialog';
 
@@ -38,10 +37,10 @@ export class UserInfoDialog {
 		});
 
 		this._store
-			.select(accountSlice.selectAccount)
+			.select(accountSlice.selectIsAdmin)
 			.pipe(takeUntilDestroyed(this._destroyRef))
-			.subscribe((account) => {
-				this.isAdmin$$.next(isAdmin(account));
+			.subscribe((isAdmin) => {
+				this.isAdmin$$.next(isAdmin);
 			});
 	}
 
