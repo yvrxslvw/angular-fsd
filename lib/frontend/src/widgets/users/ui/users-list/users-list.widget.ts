@@ -1,9 +1,11 @@
 import { AsyncPipe, DOCUMENT } from '@angular/common';
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, Injector } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, combineLatestWith, fromEvent, map, tap } from 'rxjs';
-import { UserEntity, UsersApiService, UsersStore } from '@entities/user';
+import { User, UserEntity, UsersApiService, UsersStore } from '@entities/user';
 import { SortDirection } from '@shared/enums';
+import { DialogService } from '@shared/lib';
+import { UserInfoDialog } from '@widgets/users';
 
 const USERS_LIMIT = 20;
 
@@ -18,6 +20,8 @@ export class UsersListWidget {
 	private readonly _destroyRef = inject(DestroyRef);
 	private readonly _usersStore = inject(UsersStore);
 	private readonly _document = inject(DOCUMENT);
+	private readonly _dialogService = inject(DialogService);
+	private readonly _injector = inject(Injector);
 
 	private readonly _offset$ = new BehaviorSubject(0);
 	private readonly _isEndOfData$ = new BehaviorSubject(false);
@@ -58,5 +62,9 @@ export class UsersListWidget {
 				if (percent < 90 || this.isLoading$.value || this._isEndOfData$.value) return;
 				this._offset$.next(this._offset$.value + USERS_LIMIT);
 			});
+	}
+
+	protected handleClickUser(user: User.Entity) {
+		this._dialogService.open(`Информация о пользователе ${user.login}`, UserInfoDialog, { user }, this._injector);
 	}
 }

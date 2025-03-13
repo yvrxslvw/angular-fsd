@@ -16,13 +16,11 @@
 
     h4 {
       font-size: 24px;
-    }
 
-    .role {
-      background: $color_dark-green;
-      color: $color_white;
-      padding: 5px;
-      border-radius: .5em;
+      span {
+        text-decoration: underline;
+        cursor: pointer;
+      }
     }
   }
 

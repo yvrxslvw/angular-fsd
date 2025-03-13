@@ -1,0 +1,38 @@
+<form>
+	<label>
+		<span>ID</span>
+		<div class="fake-input">
+			{{ user$$().id }}
+		</div>
+	</label>
+	<label>
+		<span>Логин</span>
+		<div class="fake-input">
+			{{ user$$().login }}
+		</div>
+	</label>
+	<label>
+		<span>Роли</span>
+		<div class="fake-input">
+			{{ roles }}
+		</div>
+	</label>
+	<label>
+		<span>Посты</span>
+		<div class="fake-input">
+			@if (user$$().posts.length) {
+				@for (post of user$$().posts; track post.id) {
+					<p>{{ post.title }}</p>
+				}
+			} @else {
+				<p>Нет</p>
+			}
+		</div>
+	</label>
+	<label>
+		<span>Дата регистрации</span>
+		<div class="fake-input">
+			{{ user$$().createdAt | date : 'dd.MM.yyyy HH:mm:ss' }}
+		</div>
+	</label>
+</form>

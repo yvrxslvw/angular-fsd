@@ -1,6 +1,6 @@
 <div class="container">
 	@for (user of users$ | async; track user.id) {
-		<fsd-user-entity [user]="user">
+		<fsd-user-entity [user]="user" (clickLogin)="handleClickUser(user)">
 		</fsd-user-entity>
 	}
 	@if (isLoading$ | async) {
