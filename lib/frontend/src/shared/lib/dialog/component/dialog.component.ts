@@ -17,7 +17,7 @@ export class DialogComponent implements AfterViewInit {
 	private readonly _injector = inject(Injector);
 	private readonly _dialogSystemService = inject(DialogSystemService);
 
-	@ViewChild('container', { read: ViewContainerRef, static: true })
+	@ViewChild('container', { read: ViewContainerRef })
 	private readonly _container!: ViewContainerRef;
 
 	public dialog$$ = input.required<Dialog>({ alias: 'dialog' });

@@ -51,6 +51,7 @@
 				cursor: pointer;
 				padding: 0;
 				font-size: 24px;
+				color: #252525;
 			}
 		}
 
@@ -62,10 +63,11 @@
 
 	.background,
 	.window {
-		animation: dialog-enter 0.4s ease-in-out forwards;
+		-webkit-font-smoothing: antialiased;
+		animation: dialog-enter 0.4s ease forwards;
 
 		&.closing {
-			animation: dialog-exit 0.4s ease-in-out forwards;
+			animation: dialog-exit 0.4s ease forwards;
 		}
 	}
 }

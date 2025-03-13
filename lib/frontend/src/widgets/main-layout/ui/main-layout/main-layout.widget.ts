@@ -7,7 +7,8 @@ import { BehaviorSubject } from 'rxjs';
 import { Account, accountApiActions, accountSlice } from '@entities/account';
 import { DialogService } from '@shared/lib';
 import { isAdmin } from '@shared/utils';
-import { LoginDialog } from '@widgets/login-dialog';
+import { LoginDialog } from '../login-dialog';
+import { RegisterDialog } from '../register-dialog';
 
 @Component({
 	selector: 'fsd-main-layout',
@@ -41,6 +42,10 @@ export class MainLayoutWidget {
 
 	protected handleClickLogin() {
 		this._dialogService.open('Авторизация', LoginDialog, {}, this._injector);
+	}
+
+	protected handleClickRegister() {
+		this._dialogService.open('Регистрация', RegisterDialog, {}, this._injector);
 	}
 
 	protected handleClickLogout() {
