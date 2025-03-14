@@ -1,1 +1,1 @@
-export const loginRegex = /^[a-zA-Z0-9.]{3,24}$/g;
+export const loginRegex = /^[a-z0-9.]{3,24}$/is;

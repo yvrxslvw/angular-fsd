@@ -1,15 +1,1 @@
-<form (ngSubmit)="handleSubmit()" [formGroup]="form">
-	<label>
-		<span class="required">Логин</span>
-		<input [formControl]="form.controls.login" placeholder="Придумайте логин" type="text" />
-	</label>
-	<label>
-		<span class="required">Пароль</span>
-		<input [formControl]="form.controls.password" placeholder="Придумайте пароль" type="password" />
-	</label>
-	<label>
-		<span class="required">Подтверждение пароля</span>
-		<input [formControl]="form.controls.confirmPassword" placeholder="Введите пароль ещё раз" type="password" />
-	</label>
-	<button type="submit">Зарегистрироваться</button>
-</form>
+<fsd-register-form-feature />
