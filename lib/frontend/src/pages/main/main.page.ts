@@ -2,9 +2,10 @@ import { Component, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DynamicFormGroup } from '@shared/classes';
 import { AlertService, AlertType } from '@shared/lib';
-import { loginValidator, passwordMatchingValidator, passwordValidator } from '@shared/validators';
+import { emailValidator, loginValidator, passwordMatchingValidator, passwordValidator } from '@shared/validators';
 
 interface Form {
+	email: string;
 	login: string;
 	password: string;
 	passwordConfirm: string;
@@ -23,6 +24,7 @@ export class MainPage {
 
 	protected readonly form = new DynamicFormGroup<Form>({
 		values: {
+			email: '',
 			login: 'test',
 			password: '123',
 			passwordConfirm: '321',
@@ -30,6 +32,7 @@ export class MainPage {
 			remember: false,
 		},
 		options: {
+			email: { validators: [emailValidator], disabled: true },
 			login: { validators: [Validators.required, loginValidator] },
 			password: { validators: [Validators.required, passwordValidator] },
 			passwordConfirm: { validators: [Validators.required] },
@@ -40,6 +43,7 @@ export class MainPage {
 
 	constructor() {
 		this.form.patchValue({
+			email: 'test@test.com',
 			login: 'changed',
 			password: 'Test1234$',
 			passwordConfirm: 'Test1234$',

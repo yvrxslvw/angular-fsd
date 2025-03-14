@@ -25,6 +25,7 @@ export const appConfig: ApplicationConfig = {
 		}),
 		provideValidationErrors({
 			required: 'Вы заполнили не все поля',
+			email: 'Некорректный адрес электронной почты',
 			login: 'Некорректный логин',
 			password: 'Некорректный пароль',
 			passwordConfirm: 'Пароли не совпадают',
