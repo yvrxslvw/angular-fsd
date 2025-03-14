@@ -1,32 +1,32 @@
 @use 'colors' as *;
 
 :host {
-  flex-grow: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid $color_black;
-  padding: 1em;
-  border-radius: 1em;
+	flex-grow: 1;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border: 1px solid $color_black;
+	padding: 1em;
+	border-radius: 1em;
 
-  .info {
-    display: flex;
-    align-items: center;
-    gap: .5em;
+	.info {
+		display: flex;
+		align-items: center;
+		gap: 0.5em;
 
-    h4 {
-      font-size: 24px;
+		h4 {
+			font-size: 24px;
 
-      span {
-        text-decoration: underline;
-        cursor: pointer;
-      }
-    }
-  }
+			span {
+				text-decoration: underline;
+				cursor: pointer;
+			}
+		}
+	}
 
-  .features {
-    display: flex;
-    align-items: center;
-    gap: .5em;
-  }
+	.features {
+		display: flex;
+		align-items: center;
+		gap: 0.5em;
+	}
 }

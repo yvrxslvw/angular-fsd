@@ -1,5 +1,7 @@
 <section class="info">
-	<h4>{{ user$$().id }}. <span (click)="clickLogin$$.emit()">{{ user$$().login }}</span></h4>
+	<h4>
+		{{ user$$().id }}. <span (click)="clickLogin$$.emit()">{{ user$$().login }}</span>
+	</h4>
 	@for (role of user$$().roles; track role.id) {
 		<span class="role">{{ role.tag }}</span>
 	}

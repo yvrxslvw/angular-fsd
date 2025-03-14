@@ -1,15 +1,15 @@
 :host {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
 
-  .buttons {
-    display: flex;
-    gap: 1em;
+	.buttons {
+		display: flex;
+		gap: 1em;
 
-    button {
-      flex-grow: 1;
-      flex-basis: 50%;
-    }
-  }
+		button {
+			flex-grow: 1;
+			flex-basis: 50%;
+		}
+	}
 }

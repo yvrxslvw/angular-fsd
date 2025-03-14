@@ -1,14 +1,14 @@
 @use 'mixins' as *;
 
 :host {
-  display: block;
-  padding: 25px 0;
+	display: block;
+	padding: 25px 0;
 
-  .container {
-    @include container;
+	.container {
+		@include container;
 
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-  }
+		display: flex;
+		flex-direction: column;
+		gap: 1em;
+	}
 }

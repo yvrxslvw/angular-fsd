@@ -13,10 +13,10 @@
 		</nav>
 		<section class="account">
 			@if (account) {
-				<button (click)="handleClickLogout()">{{ account.login }}</button>
+				<fsd-logout-feature [login]="account.login" />
 			} @else {
-				<button (click)="handleClickLogin()">Войти</button>
-				<button (click)="handleClickRegister()">Регистрация</button>
+				<fsd-login-feature [dialog]="LoginDialog" />
+				<fsd-register-feature [dialog]="RegisterDialog" />
 			}
 		</section>
 	</div>

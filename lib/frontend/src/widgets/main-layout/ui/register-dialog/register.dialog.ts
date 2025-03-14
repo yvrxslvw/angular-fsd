@@ -4,7 +4,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { Store } from '@ngrx/store';
 import { accountApiActions, accountSlice } from '@entities/account';
 import { injectDialogContext } from '@shared/lib';
-import { passwordMatchingValidator, passwordValidator } from '@shared/validators';
+import { loginValidator, passwordMatchingValidator, passwordValidator } from '@shared/validators';
 
 interface Form {
 	login: FormControl<string>;
@@ -25,7 +25,7 @@ export class RegisterDialog {
 
 	protected readonly form = new FormGroup<Form>(
 		{
-			login: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+			login: new FormControl('', { nonNullable: true, validators: [Validators.required, loginValidator] }),
 			password: new FormControl('', { nonNullable: true, validators: [Validators.required, passwordValidator] }),
 			confirmPassword: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
 		},

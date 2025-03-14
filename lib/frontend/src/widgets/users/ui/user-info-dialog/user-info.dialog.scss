@@ -1,16 +1,17 @@
 :host {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
 
-  .buttons {
-    display: flex;
-    gap: 1em;
+	.buttons {
+		display: flex;
+		gap: 1em;
 
-    fsd-edit-user-feature, fsd-delete-user-feature {
-      flex-grow: 1;
-      flex-basis: 50%;
-    }
-  }
+		fsd-edit-user-feature,
+		fsd-delete-user-feature {
+			flex-grow: 1;
+			flex-basis: 50%;
+		}
+	}
 }

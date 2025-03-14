@@ -1,18 +1,18 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, DestroyRef, inject, Injector } from '@angular/core';
+import { Component, DestroyRef, inject, Type } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs';
-import { Account, accountApiActions, accountSlice } from '@entities/account';
-import { DialogService } from '@shared/lib';
+import { Account, accountSlice } from '@entities/account';
+import { LoginFeature, LogoutFeature, RegisterFeature } from '@features/account';
 import { isAdmin } from '@shared/utils';
 import { LoginDialog } from '../login-dialog';
 import { RegisterDialog } from '../register-dialog';
 
 @Component({
 	selector: 'fsd-main-layout',
-	imports: [RouterOutlet, RouterLink, AsyncPipe],
+	imports: [RouterOutlet, RouterLink, AsyncPipe, LogoutFeature, LoginFeature, RegisterFeature],
 	templateUrl: './main-layout.widget.html',
 	styleUrl: './main-layout.widget.scss',
 	host: {
@@ -22,11 +22,12 @@ import { RegisterDialog } from '../register-dialog';
 export class MainLayoutWidget {
 	private readonly _destroyRef = inject(DestroyRef);
 	private readonly _store = inject(Store);
-	private readonly _dialogService = inject(DialogService);
-	private readonly _injector = inject(Injector);
 
 	protected readonly account$ = new BehaviorSubject<Account.Entity | null>(null);
 	protected readonly isAdmin$ = new BehaviorSubject(false);
+
+	protected readonly LoginDialog: Type<{}> = LoginDialog;
+	protected readonly RegisterDialog: Type<{}> = RegisterDialog;
 
 	constructor() {
 		this._destroyRef.onDestroy(() => {
@@ -41,17 +42,5 @@ export class MainLayoutWidget {
 				this.account$.next(account);
 				this.isAdmin$.next(isAdmin(account));
 			});
-	}
-
-	protected handleClickLogin() {
-		this._dialogService.open('Авторизация', LoginDialog, {}, this._injector);
-	}
-
-	protected handleClickRegister() {
-		this._dialogService.open('Регистрация', RegisterDialog, {}, this._injector);
-	}
-
-	protected handleClickLogout() {
-		this._store.dispatch(accountApiActions.logout());
 	}
 }
