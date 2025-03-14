@@ -1,20 +1,28 @@
-import { Component, input } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { AfterViewInit, Component, DestroyRef, inject, input } from '@angular/core';
+import { BehaviorSubject, first, interval } from 'rxjs';
 import { IconComponent } from '@shared/components';
 import { AlertType } from '../enums';
 import { Alert } from '../interfaces';
+import { AlertSystemService } from '../services';
 
 @Component({
 	selector: 'fsd-alert-component',
 	templateUrl: './alert.component.html',
 	styleUrl: './alert.component.scss',
-	imports: [IconComponent],
+	imports: [IconComponent, AsyncPipe],
 	host: {
 		'[style]': "'--color: ' + alertTypeColor + ';'",
 		'(click)': 'handleClickAlert()',
 	},
 })
-export class AlertComponent {
+export class AlertComponent implements AfterViewInit {
+	private readonly _destroyRef = inject(DestroyRef);
+	private readonly _alertSystemService = inject(AlertSystemService);
+
 	public readonly alert$$ = input.required<Alert>({ alias: 'alert' });
+
+	protected readonly isClosing$ = new BehaviorSubject(false);
 
 	protected get alertTypeIcon() {
 		switch (this.alert$$().type) {
@@ -38,7 +46,32 @@ export class AlertComponent {
 		}
 	}
 
+	constructor() {
+		this._destroyRef.onDestroy(() => {
+			this.isClosing$.complete();
+		});
+	}
+
+	public ngAfterViewInit() {
+		if (this.alert$$().timer > 0)
+			interval(this.alert$$().timer)
+				.pipe(first())
+				.subscribe(() => {
+					this._close();
+				});
+	}
+
 	protected handleClickAlert() {
-		console.warn('click', this.alert$$().id);
+		this._close();
+	}
+
+	private _close() {
+		this.isClosing$.next(true);
+		interval(400)
+			.pipe(first())
+			.subscribe(() => {
+				this.alert$$().closeAlert$.next();
+				this._alertSystemService.close(this.alert$$().id);
+			});
 	}
 }

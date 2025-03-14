@@ -1,2 +1,6 @@
-<fsd-icon [icon]="alertTypeIcon" />
-<h4>{{ alert$$().message }}</h4>
+@let isClosing = isClosing$ | async;
+
+<div [class]="{ alert: true, closing: isClosing }">
+	<fsd-icon [icon]="alertTypeIcon" />
+	<h4>{{ alert$$().message }}</h4>
+</div>
