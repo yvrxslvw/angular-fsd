@@ -43,7 +43,6 @@ export class MainPage {
 
 	constructor() {
 		this.form.patchValue({
-			email: 'test@test.com',
 			login: 'changed',
 			password: 'Test1234$',
 			passwordConfirm: 'Test1234$',
@@ -53,7 +52,7 @@ export class MainPage {
 	}
 
 	protected handleSubmit() {
-		const errors = this.form.validate();
+		const errors = this.form.validate({ includeDisabled: true });
 		if (errors) {
 			this._alertService.open(errors[0], AlertType.ERROR);
 			return;

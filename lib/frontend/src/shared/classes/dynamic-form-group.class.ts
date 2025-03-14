@@ -22,6 +22,8 @@ export class DynamicFormGroup<T extends Record<keyof T, unknown>> extends FormGr
 
 	// Default values by initialization (or forced)
 	private defaultValues: T = {} as T;
+	// Disabled control keys by default for validating disabled controls
+	private readonly disabledKeys: string[] = [];
 
 	// Type casting
 	override value: T = {} as T;
@@ -36,7 +38,10 @@ export class DynamicFormGroup<T extends Record<keyof T, unknown>> extends FormGr
 			const value = creation.values[key];
 			const options = creation.options?.[key] || undefined;
 			const control = new FormControl(value, options);
-			if (options?.disabled) control.disable();
+			if (options?.disabled) {
+				control.disable();
+				this.disabledKeys.push(k);
+			}
 			this.addControl(k, control);
 		});
 		// Force default values and add global validators
@@ -45,7 +50,9 @@ export class DynamicFormGroup<T extends Record<keyof T, unknown>> extends FormGr
 	}
 
 	// Validate form values based on form and control validators
-	public validate(): string[] | null {
+	// (can validate disabled form controls by passing includeDisabled option)
+	public validate(options?: { includeDisabled?: boolean }): string[] | null {
+		if (options?.includeDisabled) Object.values(this.controls).forEach((control) => (control as FormControl).enable());
 		this.markAllAsTouched();
 		this.markAsDirty();
 		const validationErrors: string[] = [];
@@ -63,6 +70,7 @@ export class DynamicFormGroup<T extends Record<keyof T, unknown>> extends FormGr
 					...Object.keys(errors).reduce((a, c) => [...a, this.validationErrors[c] || 'Некорректные данные'], validationErrors),
 				);
 		});
+		if (options?.includeDisabled) this.disabledKeys.forEach((k) => this.controls[k as keyof T].disable());
 		return validationErrors.length ? validationErrors : null;
 	}
 
