@@ -1,0 +1,24 @@
+<form (ngSubmit)="handleSubmit()">
+	<label>
+		<span>haha</span>
+		<input [formControl]="form.controls.login" type="text" />
+	</label>
+	<label>
+		<span>haha</span>
+		<input [formControl]="form.controls.password" type="password" />
+	</label>
+	<label>
+		<span>haha</span>
+		<input [formControl]="form.controls.passwordConfirm" type="password" />
+	</label>
+	<label>
+		<span>haha I'm disabled btw</span>
+		<input [formControl]="form.controls.ogoDisabled" type="text" />
+	</label>
+	<label class="checkbox">
+		<span>haha</span>
+		<input [formControl]="form.controls.remember" type="checkbox" />
+	</label>
+	<button type="submit">submit</button>
+	<button (click)="handleClickReset()" type="button">reset</button>
+</form>

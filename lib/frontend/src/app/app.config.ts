@@ -6,7 +6,7 @@ import { provideStore, Store } from '@ngrx/store';
 import { accountApiActions, AccountEffects, accountSlice } from '@entities/account';
 import { authInterceptor, backendErrorInterceptor, undefinedParamsInterceptor } from '@shared/interceptors';
 import { AppStore } from '@shared/interfaces';
-import { provideApiUrl } from '@shared/providers';
+import { provideApiUrl, provideValidationErrors } from '@shared/providers';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -21,8 +21,13 @@ export const appConfig: ApplicationConfig = {
 		provideEffects([AccountEffects]),
 		provideAppInitializer(() => {
 			const store = inject(Store);
-
 			store.dispatch(accountApiActions.get());
+		}),
+		provideValidationErrors({
+			required: 'Вы заполнили не все поля',
+			login: 'Некорректный логин',
+			password: 'Некорректный пароль',
+			passwordConfirm: 'Пароли не совпадают',
 		}),
 	],
 };
