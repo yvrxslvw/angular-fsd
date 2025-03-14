@@ -31,7 +31,9 @@ export class AccountEffects {
 			exhaustMap(({ login, password, rememberMe }) =>
 				this._authApiService.login({ login, password, rememberMe }).pipe(
 					map((account) => accountApiActions.fulfill({ account })),
-					catchError(({ error: { messageUI } }: BackendException) => of(accountApiActions.reject({ error: messageUI }))),
+					catchError(({ error: { messageUI } }: BackendException) =>
+						of(accountApiActions.reject({ error: messageUI || 'Неизвестная ошибка' })),
+					),
 				),
 			),
 		),
@@ -43,7 +45,9 @@ export class AccountEffects {
 			exhaustMap(({ login, password }) =>
 				this._authApiService.register({ login, password }).pipe(
 					map((account) => accountApiActions.fulfill({ account })),
-					catchError(({ error: { messageUI } }: BackendException) => of(accountApiActions.reject({ error: messageUI }))),
+					catchError(({ error: { messageUI } }: BackendException) =>
+						of(accountApiActions.reject({ error: messageUI || 'Неизвестная ошибка' })),
+					),
 				),
 			),
 		),
@@ -55,7 +59,9 @@ export class AccountEffects {
 			exhaustMap(() =>
 				this._authApiService.logout().pipe(
 					map(() => accountApiActions.fulfillLogout()),
-					catchError(({ error: { messageUI } }: BackendException) => of(accountApiActions.reject({ error: messageUI }))),
+					catchError(({ error: { messageUI } }: BackendException) =>
+						of(accountApiActions.reject({ error: messageUI || 'Неизвестная ошибка' })),
+					),
 				),
 			),
 		),

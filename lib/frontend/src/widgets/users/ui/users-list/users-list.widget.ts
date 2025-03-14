@@ -7,7 +7,7 @@ import { accountSlice } from '@entities/account';
 import { User, UserEntity, UsersApiService, UsersStore } from '@entities/user';
 import { DeleteUserFeature, EditUserFeature } from '@features/user';
 import { SortDirection } from '@shared/enums';
-import { DialogService } from '@shared/lib';
+import { AlertService, AlertType, DialogService } from '@shared/lib';
 import { ScrollService } from '@shared/services';
 import { CreateUserDialog } from '../create-user-dialog';
 import { DeleteUserDialog } from '../delete-user-dialog';
@@ -29,11 +29,11 @@ export class UsersListWidget {
 	private readonly _usersStore = inject(UsersStore);
 	private readonly _dialogService = inject(DialogService);
 	private readonly _injector = inject(Injector);
+	private readonly _alertService = inject(AlertService);
 	private readonly _scrollService$ = inject(ScrollService);
 
 	private readonly _offset$ = new BehaviorSubject(0);
 	private readonly _isEndOfData$ = new BehaviorSubject(false);
-	//private readonly _error$ = this._usersStore.error$; // TODO: alert error
 
 	protected readonly isLoading$ = new BehaviorSubject(false);
 	protected readonly isAdmin$ = new BehaviorSubject(false);
@@ -74,6 +74,14 @@ export class UsersListWidget {
 				this.isLoading$.next(isLoading);
 				this._isEndOfData$.next(isEnd);
 			});
+
+		// Getting users store error
+		this._usersStore.error$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((error) => {
+			if (error) {
+				this._alertService.open(error, AlertType.ERROR);
+				this._usersStore.clearError();
+			}
+		});
 
 		// Changing offset by scrolling
 		this._scrollService$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((scroll) => {

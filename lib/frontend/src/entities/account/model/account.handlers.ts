@@ -24,3 +24,5 @@ export const fulfillLogoutHandler: AccountActionHandler = (state) => ({
 	isLoading: false,
 	account: null,
 });
+
+export const clearErrorHandler: AccountActionHandler = (state) => ({ ...state, error: null });

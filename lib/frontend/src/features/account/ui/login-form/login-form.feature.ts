@@ -1,9 +1,10 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { accountApiActions, accountSlice } from '@entities/account';
 import { Store } from '@ngrx/store';
-import { injectDialogContext } from '@shared/lib';
+import { accountApiActions, accountSlice } from '@entities/account';
+import { AlertService, AlertType, injectDialogContext } from '@shared/lib';
+import { getValidationError } from '@shared/utils';
 
 interface Form {
 	login: FormControl<string>;
@@ -21,6 +22,7 @@ export class LoginFormFeature {
 	private readonly _destroyRef = inject(DestroyRef);
 	private readonly _dialogContext = injectDialogContext();
 	private readonly _store = inject(Store);
+	private readonly _alertService = inject(AlertService);
 
 	protected readonly form = new FormGroup<Form>({
 		login: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
@@ -41,6 +43,7 @@ export class LoginFormFeature {
 		if (this.form.invalid) {
 			this.form.markAllAsTouched();
 			this.form.markAsDirty();
+			this._alertService.open(getValidationError(this.form), AlertType.ERROR);
 			return;
 		}
 

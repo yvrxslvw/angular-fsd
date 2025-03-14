@@ -1,7 +1,7 @@
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 import { isAdmin } from '@shared/utils';
-import { accountApiActions } from './account.actions';
-import { fulfillHandler, fulfillLogoutHandler, loadingHandler, rejectHandler } from './account.handlers';
+import { accountActions, accountApiActions } from './account.actions';
+import { clearErrorHandler, fulfillHandler, fulfillLogoutHandler, loadingHandler, rejectHandler } from './account.handlers';
 import { Account } from './account.model';
 
 const initialState: Account.State = {
@@ -24,6 +24,8 @@ export const accountSlice = createFeature({
 		on(accountApiActions.refresh, loadingHandler),
 		on(accountApiActions.logout, loadingHandler),
 		on(accountApiActions.fulfillLogout, fulfillLogoutHandler),
+
+		on(accountActions.clearError, clearErrorHandler),
 	),
 	extraSelectors: ({ selectAccount }) => ({
 		selectIsAdmin: createSelector(selectAccount, (account) => isAdmin(account)),

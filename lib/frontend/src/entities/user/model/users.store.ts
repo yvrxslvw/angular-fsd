@@ -59,7 +59,9 @@ export class UsersStore extends ComponentStore<User.State> {
 							return { ...state, isLoading: false, users };
 						});
 					}),
-					catchError(({ error: { messageUI } }: BackendException) => of(this._reject({ error: messageUI }))),
+					catchError(({ error: { messageUI } }: BackendException) =>
+						of(this._reject({ error: messageUI || 'Неизвестная ошибка' })),
+					),
 				),
 			),
 		),
@@ -78,6 +80,8 @@ export class UsersStore extends ComponentStore<User.State> {
 			switchMap(({ id, roleId }) => this._usersApiService.removeRole({ id, roleId }).pipe(this._fulfillOnePipe())),
 		),
 	);
+
+	public readonly clearError = this.updater((state) => ({ ...state, error: null }));
 
 	constructor() {
 		super({
@@ -113,13 +117,17 @@ export class UsersStore extends ComponentStore<User.State> {
 	private readonly _fulfillOnePipe = () =>
 		pipe(
 			tap<User.Entity>((user) => this._fulfillOne({ user })),
-			catchError(({ error: { messageUI } }: BackendException) => of(this._reject({ error: messageUI }))),
+			catchError(({ error: { messageUI } }: BackendException) =>
+				of(this._reject({ error: messageUI || 'Неизвестная ошибка' })),
+			),
 		);
 
 	private readonly _fulfillManyPipe = () =>
 		pipe(
 			tap<User.Entity[]>((users) => !users.length && this._setEndOfData()),
 			tap((users) => this._fulfillMany({ users })),
-			catchError(({ error: { messageUI } }: BackendException) => of(this._reject({ error: messageUI }))),
+			catchError(({ error: { messageUI } }: BackendException) =>
+				of(this._reject({ error: messageUI || 'Неизвестная ошибка' })),
+			),
 		);
 }
