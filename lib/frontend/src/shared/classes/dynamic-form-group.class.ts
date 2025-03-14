@@ -59,7 +59,7 @@ export class DynamicFormGroup<T extends Record<keyof T, unknown>> extends FormGr
 		if (this.errors)
 			validationErrors.push(
 				...Object.keys(this.errors).reduce(
-					(a, c) => [...a, this.validationErrors[c] || 'Некорректные данные'],
+					(a, c) => [...a, this.validationErrors[c] || this.validationErrors['unknown']],
 					validationErrors,
 				),
 			);
@@ -67,7 +67,10 @@ export class DynamicFormGroup<T extends Record<keyof T, unknown>> extends FormGr
 			const errors = (c as FormControl).errors;
 			if (errors)
 				validationErrors.push(
-					...Object.keys(errors).reduce((a, c) => [...a, this.validationErrors[c] || 'Некорректные данные'], validationErrors),
+					...Object.keys(errors).reduce(
+						(a, c) => [...a, this.validationErrors[c] || this.validationErrors['unknown']],
+						validationErrors,
+					),
 				);
 		});
 		if (options?.includeDisabled) this.disabledKeys.forEach((k) => this.controls[k as keyof T].disable());
