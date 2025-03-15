@@ -1,15 +1,15 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { accountApiActions, accountSlice } from '@entities/account';
+import { DynamicFormGroup } from '@shared/classes';
 import { AlertService, AlertType, injectDialogContext } from '@shared/lib';
-import { getValidationError } from '@shared/utils';
 
 interface Form {
-	login: FormControl<string>;
-	password: FormControl<string>;
-	rememberMe: FormControl<boolean>;
+	login: string;
+	password: string;
+	rememberMe: boolean;
 }
 
 @Component({
@@ -24,10 +24,16 @@ export class LoginFormFeature {
 	private readonly _store = inject(Store);
 	private readonly _alertService = inject(AlertService);
 
-	protected readonly form = new FormGroup<Form>({
-		login: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-		password: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-		rememberMe: new FormControl(false, { nonNullable: true }),
+	protected readonly form = new DynamicFormGroup<Form>({
+		values: {
+			login: '',
+			password: '',
+			rememberMe: false,
+		},
+		options: {
+			login: { validators: [Validators.required] },
+			password: { validators: [Validators.required] },
+		},
 	});
 
 	constructor() {
@@ -40,19 +46,12 @@ export class LoginFormFeature {
 	}
 
 	protected handleSubmit() {
-		if (this.form.invalid) {
-			this.form.markAllAsTouched();
-			this.form.markAsDirty();
-			this._alertService.open(getValidationError(this.form), AlertType.ERROR);
+		const errors = this.form.validate();
+		if (errors) {
+			this._alertService.open(errors[0], AlertType.ERROR);
 			return;
 		}
 
-		this._store.dispatch(
-			accountApiActions.login({
-				login: this.form.controls.login.value,
-				password: this.form.controls.password.value,
-				rememberMe: this.form.controls.rememberMe.value,
-			}),
-		);
+		this._store.dispatch(accountApiActions.login(this.form.value));
 	}
 }

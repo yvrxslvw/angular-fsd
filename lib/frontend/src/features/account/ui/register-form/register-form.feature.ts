@@ -1,16 +1,16 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { accountApiActions, accountSlice } from '@entities/account';
+import { DynamicFormGroup } from '@shared/classes';
 import { AlertService, AlertType, injectDialogContext } from '@shared/lib';
-import { getValidationError } from '@shared/utils';
 import { loginValidator, passwordMatchingValidator, passwordValidator } from '@shared/validators';
 
 interface Form {
-	login: FormControl<string>;
-	password: FormControl<string>;
-	confirmPassword: FormControl<string>;
+	login: string;
+	password: string;
+	confirmPassword: string;
 }
 
 @Component({
@@ -25,14 +25,19 @@ export class RegisterFormFeature {
 	private readonly _store = inject(Store);
 	private readonly _alertService = inject(AlertService);
 
-	protected readonly form = new FormGroup<Form>(
-		{
-			login: new FormControl('', { nonNullable: true, validators: [Validators.required, loginValidator] }),
-			password: new FormControl('', { nonNullable: true, validators: [Validators.required, passwordValidator] }),
-			confirmPassword: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+	protected readonly form = new DynamicFormGroup<Form>({
+		values: {
+			login: '',
+			password: '',
+			confirmPassword: '',
 		},
-		{ validators: [passwordMatchingValidator('password', 'confirmPassword')] },
-	);
+		options: {
+			login: { validators: [Validators.required, loginValidator] },
+			password: { validators: [Validators.required, passwordValidator] },
+			confirmPassword: { validators: [Validators.required] },
+		},
+		validators: [passwordMatchingValidator('password', 'confirmPassword')],
+	});
 
 	constructor() {
 		this._store
@@ -44,18 +49,12 @@ export class RegisterFormFeature {
 	}
 
 	protected handleSubmit() {
-		if (this.form.invalid) {
-			this.form.markAllAsTouched();
-			this.form.markAsDirty();
-			this._alertService.open(getValidationError(this.form), AlertType.ERROR);
+		const errors = this.form.validate();
+		if (errors) {
+			this._alertService.open(errors[0], AlertType.ERROR);
 			return;
 		}
 
-		this._store.dispatch(
-			accountApiActions.register({
-				login: this.form.controls.login.value,
-				password: this.form.controls.password.value,
-			}),
-		);
+		this._store.dispatch(accountApiActions.register(this.form.value));
 	}
 }
