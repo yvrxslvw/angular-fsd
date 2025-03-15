@@ -52,7 +52,8 @@ export class DynamicFormGroup<T extends Record<keyof T, unknown>> extends FormGr
 	// Validate form values based on form and control validators
 	// (can validate disabled form controls by passing includeDisabled option)
 	public validate(options?: { includeDisabled?: boolean }): string[] | null {
-		if (options?.includeDisabled) Object.values(this.controls).forEach((control) => (control as FormControl).enable());
+		const disabled = this.disabled;
+		if (options?.includeDisabled) this.enable();
 		this.markAllAsTouched();
 		this.markAsDirty();
 		const validationErrors: string[] = [];
@@ -74,12 +75,13 @@ export class DynamicFormGroup<T extends Record<keyof T, unknown>> extends FormGr
 				);
 		});
 		if (options?.includeDisabled) this.disabledKeys.forEach((k) => this.controls[k as keyof T].disable());
+		if (disabled) this.disable();
 		return validationErrors.length ? validationErrors : null;
 	}
 
 	// Force default values
 	public markCurrentValuesAsDefault() {
-		this.defaultValues = this.value;
+		this.defaultValues = this.getRawValue();
 	}
 
 	// Get changed values (returns null even if control is dirty and has no changes)
@@ -97,6 +99,12 @@ export class DynamicFormGroup<T extends Record<keyof T, unknown>> extends FormGr
 	override reset() {
 		this.patchValue(this.defaultValues);
 		this.markAsPristine();
+	}
+
+	// Override enable, enables only unblocked controls by default. Can be forced by `includeDefaultDisabled: true`
+	override enable(options?: { onlySelf?: boolean; emitEvent?: boolean; includeDefaultDisabled?: boolean }) {
+		super.enable(options);
+		if (!options?.includeDefaultDisabled) this.disabledKeys.forEach((k) => this.controls[k as keyof T].disable());
 	}
 
 	// Type cast override

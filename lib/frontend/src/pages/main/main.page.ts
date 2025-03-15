@@ -43,16 +43,18 @@ export class MainPage {
 
 	constructor() {
 		this.form.patchValue({
-			login: 'changed',
+			email: '',
+			login: 'yvrxslvw',
 			password: 'Test1234$',
 			passwordConfirm: 'Test1234$',
 			remember: true,
 		});
 		this.form.markCurrentValuesAsDefault();
+		this.form.disable();
 	}
 
 	protected handleSubmit() {
-		const errors = this.form.validate({ includeDisabled: true });
+		const errors = this.form.validate();
 		if (errors) {
 			this._alertService.open(errors[0], AlertType.ERROR);
 			return;
@@ -64,5 +66,9 @@ export class MainPage {
 
 	protected handleClickReset() {
 		this.form.reset();
+	}
+
+	protected handleClickToggleEnable() {
+		this.form[this.form.enabled ? 'disable' : 'enable']();
 	}
 }
