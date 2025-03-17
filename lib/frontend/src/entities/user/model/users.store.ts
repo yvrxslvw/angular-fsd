@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { catchError, delay, EMPTY, Observable, of, pipe, switchMap, tap } from 'rxjs';
 import { BackendException } from '@shared/interfaces';
@@ -6,7 +6,7 @@ import { UsersApiService } from '../api';
 import { User } from './users.model';
 
 @Injectable()
-export class UsersStore extends ComponentStore<User.State> {
+export class UsersStore extends ComponentStore<User.State> implements OnDestroy {
 	private readonly _usersApiService = inject(UsersApiService);
 
 	public readonly isLoading$ = this.select((state) => state.isLoading);
@@ -90,6 +90,11 @@ export class UsersStore extends ComponentStore<User.State> {
 			error: null,
 			users: {},
 		});
+	}
+
+	override ngOnDestroy() {
+		super.ngOnDestroy();
+		console.warn('destroyed');
 	}
 
 	private readonly _fulfillOne = ({ user }: User.Action.FulfillOne) =>
