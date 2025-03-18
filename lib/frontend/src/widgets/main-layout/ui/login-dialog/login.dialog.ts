@@ -38,10 +38,10 @@ export class LoginDialog {
 
 	constructor() {
 		this._store
-			.select(accountSlice.selectIsLogged)
+			.select(accountSlice.selectAccountState)
 			.pipe(takeUntilDestroyed(this._destroyRef))
-			.subscribe((isLogged) => {
-				if (isLogged) this._dialogContext.close();
+			.subscribe(({ isLogged, loginApi }) => {
+				if (isLogged && !loginApi.isLoading && !loginApi.error) this._dialogContext.close();
 			});
 	}
 
@@ -52,6 +52,6 @@ export class LoginDialog {
 			return;
 		}
 
-		this._store.dispatch(accountApiActions.login(this.form.value));
+		this._store.dispatch(accountApiActions.login.request(this.form.value));
 	}
 }

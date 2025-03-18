@@ -1,13 +1,17 @@
 import { User } from '@entities/user';
+import { ApiState } from '@shared/interfaces';
 
 export namespace Account {
 	export type Entity = User.Entity;
 
 	export interface State {
 		isLogged: boolean;
-		isLoading: boolean;
-		error: string | null;
 		account: Entity | null;
+		loginApi: ApiState;
+		registerApi: ApiState;
+		refreshApi: ApiState;
+		logoutApi: ApiState;
+		getAccountApi: ApiState;
 	}
 
 	export namespace Api {
@@ -36,14 +40,6 @@ export namespace Account {
 
 		export interface Reject {
 			error: string;
-		}
-
-		export namespace Login {
-			export type Request = Api.Login.Body;
-		}
-
-		export namespace Register {
-			export type Request = Api.Register.Body;
 		}
 	}
 }

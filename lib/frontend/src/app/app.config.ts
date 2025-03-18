@@ -21,7 +21,7 @@ export const appConfig: ApplicationConfig = {
 		provideEffects([AccountEffects]),
 		provideAppInitializer(() => {
 			const store = inject(Store);
-			store.dispatch(accountApiActions.get());
+			store.dispatch(accountApiActions.get.request());
 		}),
 		provideValidationErrors({
 			required: 'Вы заполнили не все поля',

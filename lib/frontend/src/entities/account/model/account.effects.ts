@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, EMPTY, exhaustMap, map, of } from 'rxjs';
+import { catchError, exhaustMap, map, of } from 'rxjs';
 import { BackendException } from '@shared/interfaces';
 import { AccountApiService, AuthApiService } from '../api';
 import { accountApiActions } from './account.actions';
@@ -15,11 +15,11 @@ export class AccountEffects {
 
 	public getProfileEffect$ = createEffect(() =>
 		this._actions$.pipe(
-			ofType(accountApiActions.get),
+			ofType(accountApiActions.get.request),
 			exhaustMap(() =>
 				this._accountApiService.get().pipe(
-					map((account) => accountApiActions.fulfill({ account })),
-					catchError(() => EMPTY),
+					map((account) => accountApiActions.get.fulfill({ account })),
+					catchError(({ error: { messageUI } }: BackendException) => of(accountApiActions.get.reject({ error: messageUI }))),
 				),
 			),
 		),
@@ -27,13 +27,11 @@ export class AccountEffects {
 
 	public loginEffect$ = createEffect(() =>
 		this._actions$.pipe(
-			ofType(accountApiActions.login),
+			ofType(accountApiActions.login.request),
 			exhaustMap(({ login, password, rememberMe }) =>
 				this._authApiService.login({ login, password, rememberMe }).pipe(
-					map((account) => accountApiActions.fulfill({ account })),
-					catchError(({ error: { messageUI } }: BackendException) =>
-						of(accountApiActions.reject({ error: messageUI || 'Неизвестная ошибка' })),
-					),
+					map((account) => accountApiActions.login.fulfill({ account })),
+					catchError(({ error: { messageUI } }: BackendException) => of(accountApiActions.login.reject({ error: messageUI }))),
 				),
 			),
 		),
@@ -41,12 +39,12 @@ export class AccountEffects {
 
 	public registerEffect$ = createEffect(() =>
 		this._actions$.pipe(
-			ofType(accountApiActions.register),
+			ofType(accountApiActions.register.request),
 			exhaustMap(({ login, password }) =>
 				this._authApiService.register({ login, password }).pipe(
-					map((account) => accountApiActions.fulfill({ account })),
+					map((account) => accountApiActions.register.fulfill({ account })),
 					catchError(({ error: { messageUI } }: BackendException) =>
-						of(accountApiActions.reject({ error: messageUI || 'Неизвестная ошибка' })),
+						of(accountApiActions.register.reject({ error: messageUI })),
 					),
 				),
 			),
@@ -55,13 +53,11 @@ export class AccountEffects {
 
 	public logoutEffect$ = createEffect(() =>
 		this._actions$.pipe(
-			ofType(accountApiActions.logout),
+			ofType(accountApiActions.logout.request),
 			exhaustMap(() =>
 				this._authApiService.logout().pipe(
-					map(() => accountApiActions.fulfillLogout()),
-					catchError(({ error: { messageUI } }: BackendException) =>
-						of(accountApiActions.reject({ error: messageUI || 'Неизвестная ошибка' })),
-					),
+					map(() => accountApiActions.logout.fulfill()),
+					catchError(({ error: { messageUI } }: BackendException) => of(accountApiActions.logout.reject({ error: messageUI }))),
 				),
 			),
 		),
@@ -69,11 +65,13 @@ export class AccountEffects {
 
 	public refreshEffect$ = createEffect(() =>
 		this._actions$.pipe(
-			ofType(accountApiActions.refresh),
+			ofType(accountApiActions.refresh.request),
 			exhaustMap(() =>
 				this._authApiService.refresh().pipe(
-					map((account) => accountApiActions.fulfill({ account })),
-					catchError(() => EMPTY),
+					map((account) => accountApiActions.refresh.fulfill({ account })),
+					catchError(({ error: { messageUI } }: BackendException) =>
+						of(accountApiActions.refresh.reject({ error: messageUI })),
+					),
 				),
 			),
 		),

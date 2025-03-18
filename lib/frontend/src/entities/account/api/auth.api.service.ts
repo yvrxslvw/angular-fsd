@@ -19,10 +19,10 @@ export class AuthApiService {
 	}
 
 	public refresh() {
-		return this._httpClient.post<Account.Api.Response>(`${this._apiUrl}/refresh`, {});
+		return this._httpClient.post<Account.Api.Response>(`${this._apiUrl}/refresh`, undefined);
 	}
 
 	public logout() {
-		return this._httpClient.post(`${this._apiUrl}/logout`, {});
+		return this._httpClient.post(`${this._apiUrl}/logout`, undefined);
 	}
 }

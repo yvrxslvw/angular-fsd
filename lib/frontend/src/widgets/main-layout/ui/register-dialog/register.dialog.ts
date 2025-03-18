@@ -55,6 +55,6 @@ export class RegisterDialog {
 			return;
 		}
 
-		this._store.dispatch(accountApiActions.register(this.form.value));
+		this._store.dispatch(accountApiActions.register.request(this.form.value));
 	}
 }

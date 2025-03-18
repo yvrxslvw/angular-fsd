@@ -13,6 +13,6 @@ export class LogoutFeature {
 	public readonly login$$ = input.required<string>({ alias: 'login' });
 
 	protected handleClick() {
-		this._store.dispatch(accountApiActions.logout());
+		this._store.dispatch(accountApiActions.logout.request());
 	}
 }
