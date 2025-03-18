@@ -1,0 +1,13 @@
+:host {
+  flex-grow: 1;
+  display: flex;
+
+  .buttons {
+    display: flex;
+    gap: 1em;
+
+    button {
+      flex: 1 1 50%;
+    }
+  }
+}

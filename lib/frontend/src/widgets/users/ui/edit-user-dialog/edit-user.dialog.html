@@ -1,0 +1,18 @@
+<form (ngSubmit)="handleSubmit()">
+	<label>
+		<span>ID</span>
+		<input [formControl]="form.controls.id" type="text" />
+	</label>
+	<label>
+		<span class="required">Логин</span>
+		<input [formControl]="form.controls.login" type="text" />
+	</label>
+	<label>
+		<span>Пароль</span>
+		<input [formControl]="form.controls.password" type="text" />
+	</label>
+	<section class="buttons">
+		<button type="submit">Сохранить</button>
+		<button (click)="handleClickCancel()" type="button">Отменить</button>
+	</section>
+</form>

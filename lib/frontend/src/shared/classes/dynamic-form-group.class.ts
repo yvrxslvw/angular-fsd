@@ -128,4 +128,9 @@ export class DynamicFormGroup<T extends Record<keyof T, unknown>> extends FormGr
 	) {
 		super.patchValue(value, options);
 	}
+
+	// Type cast override
+	override getRawValue(): T {
+		return super.getRawValue();
+	}
 }

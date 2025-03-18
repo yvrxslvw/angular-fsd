@@ -1,4 +1,4 @@
-import { inject, Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { catchError, delay, EMPTY, Observable, of, pipe, switchMap, tap } from 'rxjs';
 import { BackendException } from '@shared/interfaces';
@@ -6,11 +6,12 @@ import { UsersApiService } from '../api';
 import { User } from './users.model';
 
 @Injectable()
-export class UsersStore extends ComponentStore<User.State> implements OnDestroy {
+export class UsersStore extends ComponentStore<User.State> {
 	private readonly _usersApiService = inject(UsersApiService);
 
 	public readonly isLoading$ = this.select((state) => state.isLoading);
 	public readonly isEndOfData$ = this.select((state) => state.isEndOfData);
+	public readonly isSuccess$ = this.select((state) => state.isSuccess);
 	public readonly error$ = this.select((state) => state.error);
 	public readonly users$ = this.select((state) => state.users);
 
@@ -87,36 +88,35 @@ export class UsersStore extends ComponentStore<User.State> implements OnDestroy 
 		super({
 			isLoading: false,
 			isEndOfData: false,
+			isSuccess: null,
 			error: null,
 			users: {},
 		});
-	}
-
-	override ngOnDestroy() {
-		super.ngOnDestroy();
-		console.warn('destroyed');
 	}
 
 	private readonly _fulfillOne = ({ user }: User.Action.FulfillOne) =>
 		this.patchState((state) => ({
 			...state,
 			isLoading: false,
+			isSuccess: true,
 			users: { ...state.users, [user.id]: user },
 		}));
 	private readonly _fulfillMany = ({ users }: User.Action.FulfillMany) =>
 		this.patchState((state) => ({
 			...state,
 			isLoading: false,
+			isSuccess: true,
 			users: users.reduce((acc, current) => ({ ...acc, [current.id]: current }), { ...state.users }),
 		}));
 	private readonly _reject = ({ error }: User.Action.Reject) => {
 		this.patchState(() => ({
 			isLoading: false,
+			isSuccess: false,
 			error,
 		}));
 		return EMPTY;
 	};
-	private readonly _setLoading = () => this.patchState(() => ({ isLoading: true, error: null }));
+	private readonly _setLoading = () => this.patchState(() => ({ isLoading: true, isSuccess: null, error: null }));
 	private readonly _setEndOfData = () => this.patchState(() => ({ isEndOfData: true }));
 
 	private readonly _fulfillOnePipe = () =>
