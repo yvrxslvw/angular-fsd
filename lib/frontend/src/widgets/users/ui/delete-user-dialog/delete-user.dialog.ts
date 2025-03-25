@@ -1,5 +1,6 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { skip } from 'rxjs';
 import { User, UsersStore } from '@entities/user';
 import { injectDialogContext } from '@shared/lib';
 
@@ -20,9 +21,12 @@ export class DeleteUserDialog {
 	protected readonly user = this._dialogContext.data.user;
 
 	constructor() {
-		this._usersStore.isLoading$.pipe(takeUntilDestroyed(this._destroyRef)).subscribe((isLoading) => {
-			if (isLoading) this._dialogContext.close(true);
-		});
+		this._usersStore
+			.getApiState$('delete')
+			.pipe(takeUntilDestroyed(this._destroyRef), skip(1))
+			.subscribe(({ isLoading, error }) => {
+				if (!isLoading && !error) this._dialogContext.close(true);
+			});
 	}
 
 	protected handleClickYes() {

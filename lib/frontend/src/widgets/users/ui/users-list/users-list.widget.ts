@@ -2,7 +2,7 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, DestroyRef, inject, Injector, Type } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, combineLatestWith, map, tap } from 'rxjs';
+import { BehaviorSubject, map, tap } from 'rxjs';
 import { accountSlice } from '@entities/account';
 import { User, UserEntity, UsersApiService, UsersStore } from '@entities/user';
 import { DeleteUserFeature, EditUserFeature } from '@features/user';
@@ -67,11 +67,12 @@ export class UsersListWidget {
 			.subscribe();
 
 		// Setting isLoading and isEndOfData states
-		this._usersStore.isLoading$
-			.pipe(takeUntilDestroyed(this._destroyRef), combineLatestWith(this._usersStore.isEndOfData$))
-			.subscribe(([isLoading, isEnd]) => {
+		this._usersStore
+			.getApiState$('getAll')
+			.pipe(takeUntilDestroyed(this._destroyRef))
+			.subscribe(({ isLoading, isEndOfData }) => {
 				this.isLoading$.next(isLoading);
-				this._isEndOfData$.next(isEnd);
+				this._isEndOfData$.next(isEndOfData);
 			});
 
 		// Changing offset by scrolling

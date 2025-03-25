@@ -43,12 +43,15 @@ export class EditUserDialog {
 	});
 
 	constructor() {
-		this._usersStore.isSuccess$.pipe(takeUntilDestroyed(this._destroyRef), skip(1)).subscribe((isSuccess) => {
-			if (isSuccess) {
-				this._alertService.open('Данные успешно обновлены', AlertType.SUCCESS);
-				this._dialogContext.close();
-			}
-		});
+		this._usersStore
+			.getApiState$('patch')
+			.pipe(takeUntilDestroyed(this._destroyRef), skip(1))
+			.subscribe(({ error, isLoading }) => {
+				if (!error && !isLoading) {
+					this._alertService.open('Данные успешно обновлены', AlertType.SUCCESS);
+					this._dialogContext.close();
+				}
+			});
 	}
 
 	protected handleSubmit() {

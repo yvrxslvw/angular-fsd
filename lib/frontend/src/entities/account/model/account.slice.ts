@@ -1,17 +1,17 @@
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 import { accountApiActions } from '@entities/account';
-import { defaultApiState } from '@shared/constants';
+import { DEFAULT_API_STATE } from '@shared/constants';
 import { isAdmin } from '@shared/utils';
 import { Account } from './account.model';
 
 const initialState: Account.State = {
 	isLogged: false,
 	account: null,
-	getAccountApi: defaultApiState,
-	loginApi: defaultApiState,
-	registerApi: defaultApiState,
-	refreshApi: defaultApiState,
-	logoutApi: defaultApiState,
+	getAccountApi: DEFAULT_API_STATE,
+	loginApi: DEFAULT_API_STATE,
+	registerApi: DEFAULT_API_STATE,
+	refreshApi: DEFAULT_API_STATE,
+	logoutApi: DEFAULT_API_STATE,
 };
 
 const request = (apiKey: keyof Account.State) => (state: Account.State) => ({

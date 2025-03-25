@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
-import { catchError, delay, EMPTY, Observable, of, pipe, switchMap, tap } from 'rxjs';
+import { catchError, delay, EMPTY, map, Observable, switchMap, tap } from 'rxjs';
+import { DEFAULT_API_STATE } from '@shared/constants';
 import { BackendException } from '@shared/interfaces';
 import { UsersApiService } from '../api';
 import { User } from './users.model';
@@ -9,130 +10,162 @@ import { User } from './users.model';
 export class UsersStore extends ComponentStore<User.State> {
 	private readonly _usersApiService = inject(UsersApiService);
 
-	public readonly isLoading$ = this.select((state) => state.isLoading);
-	public readonly isEndOfData$ = this.select((state) => state.isEndOfData);
-	public readonly isSuccess$ = this.select((state) => state.isSuccess);
-	public readonly error$ = this.select((state) => state.error);
 	public readonly users$ = this.select((state) => state.users);
 
-	public readonly create = this.effect((request$: Observable<User.Action.Create>) =>
+	public readonly post = this.effect((request$: Observable<User.Api.Post.Body>) =>
 		request$.pipe(
-			tap(() => this._setLoading()),
-			switchMap(({ login, password }) => this._usersApiService.post({ login, password }).pipe(this._fulfillOnePipe())),
-		),
-	);
-
-	public readonly getAll = this.effect((request$: Observable<User.Action.GetAll>) =>
-		request$.pipe(
-			tap(() => this._setLoading()),
-			delay(1000),
-			switchMap(({ search, offset, limit, order, direction }) =>
-				this._usersApiService.getAll({ search, offset, limit, order, direction }).pipe(this._fulfillManyPipe()),
-			),
-		),
-	);
-
-	public readonly getOne = this.effect((request$: Observable<User.Action.GetOne>) =>
-		request$.pipe(
-			tap(() => this._setLoading()),
-			switchMap(({ id }) => this._usersApiService.getOne({ id }).pipe(this._fulfillOnePipe())),
-		),
-	);
-
-	public readonly patch = this.effect((request$: Observable<User.Action.Patch>) =>
-		request$.pipe(
-			tap(() => this._setLoading()),
-			switchMap(({ id, login, password }) =>
-				this._usersApiService.patch({ id }, { login, password }).pipe(this._fulfillOnePipe()),
-			),
-		),
-	);
-
-	public readonly delete = this.effect((request$: Observable<User.Action.Delete>) =>
-		request$.pipe(
-			tap(() => this._setLoading()),
-			switchMap(({ id }) =>
-				this._usersApiService.delete({ id }).pipe(
-					tap((user) => {
-						return this.patchState((state) => {
-							const users = { ...state.users };
-							delete users[user.id];
-							return { ...state, isLoading: false, users };
-						});
-					}),
-					catchError(({ error: { messageUI } }: BackendException) =>
-						of(this._reject({ error: messageUI || 'Неизвестная ошибка' })),
-					),
+			tap(() => this._setIsLoading('post', true)),
+			switchMap((body) =>
+				this._usersApiService.post(body).pipe(
+					tap(() => this._setIsLoading('post', false)),
+					map((user) => this._setUser(user)),
+					catchError(({ error: { messageUI } }: BackendException) => this._setError('post', messageUI)),
 				),
 			),
 		),
 	);
 
-	public readonly addRole = this.effect((request$: Observable<User.Action.AddRole>) =>
+	public readonly getAll = this.effect((request$: Observable<User.Api.GetAll.Params>) =>
 		request$.pipe(
-			tap(() => this._setLoading()),
-			switchMap(({ id, roleId }) => this._usersApiService.addRole({ id, roleId }).pipe(this._fulfillOnePipe())),
+			tap(() => this._setIsLoading('getAll', true)),
+			delay(1000),
+			switchMap((params) =>
+				this._usersApiService.getAll(params).pipe(
+					tap(() => this._setIsLoading('getAll', false)),
+					tap((users) => this._setIsEndOfData('getAll', !users.length)),
+					map((users) => this._setUsers(users)),
+					catchError(({ error: { messageUI } }: BackendException) => this._setError('getAll', messageUI)),
+				),
+			),
 		),
 	);
 
-	public readonly removeRole = this.effect((request$: Observable<User.Action.RemoveRole>) =>
+	public readonly getOne = this.effect((request$: Observable<User.Api.GetOne.Path>) =>
 		request$.pipe(
-			tap(() => this._setLoading()),
-			switchMap(({ id, roleId }) => this._usersApiService.removeRole({ id, roleId }).pipe(this._fulfillOnePipe())),
+			tap(() => this._setIsLoading('getOne', true)),
+			switchMap((path) =>
+				this._usersApiService.getOne(path).pipe(
+					tap(() => this._setIsLoading('getOne', false)),
+					map((user) => this._setUser(user)),
+					catchError(({ error: { messageUI } }: BackendException) => this._setError('getOne', messageUI)),
+				),
+			),
 		),
 	);
 
-	public readonly clearError = this.updater((state) => ({ ...state, error: null }));
+	public readonly patch = this.effect((request$: Observable<User.Api.Patch.Path & User.Api.Patch.Body>) =>
+		request$.pipe(
+			tap(() => this._setIsLoading('patch', true)),
+			switchMap(({ id, login, password }) =>
+				this._usersApiService.patch({ id }, { login, password }).pipe(
+					tap(() => this._setIsLoading('patch', false)),
+					map((user) => this._setUser(user)),
+					catchError(({ error: { messageUI } }: BackendException) => this._setError('patch', messageUI)),
+				),
+			),
+		),
+	);
+
+	public readonly delete = this.effect((request$: Observable<User.Api.Delete.Path>) =>
+		request$.pipe(
+			tap(() => this._setIsLoading('delete', true)),
+			switchMap((path) =>
+				this._usersApiService.delete(path).pipe(
+					tap(() => this._setIsLoading('delete', false)),
+					map((user) => this._deleteUser(user)),
+					catchError(({ error: { messageUI } }: BackendException) => this._setError('delete', messageUI)),
+				),
+			),
+		),
+	);
+
+	public readonly addRole = this.effect((request$: Observable<User.Api.AddRole.Path>) =>
+		request$.pipe(
+			tap(() => this._setIsLoading('addRole', true)),
+			switchMap((path) =>
+				this._usersApiService.addRole(path).pipe(
+					tap(() => this._setIsLoading('addRole', false)),
+					map((user) => this._setUser(user)),
+					catchError(({ error: { messageUI } }: BackendException) => this._setError('addRole', messageUI)),
+				),
+			),
+		),
+	);
+
+	public readonly removeRole = this.effect((request$: Observable<User.Api.RemoveRole.Path>) =>
+		request$.pipe(
+			tap(() => this._setIsLoading('removeRole', true)),
+			switchMap((path) =>
+				this._usersApiService.removeRole(path).pipe(
+					tap(() => this._setIsLoading('removeRole', false)),
+					map((user) => this._setUser(user)),
+					catchError(({ error: { messageUI } }: BackendException) => this._setError('removeRole', messageUI)),
+				),
+			),
+		),
+	);
 
 	constructor() {
 		super({
-			isLoading: false,
-			isEndOfData: false,
-			isSuccess: null,
-			error: null,
 			users: {},
+			api: {
+				post: DEFAULT_API_STATE,
+				getAll: DEFAULT_API_STATE,
+				getOne: DEFAULT_API_STATE,
+				patch: DEFAULT_API_STATE,
+				delete: DEFAULT_API_STATE,
+				addRole: DEFAULT_API_STATE,
+				removeRole: DEFAULT_API_STATE,
+			},
 		});
 	}
 
-	private readonly _fulfillOne = ({ user }: User.Action.FulfillOne) =>
+	public getApiState$(key: User.Api.Method) {
+		return this.select((state) => state.api[key]);
+	}
+
+	private readonly _setUsers = (users: User.Entity[]) =>
 		this.patchState((state) => ({
 			...state,
-			isLoading: false,
-			isSuccess: true,
+			users: users.reduce((acc, user) => ({ ...acc, [user.id]: user }), { ...state.users }),
+		}));
+
+	private readonly _setUser = (user: User.Entity) =>
+		this.patchState((state) => ({
+			...state,
 			users: { ...state.users, [user.id]: user },
 		}));
-	private readonly _fulfillMany = ({ users }: User.Action.FulfillMany) =>
+
+	private readonly _deleteUser = (user: User.Entity) => {
+		this.patchState((state) => {
+			const users = { ...state.users };
+			delete users[user.id];
+			return {
+				...state,
+				users,
+			};
+		});
+	};
+
+	private readonly _setIsLoading = (key: User.Api.Method, isLoading: boolean) =>
 		this.patchState((state) => ({
 			...state,
-			isLoading: false,
-			isSuccess: true,
-			users: users.reduce((acc, current) => ({ ...acc, [current.id]: current }), { ...state.users }),
+			api: { ...state.api, [key]: { error: null, isLoading } },
 		}));
-	private readonly _reject = ({ error }: User.Action.Reject) => {
-		this.patchState(() => ({
-			isLoading: false,
-			isSuccess: false,
-			error,
+
+	private readonly _setError = (key: User.Api.Method, error: string) => {
+		this.patchState((state) => ({
+			...state,
+			api: { ...state.api, [key]: { error, isLoading: false } },
 		}));
 		return EMPTY;
 	};
-	private readonly _setLoading = () => this.patchState(() => ({ isLoading: true, isSuccess: null, error: null }));
-	private readonly _setEndOfData = () => this.patchState(() => ({ isEndOfData: true }));
 
-	private readonly _fulfillOnePipe = () =>
-		pipe(
-			tap<User.Entity>((user) => this._fulfillOne({ user })),
-			catchError(({ error: { messageUI } }: BackendException) =>
-				of(this._reject({ error: messageUI || 'Неизвестная ошибка' })),
-			),
-		);
-
-	private readonly _fulfillManyPipe = () =>
-		pipe(
-			tap<User.Entity[]>((users) => !users.length && this._setEndOfData()),
-			tap((users) => this._fulfillMany({ users })),
-			catchError(({ error: { messageUI } }: BackendException) =>
-				of(this._reject({ error: messageUI || 'Неизвестная ошибка' })),
-			),
-		);
+	private readonly _setIsEndOfData = (key: User.Api.Method, isEndOfData: boolean) => {
+		this.patchState((state) => ({
+			...state,
+			api: { ...state.api, [key]: { ...state.api[key], isEndOfData } },
+		}));
+		return EMPTY;
+	};
 }

@@ -1,4 +1,5 @@
 import { SortDirection } from '@shared/enums';
+import { ApiState } from '@shared/interfaces';
 
 export namespace User {
 	export interface Entity {
@@ -25,15 +26,14 @@ export namespace User {
 	}
 
 	export interface State {
-		isLoading: boolean;
-		isEndOfData: boolean;
-		isSuccess: boolean | null;
-		error: string | null;
 		users: Record<number, Entity>;
+		api: Record<Api.Method, ApiState>;
 	}
 
 	export namespace Api {
 		export type Response = Entity;
+
+		export type Method = 'post' | 'getAll' | 'getOne' | 'patch' | 'delete' | 'addRole' | 'removeRole';
 
 		export namespace Post {
 			export interface Body {
@@ -90,27 +90,5 @@ export namespace User {
 				roleId: string | number;
 			}
 		}
-	}
-
-	export namespace Action {
-		export interface FulfillOne {
-			user: Entity;
-		}
-
-		export interface FulfillMany {
-			users: Entity[];
-		}
-
-		export interface Reject {
-			error: string;
-		}
-
-		export type Create = Api.Post.Body;
-		export type GetAll = Api.GetAll.Params;
-		export type GetOne = Api.GetOne.Path;
-		export type Patch = Api.Patch.Path & Api.Patch.Body;
-		export type Delete = Api.Delete.Path;
-		export type AddRole = Api.AddRole.Path;
-		export type RemoveRole = Api.RemoveRole.Path;
 	}
 }
