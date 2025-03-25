@@ -6,7 +6,6 @@ import { BehaviorSubject, map, tap } from 'rxjs';
 import { accountSlice } from '@entities/account';
 import { User, UserEntity, UsersApiService, UsersStore } from '@entities/user';
 import { DeleteUserFeature, EditUserFeature } from '@features/user';
-import { SortDirection } from '@shared/enums';
 import { DialogService } from '@shared/lib';
 import { ScrollService } from '@shared/services';
 import { CreateUserDialog } from '../create-user-dialog';
@@ -36,7 +35,7 @@ export class UsersListWidget {
 
 	protected readonly isLoading$ = new BehaviorSubject(false);
 	protected readonly isAdmin$ = new BehaviorSubject(false);
-	protected readonly users$ = this._usersStore.users$.pipe(map((users) => Object.values(users).reverse()));
+	protected readonly users$ = this._usersStore.users$.pipe(map((users) => Object.values(users)));
 
 	protected readonly CreateUserDialog: Type<{}> = CreateUserDialog;
 	protected readonly DeleteUserDialog: Type<{}> = DeleteUserDialog;
@@ -62,7 +61,7 @@ export class UsersListWidget {
 		this._offset$
 			.pipe(
 				takeUntilDestroyed(this._destroyRef),
-				tap((offset) => this._usersStore.getAll({ offset, limit: USERS_LIMIT, direction: SortDirection.DESC })),
+				tap((offset) => this._usersStore.getAll({ offset, limit: USERS_LIMIT })),
 			)
 			.subscribe();
 
