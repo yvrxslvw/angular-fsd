@@ -1,47 +1,47 @@
 :host {
-  .alert {
-    display: flex;
-    align-items: flex-start;
-    gap: .5em;
-    padding: .5em;
-    background: var(--color);
-    border-radius: .5em;
-    color: #fbfbfb;
-    font-size: 24px;
-    cursor: pointer;
-    animation: alert-enter .4s ease-in-out forwards;
-    max-width: 250px;
+	.alert {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.5em;
+		padding: 0.5em;
+		background: var(--color);
+		border-radius: 0.5em;
+		color: #fbfbfb;
+		font-size: 24px;
+		cursor: pointer;
+		animation: alert-enter 0.4s ease-in-out forwards;
+		max-width: 250px;
 
-    h4 {
-      font-weight: 700;
-      font-size: 20px;
-      width: fit-content;
-      word-break: break-word;
-      user-select: none;
-    }
+		h4 {
+			font-weight: 700;
+			font-size: 20px;
+			width: fit-content;
+			word-break: break-word;
+			user-select: none;
+		}
 
-    &.closing {
-      animation: alert-exit .4s ease-in-out forwards;
-    }
-  }
+		&.closing {
+			animation: alert-exit 0.4s ease-in-out forwards;
+		}
+	}
 }
 
 @keyframes alert-enter {
-  from {
-    transform: translateX(150%);
-  }
+	from {
+		transform: translateX(150%);
+	}
 
-  to {
-    transform: translateX(0%);
-  }
+	to {
+		transform: translateX(0%);
+	}
 }
 
 @keyframes alert-exit {
-  from {
-    transform: translateX(0%);
-  }
+	from {
+		transform: translateX(0%);
+	}
 
-  to {
-    transform: translateX(150%);
-  }
+	to {
+		transform: translateX(150%);
+	}
 }

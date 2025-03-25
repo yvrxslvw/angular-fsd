@@ -1,5 +1,5 @@
-import { User } from '@entities/user';
 import { ApiState } from '@shared/interfaces';
+import { User } from '../../user';
 
 export namespace Account {
 	export type Entity = User.Entity;
@@ -7,15 +7,13 @@ export namespace Account {
 	export interface State {
 		isLogged: boolean;
 		account: Entity | null;
-		loginApi: ApiState;
-		registerApi: ApiState;
-		refreshApi: ApiState;
-		logoutApi: ApiState;
-		getAccountApi: ApiState;
+		api: Record<Api.Method, ApiState>;
 	}
 
 	export namespace Api {
 		export type Response = Entity;
+
+		export type Method = 'getProfile' | 'login' | 'register' | 'refresh' | 'logout';
 
 		export namespace Login {
 			export interface Body {
@@ -34,11 +32,11 @@ export namespace Account {
 	}
 
 	export namespace Action {
-		export interface Fulfill {
+		export interface Success {
 			account: Entity;
 		}
 
-		export interface Reject {
+		export interface Error {
 			error: string;
 		}
 	}

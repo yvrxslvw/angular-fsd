@@ -1,6 +1,6 @@
 import { Component, inject, input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { accountApiActions } from '@entities/account';
+import { accountActions } from '@entities/account';
 
 @Component({
 	selector: 'fsd-logout-feature',
@@ -13,6 +13,6 @@ export class LogoutFeature {
 	public readonly login$$ = input.required<string>({ alias: 'login' });
 
 	protected handleClick() {
-		this._store.dispatch(accountApiActions.logout.request());
+		this._store.dispatch(accountActions.logout());
 	}
 }

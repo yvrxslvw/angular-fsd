@@ -3,7 +3,7 @@ import { ApplicationConfig, inject, provideAppInitializer, provideZoneChangeDete
 import { provideRouter } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore, Store } from '@ngrx/store';
-import { accountApiActions, AccountEffects, accountSlice } from '@entities/account';
+import { accountActions, AccountEffects, accountSlice } from '@entities/account';
 import { authInterceptor, backendErrorInterceptor, undefinedParamsInterceptor } from '@shared/interceptors';
 import { AppStore } from '@shared/interfaces';
 import { provideApiUrl, provideValidationErrors } from '@shared/providers';
@@ -21,7 +21,7 @@ export const appConfig: ApplicationConfig = {
 		provideEffects([AccountEffects]),
 		provideAppInitializer(() => {
 			const store = inject(Store);
-			store.dispatch(accountApiActions.get.request());
+			store.dispatch(accountActions.getProfile());
 		}),
 		provideValidationErrors({
 			required: 'Вы заполнили не все поля',

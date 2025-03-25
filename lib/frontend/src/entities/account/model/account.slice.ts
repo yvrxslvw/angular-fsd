@@ -1,38 +1,40 @@
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
-import { accountApiActions } from '@entities/account';
 import { DEFAULT_API_STATE } from '@shared/constants';
 import { isAdmin } from '@shared/utils';
+import { accountActions, accountApiActions } from './account.actions';
 import { Account } from './account.model';
 
 const initialState: Account.State = {
 	isLogged: false,
 	account: null,
-	getAccountApi: DEFAULT_API_STATE,
-	loginApi: DEFAULT_API_STATE,
-	registerApi: DEFAULT_API_STATE,
-	refreshApi: DEFAULT_API_STATE,
-	logoutApi: DEFAULT_API_STATE,
+	api: {
+		getProfile: DEFAULT_API_STATE,
+		login: DEFAULT_API_STATE,
+		register: DEFAULT_API_STATE,
+		refresh: DEFAULT_API_STATE,
+		logout: DEFAULT_API_STATE,
+	},
 };
 
-const request = (apiKey: keyof Account.State) => (state: Account.State) => ({
+const setIsLoading = (key: Account.Api.Method) => (state: Account.State) => ({
 	...state,
-	[apiKey]: { isLoading: true, error: null },
+	api: { ...state.api, [key]: { ...state.api[key], isLoading: true, error: null } },
 });
 
-const fulfill =
-	(apiKey: keyof Account.State) =>
-	(state: Account.State, payload: Account.Action.Fulfill | ReturnType<typeof accountApiActions.logout.fulfill>) => ({
+const setUser =
+	(key: Account.Api.Method) =>
+	(state: Account.State, { account }: Account.Action.Success) => ({
 		...state,
 		isLogged: true,
-		account: 'account' in payload ? payload.account : null,
-		[apiKey]: { isLoading: false, error: null },
+		account,
+		api: { ...state.api, [key]: { ...state.api[key], isLoading: false } },
 	});
 
-const reject =
-	(apiKey: keyof Account.State) =>
-	(state: Account.State, { error }: Account.Action.Reject) => ({
+const setError =
+	(key: Account.Api.Method) =>
+	(state: Account.State, { error }: Account.Action.Error) => ({
 		...state,
-		[apiKey]: { isLoading: false, error },
+		api: { ...state.api, [key]: { ...state.api[key], error, isLoading: false } },
 	});
 
 export const accountSlice = createFeature({
@@ -40,25 +42,34 @@ export const accountSlice = createFeature({
 	reducer: createReducer(
 		initialState,
 
-		on(accountApiActions.get.request, request('getAccountApi')),
-		on(accountApiActions.login.request, request('loginApi')),
-		on(accountApiActions.register.request, request('registerApi')),
-		on(accountApiActions.refresh.request, request('refreshApi')),
-		on(accountApiActions.logout.request, request('logoutApi')),
+		on(accountActions.getProfile, setIsLoading('getProfile')),
+		on(accountActions.login, setIsLoading('login')),
+		on(accountActions.register, setIsLoading('register')),
+		on(accountActions.refresh, setIsLoading('refresh')),
+		on(accountActions.logout, setIsLoading('logout')),
 
-		on(accountApiActions.get.fulfill, fulfill('getAccountApi')),
-		on(accountApiActions.login.fulfill, fulfill('loginApi')),
-		on(accountApiActions.register.fulfill, fulfill('registerApi')),
-		on(accountApiActions.refresh.fulfill, fulfill('refreshApi')),
-		on(accountApiActions.logout.fulfill, fulfill('logoutApi')),
+		on(accountApiActions.getProfileSuccess, setUser('getProfile')),
+		on(accountApiActions.getProfileError, setError('getProfile')),
 
-		on(accountApiActions.get.reject, reject('getAccountApi')),
-		on(accountApiActions.login.reject, reject('loginApi')),
-		on(accountApiActions.register.reject, reject('registerApi')),
-		on(accountApiActions.refresh.reject, reject('refreshApi')),
-		on(accountApiActions.logout.reject, reject('logoutApi')),
+		on(accountApiActions.loginSuccess, setUser('login')),
+		on(accountApiActions.loginError, setError('login')),
+
+		on(accountApiActions.registerSuccess, setUser('register')),
+		on(accountApiActions.registerError, setError('register')),
+
+		on(accountApiActions.refreshSuccess, setUser('refresh')),
+		on(accountApiActions.refreshError, setError('refresh')),
+
+		on(accountApiActions.logoutSuccess, (state) => ({
+			...state,
+			isLogged: false,
+			account: null,
+			api: { ...state.api, logout: { ...state.api.logout, isLoading: false } },
+		})),
+		on(accountApiActions.logoutError, setError('logout')),
 	),
-	extraSelectors: ({ selectAccount }) => ({
+	extraSelectors: ({ selectAccount, selectApi }) => ({
 		selectIsAdmin: createSelector(selectAccount, (account) => isAdmin(account)),
+		selectApiState: (key: Account.Api.Method) => createSelector(selectApi, (api) => api[key]),
 	}),
 });
