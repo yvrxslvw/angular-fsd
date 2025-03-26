@@ -1,0 +1,9 @@
+<section class="info">
+	<h4>
+		{{ role$$().id }}. <span (click)="clickRole$$.emit()">{{ role$$().tag }}</span>
+	</h4>
+</section>
+<section class="features">
+	<ng-content select="[slot=edit]" />
+	<ng-content select="[slot=delete]" />
+</section>

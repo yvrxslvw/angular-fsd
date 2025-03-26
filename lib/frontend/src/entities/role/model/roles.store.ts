@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { DEFAULT_API_STATE } from '@shared/constants';
 import { BackendException } from '@shared/interfaces';
-import { catchError, EMPTY, map, Observable, switchMap, tap } from 'rxjs';
+import { catchError, delay, EMPTY, map, Observable, switchMap, tap } from 'rxjs';
 import { RolesApiService } from '../api';
 import { Role } from './role.model';
 
@@ -28,6 +28,7 @@ export class RolesStore extends ComponentStore<Role.State> {
 	public readonly getAll = this.effect((request$: Observable<Role.Api.GetAll.Params>) =>
 		request$.pipe(
 			tap(() => this._setIsLoading('getAll', true)),
+			delay(1000),
 			switchMap((params) =>
 				this._rolesApiService.getAll(params).pipe(
 					tap(() => this._setIsLoading('getAll', false)),

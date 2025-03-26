@@ -1,0 +1,11 @@
+@let roles = roles$ | async;
+@let isLoading = isLoading$ | async;
+
+<div class="container">
+	@for (role of roles; track role.id) {
+		<fsd-role-entity [role]="role"></fsd-role-entity>
+	}
+	@if (isLoading) {
+		<p>Загрузка...</p>
+	}
+</div>
