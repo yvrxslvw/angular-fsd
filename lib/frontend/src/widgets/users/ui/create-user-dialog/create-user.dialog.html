@@ -1,0 +1,18 @@
+<form (ngSubmit)="handleSubmit()" [formGroup]="form">
+	<label>
+		<span class="required">Логин</span>
+		<input [formControl]="form.controls.login" placeholder="Придумайте логин" type="text" />
+	</label>
+	<label>
+		<span class="required">Пароль</span>
+		<input [formControl]="form.controls.password" placeholder="Придумайте пароль" type="password" />
+	</label>
+	<label>
+		<span class="required">Подтверждение пароля</span>
+		<input [formControl]="form.controls.passwordConfirm" placeholder="Повторите пароль" type="password" />
+	</label>
+	<section class="buttons">
+		<button type="button">Отмена</button>
+		<button type="submit">Создать</button>
+	</section>
+</form>

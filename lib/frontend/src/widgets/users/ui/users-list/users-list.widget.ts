@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { BehaviorSubject, map, tap } from 'rxjs';
 import { accountSlice } from '@entities/account';
 import { User, UserEntity, UsersApiService, UsersStore } from '@entities/user';
-import { DeleteUserFeature, EditUserFeature } from '@features/user';
+import { CreateUserFeature, DeleteUserFeature, EditUserFeature } from '@features/user';
 import { DialogService } from '@shared/lib';
 import { ScrollService } from '@shared/services';
 import { CreateUserDialog } from '../create-user-dialog';
@@ -20,7 +20,7 @@ const USERS_LIMIT = 20;
 	templateUrl: './users-list.widget.html',
 	styleUrl: './users-list.widget.scss',
 	providers: [UsersStore, UsersApiService],
-	imports: [AsyncPipe, UserEntity, EditUserFeature, DeleteUserFeature, NgIf],
+	imports: [AsyncPipe, UserEntity, EditUserFeature, DeleteUserFeature, NgIf, CreateUserFeature],
 })
 export class UsersListWidget {
 	private readonly _destroyRef = inject(DestroyRef);
