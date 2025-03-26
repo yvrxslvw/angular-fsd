@@ -1,3 +1,4 @@
+import { Role } from '@entities/role';
 import { SortDirection } from '@shared/enums';
 import { ApiState } from '@shared/interfaces';
 
@@ -13,14 +14,7 @@ export namespace User {
 			createdAt: string;
 			updatedAt: string;
 		}[];
-		// TODO: move role to a separate interface
-		roles: {
-			id: number;
-			tag: string;
-			name: string;
-			createdAt: string;
-			updatedAt: string;
-		}[];
+		roles: Role.Entity[];
 		createdAt: string;
 		updatedAt: string;
 	}
