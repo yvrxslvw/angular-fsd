@@ -3,6 +3,7 @@ import { ApplicationConfig, inject, provideAppInitializer, provideZoneChangeDete
 import { provideRouter } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore, Store } from '@ngrx/store';
+import { takeWhile } from 'rxjs';
 import { accountActions, AccountEffects, accountSlice } from '@entities/account';
 import { authInterceptor, backendErrorInterceptor, undefinedParamsInterceptor } from '@shared/interceptors';
 import { AppStore } from '@shared/interfaces';
@@ -22,6 +23,7 @@ export const appConfig: ApplicationConfig = {
 		provideAppInitializer(() => {
 			const store = inject(Store);
 			store.dispatch(accountActions.getProfile());
+			return store.select(accountSlice.selectApiState('getProfile')).pipe(takeWhile((state) => state.isLoading));
 		}),
 		provideValidationErrors({
 			required: 'Вы заполнили не все поля',
