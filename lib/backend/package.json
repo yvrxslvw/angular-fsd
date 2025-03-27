@@ -6,7 +6,7 @@
 	"scripts": {
 		"build": "nest build",
 		"start:dev": "nest start --watch",
-		"start:prod": "node dist/main",
+		"start:prod": "node dist/src/main.js",
 		"format": "prettier --write ./src",
 		"lint": "eslint --fix ./src",
 		"migration:generate": "prisma migrate dev",

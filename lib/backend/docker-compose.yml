@@ -17,10 +17,10 @@ services:
   database:
     build:
       context: ./database
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     container_name: fsd-database
     ports:
-      - '5432:5432'
+      - '8180:5432'
     restart: always
     networks:
       - backend

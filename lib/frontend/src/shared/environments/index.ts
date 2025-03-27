@@ -1,1 +1,1 @@
-export { environment } from './environment.development';
+export { environment } from './environment';

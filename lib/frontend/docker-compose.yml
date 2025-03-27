@@ -1,0 +1,14 @@
+name: fsd
+services:
+  frontend:
+    build: .
+    container_name: fsd-frontend
+    ports:
+      - '80:80'
+    networks:
+      - frontend-backend
+
+networks:
+  frontend-backend:
+    name: fsd-frontend-backend
+    external: true

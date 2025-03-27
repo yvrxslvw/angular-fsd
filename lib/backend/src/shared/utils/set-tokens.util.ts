@@ -1,6 +1,7 @@
 import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
 import { UserEntity } from '@domains/user';
+import { AppConfig } from '@shared/config';
 import { IAccessTokenPayload, IRefreshTokenPayload } from '@shared/interfaces';
 
 export const setTokens = async (user: UserEntity, response: Response, jwtService: JwtService, remember = true) => {
@@ -15,14 +16,14 @@ export const setTokens = async (user: UserEntity, response: Response, jwtService
 	const refreshToken = await jwtService.signAsync(refreshTokenPayload, { expiresIn: '30d' });
 	response
 		.cookie('accessToken', accessToken, {
-			sameSite: 'none',
+			sameSite: AppConfig.appMode === 'production' ? 'strict' : 'none',
 			expires: remember ? new Date(Date.now() + 1000 * 60 * 5) : undefined,
 			secure: true,
 			httpOnly: true,
 			domain: 'localhost',
 		})
 		.cookie('refreshToken', refreshToken, {
-			sameSite: 'none',
+			sameSite: AppConfig.appMode === 'production' ? 'strict' : 'none',
 			expires: remember ? new Date(Date.now() + 1000 * 60 * 60 * 24 * 30) : undefined,
 			path: '/api/auth/refresh',
 			secure: true,
@@ -31,7 +32,7 @@ export const setTokens = async (user: UserEntity, response: Response, jwtService
 		});
 	if (!remember) {
 		response.cookie('noRemember', 'true', {
-			sameSite: 'none',
+			sameSite: AppConfig.appMode === 'production' ? 'strict' : 'none',
 			path: '/api/auth/refresh',
 			secure: true,
 			httpOnly: true,
@@ -39,7 +40,7 @@ export const setTokens = async (user: UserEntity, response: Response, jwtService
 		});
 	} else {
 		response.clearCookie('noRemember', {
-			sameSite: 'none',
+			sameSite: AppConfig.appMode === 'production' ? 'strict' : 'none',
 			path: '/api/auth/refresh',
 			secure: true,
 			httpOnly: true,
