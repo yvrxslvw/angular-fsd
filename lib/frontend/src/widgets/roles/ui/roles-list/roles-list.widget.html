@@ -2,8 +2,22 @@
 @let isLoading = isLoading$ | async;
 
 <div class="container">
+	<fsd-create-role-feature [dialog]="CreateRoleDialog" class="create-role-button" />
 	@for (role of roles; track role.id) {
-		<fsd-role-entity [role]="role"></fsd-role-entity>
+		<fsd-role-entity [role]="role" (clickRole)="handleClickRole(role)">
+			<fsd-edit-role-feature
+				slot="edit"
+				[role]="role"
+				[dialog]="EditRoleDialog"
+				[isIcon]="true"
+			/>
+			<fsd-delete-role-feature
+				slot="delete"
+				[role]="role"
+				[dialog]="DeleteRoleDialog"
+				[isIcon]="true"
+			/>
+		</fsd-role-entity>
 	}
 	@if (isLoading) {
 		<p>Загрузка...</p>

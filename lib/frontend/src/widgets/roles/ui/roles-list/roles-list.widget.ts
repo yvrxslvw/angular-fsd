@@ -1,8 +1,14 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, Injector, Type } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { RoleEntity, RolesApiService, RolesStore } from '@entities/role';
 import { BehaviorSubject, map, tap } from 'rxjs';
+import { Role, RoleEntity, RolesApiService, RolesStore } from '@entities/role';
+import { CreateRoleFeature, DeleteRoleFeature, EditRoleFeature } from '@features/role';
+import { DialogService } from '@shared/lib';
+import { CreateRoleDialog } from '../create-role-dialog';
+import { DeleteRoleDialog } from '../delete-role-dialog';
+import { EditRoleDialog } from '../edit-role-dialog';
+import { RoleInfoDialog } from '../role-info-dialog';
 
 const ROLES_LIMIT = 20;
 
@@ -11,14 +17,20 @@ const ROLES_LIMIT = 20;
 	templateUrl: './roles-list.widget.html',
 	styleUrl: './roles-list.widget.scss',
 	providers: [RolesStore, RolesApiService],
-	imports: [AsyncPipe, RoleEntity],
+	imports: [AsyncPipe, RoleEntity, EditRoleFeature, DeleteRoleFeature, CreateRoleFeature],
 })
 export class RolesListWidget {
 	private readonly _destroyRef = inject(DestroyRef);
 	private readonly _rolesStore = inject(RolesStore);
+	private readonly _dialogService = inject(DialogService);
+	private readonly _injector = inject(Injector);
 
 	private readonly _offset$ = new BehaviorSubject(0);
 	private readonly _isEndOfData$ = new BehaviorSubject(false);
+
+	protected readonly EditRoleDialog: Type<{}> = EditRoleDialog;
+	protected readonly DeleteRoleDialog: Type<{}> = DeleteRoleDialog;
+	protected readonly CreateRoleDialog: Type<{}> = CreateRoleDialog;
 
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
@@ -50,5 +62,9 @@ export class RolesListWidget {
 				}),
 			)
 			.subscribe();
+	}
+
+	protected handleClickRole(role: Role.Entity) {
+		this._dialogService.open(`Информация о роли ${role.name}`, RoleInfoDialog, { role }, this._injector);
 	}
 }
